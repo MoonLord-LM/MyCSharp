@@ -1,0 +1,7 @@
+F:\Documents\Visual Studio成品示例\【2015】\MyCSharp\obj\x86\Debug\MyCSharp.FormMain.resources
+F:\Documents\Visual Studio成品示例\【2015】\MyCSharp\obj\x86\Debug\MyCSharp.Properties.Resources.resources
+F:\Documents\Visual Studio成品示例\【2015】\MyCSharp\obj\x86\Debug\MyCSharp.csproj.GenerateResource.Cache
+F:\Documents\Visual Studio成品示例\【2015】\MyCSharp\bin\Debug\MyCSharp.exe
+F:\Documents\Visual Studio成品示例\【2015】\MyCSharp\bin\Debug\MyCSharp.pdb
+F:\Documents\Visual Studio成品示例\【2015】\MyCSharp\obj\x86\Debug\MyCSharp.exe
+F:\Documents\Visual Studio成品示例\【2015】\MyCSharp\obj\x86\Debug\MyCSharp.pdb
