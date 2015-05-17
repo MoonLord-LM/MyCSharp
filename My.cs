@@ -25,7 +25,7 @@
         /// <returns>加密后的结果字符串</returns>
         public static string Base64_Encode(string Source, System.Text.Encoding Encoding)
         {
-            return System.Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(Source));
+            return System.Convert.ToBase64String(Encoding.GetBytes(Source));
         }
         /// <summary>
         /// Base64解密算法
@@ -44,7 +44,7 @@
         /// <returns>解密后的结果字符串</returns>
         public static string Base64_Decode(string Source, System.Text.Encoding Encoding)
         {
-            return System.Text.Encoding.UTF8.GetString(System.Convert.FromBase64String(Source));
+            return Encoding.GetString(System.Convert.FromBase64String(Source));
         }
         /// <summary>
         /// MD5加密算法（返回16位小写结果）
@@ -233,6 +233,394 @@
                 return "";
             }
             return str;
+        }
+    }
+
+    /// <summary>
+    /// 网络访问函数
+    /// </summary>
+    public sealed class Http
+    {
+        /// <summary>
+        /// 获取网页源码
+        /// </summary>
+        /// <param name="URL">网页链接</param>
+        /// <returns>网页源码字符串</returns>
+        public static string GetString(string URL)
+        {
+            System.Net.WebClient Client = new System.Net.WebClient();
+            Client.Encoding = System.Text.Encoding.UTF8;
+            try {
+                return Client.DownloadString(URL);
+            }
+            catch(System.Exception){
+                return "";
+            }
+        }
+        /// <summary>
+        /// 获取网页源码
+        /// </summary>
+        /// <param name="URL">网页链接</param>
+        /// <param name="Encoding">使用的编码格式（默认UTF-8）</param>
+        /// <returns>网页源码字符串</returns>
+        public static string GetString(string URL, System.Text.Encoding Encoding)
+        {
+            System.Net.WebClient Client = new System.Net.WebClient();
+            Client.Encoding = Encoding;
+            try
+            {
+                return Client.DownloadString(URL);
+            }
+            catch (System.Exception)
+            {
+                return "";
+            }
+        }
+        /// <summary>
+        /// 下载文件到磁盘
+        /// </summary>
+        /// <param name="URL">文件链接</param>
+        /// <param name="FilePath">文件保存路径（可以是相对路径）</param>
+        /// <returns>是否下载成功</returns>
+        public static bool DownloadFile(string URL, string FilePath)
+        {
+            System.Net.WebClient Client = new System.Net.WebClient();
+            try
+            {
+                Client.DownloadFile(new System.Uri(URL), FilePath);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+    }
+
+    /// <summary>
+    /// 磁盘读写函数
+    /// </summary>
+    public sealed class IO {
+        /// <summary>
+        /// 将字符串数组写入文件
+        /// </summary>
+        /// <param name="StringArray">字符串数组</param>
+        /// <param name="FilePath">文件路径（可以是相对路径）</param>
+        /// <returns>是否写入成功</returns>
+        public static bool SaveStringArray(ref System.Collections.ArrayList StringArray, string FilePath)
+        {
+            System.IO.StreamWriter Writer;
+            System.Text.StringBuilder Builder;
+            try{
+                Builder = new System.Text.StringBuilder();
+                for (int i = 0; i < StringArray.Count - 1; i++)
+                {
+                    Builder.Append(StringArray[i] + "\r\n");
+                }
+                if (StringArray.Count > 0)
+                {
+                    Builder.Append(StringArray[StringArray.Count - 1]);
+                }
+                Writer = new System.IO.StreamWriter(FilePath, false, System.Text.Encoding.UTF8);
+                Writer.Write(Builder);
+                Writer.Dispose();
+                return true;
+            }
+            catch( System.Exception){
+                return false;
+            }
+        }
+        /// <summary>
+        /// 将字符串数组写入文件
+        /// </summary>
+        /// <param name="StringArray">字符串数组</param>
+        /// <param name="FilePath">文件路径（可以是相对路径）</param>
+        /// <returns>是否写入成功</returns>
+        public static bool SaveStringArray(ref System.Collections.Generic.List<string> StringArray, string FilePath)
+        {
+            System.IO.StreamWriter Writer;
+            System.Text.StringBuilder Builder;
+            try
+            {
+                Builder = new System.Text.StringBuilder();
+                for (int i = 0; i < StringArray.Count - 1; i++)
+                {
+                    Builder.Append(StringArray[i] + "\r\n");
+                }
+                if (StringArray.Count > 0)
+                {
+                    Builder.Append(StringArray[StringArray.Count - 1]);
+                }
+                Writer = new System.IO.StreamWriter(FilePath, false, System.Text.Encoding.UTF8);
+                Writer.Write(Builder);
+                Writer.Dispose();
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 将字符串数组写入文件
+        /// </summary>
+        /// <param name="StringArray">字符串数组</param>
+        /// <param name="FilePath">文件路径（可以是相对路径）</param>
+        /// <returns>是否写入成功</returns>
+        public static bool SaveStringArray(ref string[] StringArray, string FilePath)
+        {
+            System.IO.StreamWriter Writer;
+            System.Text.StringBuilder Builder;
+            try
+            {
+                Builder = new System.Text.StringBuilder();
+                for (int i = 0; i < StringArray.Length - 1; i++)
+                {
+                    Builder.Append(StringArray[i] + "\r\n");
+                }
+                if (StringArray.Length > 0)
+                {
+                    Builder.Append(StringArray[StringArray.Length - 1]);
+                }
+                Writer = new System.IO.StreamWriter(FilePath, false, System.Text.Encoding.UTF8);
+                Writer.Write(Builder);
+                Writer.Dispose();
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 读取文件中的字符串数组
+        /// </summary>
+        /// <param name="StringArray">字符串数组</param>
+        /// <param name="FilePath">文件路径（可以是相对路径）</param>
+        /// <returns>是否读取成功</returns>
+        public static bool ReadStringArray(ref System.Collections.ArrayList StringArray, string FilePath)
+        {
+            System.IO.StreamReader Reader;
+            try
+            {
+                Reader = new System.IO.StreamReader(FilePath, System.Text.Encoding.UTF8);
+                StringArray = new System.Collections.ArrayList(Reader.ReadToEnd().Replace("\r\n", "\n").Split(new char[] { '\n' }));
+                Reader.Dispose();
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 读取文件中的字符串数组
+        /// </summary>
+        /// <param name="StringArray">字符串数组</param>
+        /// <param name="FilePath">文件路径（可以是相对路径）</param>
+        /// <returns>是否读取成功</returns>
+        public static bool ReadStringArray(ref System.Collections.Generic.List<string> StringArray, string FilePath)
+        {
+            System.IO.StreamReader Reader;
+            try
+            {
+                Reader = new System.IO.StreamReader(FilePath, System.Text.Encoding.UTF8);
+                StringArray = new System.Collections.Generic.List<string>(Reader.ReadToEnd().Replace("\r\n", "\n").Split(new char[] { '\n' }));
+                Reader.Dispose();
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 读取文件中的字符串数组
+        /// </summary>
+        /// <param name="StringArray">字符串数组</param>
+        /// <param name="FilePath">文件路径（可以是相对路径）</param>
+        /// <returns>是否读取成功</returns>
+        public static bool ReadStringArray(ref string[] StringArray, string FilePath)
+        {
+            System.IO.StreamReader Reader;
+            try
+            {
+                Reader = new System.IO.StreamReader(FilePath, System.Text.Encoding.UTF8);
+                StringArray = Reader.ReadToEnd().Replace("\r\n", "\n").Split(new char[] { '\n' });
+                Reader.Dispose();
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+    }
+
+    /// <summary>
+    /// 字符串处理函数
+    /// </summary>
+    public sealed class StringData {
+        /// <summary>
+        /// 搜索字符串（从第一个开始字符串的位置，向后搜寻结束字符串，取出中间的部分）
+        /// </summary>
+        /// <param name="SourceCode">要搜索的字符串</param>
+        /// <param name="BeginString">开始字符串</param>
+        /// <param name="EndString">结束字符串</param>
+        /// <returns>搜索结果字符串（无结果时返回空字符串）</returns>
+        public static string SearchForward(ref string SourceCode, string BeginString, string EndString)
+        {
+            if (!SourceCode.Contains(BeginString))
+            {
+                return "";
+            }
+            SourceCode = SourceCode.Substring(SourceCode.IndexOf(BeginString) + BeginString.Length);
+            if (!SourceCode.Contains(EndString))
+            {
+                return "";
+            }
+            return SourceCode.Substring(0, SourceCode.IndexOf(EndString));
+        }
+        /// <summary>
+        /// 搜索字符串（从最后一个结束字符串的位置，向前搜寻开始字符串，取出中间的部分）
+        /// </summary>
+        /// <param name="SourceCode">要搜索的字符串</param>
+        /// <param name="BeginString">开始字符串</param>
+        /// <param name="EndString">结束字符串</param>
+        /// <returns>搜索结果字符串（无结果时返回空字符串）</returns>
+        public static string SearchBackward(ref string SourceCode, string BeginString, string EndString)
+        {
+            if (!SourceCode.Contains(EndString))
+            {
+                return "";
+            }
+            SourceCode = SourceCode.Substring(0, SourceCode.LastIndexOf(EndString));
+            if (!SourceCode.Contains(BeginString))
+            {
+                return "";
+            }
+            return SourceCode.Substring(SourceCode.LastIndexOf(BeginString) + BeginString.Length);
+        }
+        /// <summary>
+        /// 搜索字符串（从第一个开始字符串的位置，向后搜寻最后一个结束字符串的位置，取出中间的部分）
+        /// </summary>
+        /// <param name="SourceCode">要搜索的字符串</param>
+        /// <param name="BeginString">开始字符串</param>
+        /// <param name="EndString">结束字符串</param>
+        /// <returns>搜索结果字符串（无结果时返回空字符串）</returns>
+        public static string SearchMiddle(ref string SourceCode, string BeginString, string EndString)
+        {
+            if (!SourceCode.Contains(BeginString))
+            {
+                return "";
+            }
+            SourceCode = SourceCode.Substring(SourceCode.IndexOf(BeginString) + BeginString.Length);
+            if (!SourceCode.Contains(EndString))
+            {
+                return "";
+            }
+            return SourceCode.Substring(0, SourceCode.LastIndexOf(EndString));
+        }
+        /// <summary>
+        /// 搜索字符串（从第一个开始字符串的位置，向后搜寻结束字符串，取出中间的部分，重复向后搜索，返回数组）
+        /// </summary>
+        /// <param name="SourceCode">要搜索的字符串</param>
+        /// <param name="BeginString">开始字符串</param>
+        /// <param name="EndString">结束字符串</param>
+        /// <returns>搜索结果字符串数组（无结果时返回空数组）</returns>
+        public static System.Collections.Generic.List<string> SearchAllForward(ref string SourceCode, string BeginString, string EndString)
+        {
+            System.Collections.Generic.List<string> Temp = new System.Collections.Generic.List<string>();
+            while (SourceCode.Contains(BeginString))
+            {
+                SourceCode = SourceCode.Substring(SourceCode.IndexOf(BeginString) + BeginString.Length);
+                if (!SourceCode.Contains(EndString))
+                {
+                    return Temp;
+                }
+                Temp.Add(SourceCode.Substring(0, SourceCode.IndexOf(EndString)));
+            }
+            return Temp;
+        }
+        /// <summary>
+        /// 搜索字符串（从最后一个结束字符串的位置，向前搜寻开始字符串，取出中间的部分，重复向前搜索，返回数组）
+        /// </summary>
+        /// <param name="SourceCode">要搜索的字符串</param>
+        /// <param name="BeginString">开始字符串</param>
+        /// <param name="EndString">结束字符串</param>
+        /// <returns>搜索结果字符串数组（无结果时返回空数组）</returns>
+        public static System.Collections.Generic.List<string> SearchAllBackward(ref string SourceCode, string BeginString, string EndString)
+        {
+            System.Collections.Generic.List<string> Temp = new System.Collections.Generic.List<string>();
+            while (SourceCode.Contains(EndString))
+            {
+                SourceCode = SourceCode.Substring(0, SourceCode.LastIndexOf(EndString));
+                if (!SourceCode.Contains(BeginString))
+                {
+                    return Temp;
+                }
+                Temp.Add(SourceCode.Substring(SourceCode.LastIndexOf(BeginString) + BeginString.Length));
+            }
+            return Temp;
+        }
+        /// <summary>
+        /// 搜索字符串（从第一个开始字符串的位置，向后搜寻最后一个结束字符串的位置，取出中间的部分，重复向中间搜索，返回数组）
+        /// </summary>
+        /// <param name="SourceCode">要搜索的字符串</param>
+        /// <param name="BeginString">开始字符串</param>
+        /// <param name="EndString">结束字符串</param>
+        /// <returns>搜索结果字符串数组（无结果时返回空数组）</returns>
+        public static System.Collections.Generic.List<string> SearchAllMiddle(ref string SourceCode, string BeginString, string EndString)
+        {
+            System.Collections.Generic.List<string> Temp = new System.Collections.Generic.List<string>();
+            while (SourceCode.Contains(BeginString))
+            {
+                SourceCode = SourceCode.Substring(SourceCode.IndexOf(BeginString) + BeginString.Length);
+                if (!SourceCode.Contains(EndString))
+                {
+                    return Temp;
+                }
+                Temp.Add(SourceCode.Substring(0, SourceCode.LastIndexOf(EndString)));
+            }
+            return Temp;
+        }
+    }
+
+    /// <summary>
+    /// HTML代码处理函数
+    /// </summary>
+    public sealed class StringData {
+        /// <summary>
+        /// 获取网页源码中指定标签的元素的文本
+        /// </summary>
+        /// <param name="Source">网页源代码</param>
+        /// <param name="HtmlTag">元素标签</param>
+        /// <returns>文本字符串数组</returns>
+        public static System.Collections.Generic.List<string> GetTextByTagName(string Source, string HtmlTag)
+        {
+            System.Collections.Generic.List<string> Temp = new System.Collections.Generic.List<string>();
+            System.Windows.Forms.WebBrowser browser = new System.Windows.Forms.WebBrowser();
+            browser.DocumentText = "";
+            browser.Document.OpenNew(true).Write(Source);
+            System.Windows.Forms.HtmlElementCollection elementsByTagName = browser.Document.GetElementsByTagName(HtmlTag);
+            for (int i = 0; i <= elementsByTagName.Count - 1; i++)
+            {
+                Temp.Add(elementsByTagName[i].InnerText);
+            }
+            return Temp;
+        }
+        /// <summary>
+        /// 获取网页源码中指定ID的元素的文本
+        /// </summary>
+        /// <param name="Source">网页源代码</param>
+        /// <param name="Id">元素ID</param>
+        /// <returns>文本字符串</returns>
+        public static string GetTextById(string Source, string Id)
+        {
+            System.Windows.Forms.WebBrowser browser = new System.Windows.Forms.WebBrowser();
+            browser.DocumentText = "";
+            browser.Document.OpenNew(true).Write(Source);
+            return browser.Document.GetElementById(Id).InnerText;
         }
     }
 }
