@@ -455,6 +455,81 @@
                 return false;
             }
         }
+        /// <summary>
+        /// 获取指定目录下的全部的文件
+        /// </summary>
+        /// <param name="FilePathArray">保存文件路径的字符串数组</param>
+        /// <param name="SearchDirectory">要搜索的文件夹路径</param>
+        /// <returns>是否获取成功</returns>
+        public static bool GetAllFilePath(ref System.Collections.Generic.List<string> FilePathArray, string SearchDirectory)
+        {
+            System.Collections.Generic.List<string> Directory = new System.Collections.Generic.List<string>();
+            try
+            {
+                foreach (string Temp in System.IO.Directory.GetFiles(SearchDirectory))
+                {
+                    FilePathArray.Add(Temp);
+                }
+                foreach (string Temp in System.IO.Directory.GetDirectories(SearchDirectory))
+                {
+                    Directory.Add(Temp);
+                }
+                int Index = 0;
+                while (Directory.Count > Index)
+                {
+                    SearchDirectory = Directory[Index];
+                    Index++;
+                    foreach (string Temp in System.IO.Directory.GetFiles(SearchDirectory))
+                    {
+                        FilePathArray.Add(Temp);
+                    }
+                    foreach (string Temp in System.IO.Directory.GetDirectories(SearchDirectory))
+                    {
+                        Directory.Add(Temp);
+                    }
+                }
+                return true;
+            }
+            catch (System.Exception )
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 获取指定文件的行数
+        /// </summary>
+        /// <param name="FilePath">文件路径（可以是相对路径）</param>
+        /// <returns>行数（获取失败时返回0）</returns>
+        public static int GetFileLine(string FilePath)
+        {
+            try
+            {
+                System.IO.StreamReader reader = new System.IO.StreamReader(FilePath, System.Text.Encoding.UTF8);
+                return  reader.ReadToEnd().Replace("\r\n", "\n").Split(new char[] { '\n' }).Length;
+            }
+            catch (System.Exception)
+            {
+                return 0;
+            }
+        }
+        /// <summary>
+        /// 获取指定文件的行数
+        /// </summary>
+        /// <param name="FilePath">文件路径（可以是相对路径）</param>
+        /// <param name="Encoding">使用的编码格式（默认UTF-8）</param>
+        /// <returns>行数（获取失败时返回0）</returns>
+        public static int GetFileLine(string FilePath, System.Text.Encoding Encoding)
+        {
+            try
+            {
+                System.IO.StreamReader reader = new System.IO.StreamReader(FilePath, Encoding);
+                return  reader.ReadToEnd().Replace("\r\n", "\n").Split(new char[] { '\n' }).Length;
+            }
+            catch (System.Exception)
+            {
+                return 0;
+            }
+        }
     }
 
     /// <summary>
