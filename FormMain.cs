@@ -16,8 +16,7 @@ namespace MyCSharp
 
         private void FormMain_Load(object sender, EventArgs e)
         {
-            My.Security.Base64_Encode("123");
-            My.Http.GetString("123");
+
         }
     }
 }

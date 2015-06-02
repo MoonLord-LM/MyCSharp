@@ -1,7 +1,8 @@
 ﻿namespace My
 {
-    //2015/5/10
+    //2015/6/2
     //My命名空间的扩展
+    //引入此文件，需要确保该工程引用System，System.Drawing，System.Web，System.Windows.Forms，Microsoft.VisualBasic
 
     /// <summary>
     /// 编码与解码函数
@@ -250,10 +251,12 @@
         {
             System.Net.WebClient Client = new System.Net.WebClient();
             Client.Encoding = System.Text.Encoding.UTF8;
-            try {
+            try
+            {
                 return Client.DownloadString(URL);
             }
-            catch(System.Exception){
+            catch (System.Exception)
+            {
                 return "";
             }
         }
@@ -300,7 +303,8 @@
     /// <summary>
     /// 磁盘读写函数
     /// </summary>
-    public sealed class IO {
+    public sealed class IO
+    {
         /// <summary>
         /// 将字符串数组写入文件
         /// </summary>
@@ -311,7 +315,8 @@
         {
             System.IO.StreamWriter Writer;
             System.Text.StringBuilder Builder;
-            try{
+            try
+            {
                 Builder = new System.Text.StringBuilder();
                 for (int i = 0; i < StringArray.Count - 1; i++)
                 {
@@ -326,7 +331,40 @@
                 Writer.Dispose();
                 return true;
             }
-            catch( System.Exception){
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 将字符串数组写入文件
+        /// </summary>
+        /// <param name="StringArray">字符串数组</param>
+        /// <param name="FilePath">文件路径（可以是相对路径）</param>
+        /// <param name="Encoding">使用的编码格式（默认UTF-8）</param>
+        /// <returns>是否写入成功</returns>
+        public static bool SaveStringArray(ref System.Collections.ArrayList StringArray, string FilePath, System.Text.Encoding Encoding)
+        {
+            System.IO.StreamWriter Writer;
+            System.Text.StringBuilder Builder;
+            try
+            {
+                Builder = new System.Text.StringBuilder();
+                for (int i = 0; i < StringArray.Count - 1; i++)
+                {
+                    Builder.Append(StringArray[i] + "\r\n");
+                }
+                if (StringArray.Count > 0)
+                {
+                    Builder.Append(StringArray[StringArray.Count - 1]);
+                }
+                Writer = new System.IO.StreamWriter(FilePath, false, Encoding);
+                Writer.Write(Builder);
+                Writer.Dispose();
+                return true;
+            }
+            catch (System.Exception)
+            {
                 return false;
             }
         }
@@ -352,6 +390,38 @@
                     Builder.Append(StringArray[StringArray.Count - 1]);
                 }
                 Writer = new System.IO.StreamWriter(FilePath, false, System.Text.Encoding.UTF8);
+                Writer.Write(Builder);
+                Writer.Dispose();
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 将字符串数组写入文件
+        /// </summary>
+        /// <param name="StringArray">字符串数组</param>
+        /// <param name="FilePath">文件路径（可以是相对路径）</param>
+        /// <param name="Encoding">使用的编码格式（默认UTF-8）</param>
+        /// <returns>是否写入成功</returns>
+        public static bool SaveStringArray(ref System.Collections.Generic.List<string> StringArray, string FilePath, System.Text.Encoding Encoding)
+        {
+            System.IO.StreamWriter Writer;
+            System.Text.StringBuilder Builder;
+            try
+            {
+                Builder = new System.Text.StringBuilder();
+                for (int i = 0; i < StringArray.Count - 1; i++)
+                {
+                    Builder.Append(StringArray[i] + "\r\n");
+                }
+                if (StringArray.Count > 0)
+                {
+                    Builder.Append(StringArray[StringArray.Count - 1]);
+                }
+                Writer = new System.IO.StreamWriter(FilePath, false, Encoding);
                 Writer.Write(Builder);
                 Writer.Dispose();
                 return true;
@@ -393,6 +463,38 @@
             }
         }
         /// <summary>
+        /// 将字符串数组写入文件
+        /// </summary>
+        /// <param name="StringArray">字符串数组</param>
+        /// <param name="FilePath">文件路径（可以是相对路径）</param>
+        /// <param name="Encoding">使用的编码格式（默认UTF-8）</param>
+        /// <returns>是否写入成功</returns>
+        public static bool SaveStringArray(ref string[] StringArray, string FilePath, System.Text.Encoding Encoding)
+        {
+            System.IO.StreamWriter Writer;
+            System.Text.StringBuilder Builder;
+            try
+            {
+                Builder = new System.Text.StringBuilder();
+                for (int i = 0; i < StringArray.Length - 1; i++)
+                {
+                    Builder.Append(StringArray[i] + "\r\n");
+                }
+                if (StringArray.Length > 0)
+                {
+                    Builder.Append(StringArray[StringArray.Length - 1]);
+                }
+                Writer = new System.IO.StreamWriter(FilePath, false, Encoding);
+                Writer.Write(Builder);
+                Writer.Dispose();
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
         /// 读取文件中的字符串数组
         /// </summary>
         /// <param name="StringArray">字符串数组</param>
@@ -404,6 +506,28 @@
             try
             {
                 Reader = new System.IO.StreamReader(FilePath, System.Text.Encoding.UTF8);
+                StringArray = new System.Collections.ArrayList(Reader.ReadToEnd().Replace("\r\n", "\n").Split(new char[] { '\n' }));
+                Reader.Dispose();
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 读取文件中的字符串数组
+        /// </summary>
+        /// <param name="StringArray">字符串数组</param>
+        /// <param name="FilePath">文件路径（可以是相对路径）</param>
+        /// <param name="Encoding">使用的编码格式（默认UTF-8）</param>
+        /// <returns>是否读取成功</returns>
+        public static bool ReadStringArray(ref System.Collections.ArrayList StringArray, string FilePath, System.Text.Encoding Encoding)
+        {
+            System.IO.StreamReader Reader;
+            try
+            {
+                Reader = new System.IO.StreamReader(FilePath, Encoding);
                 StringArray = new System.Collections.ArrayList(Reader.ReadToEnd().Replace("\r\n", "\n").Split(new char[] { '\n' }));
                 Reader.Dispose();
                 return true;
@@ -439,6 +563,28 @@
         /// </summary>
         /// <param name="StringArray">字符串数组</param>
         /// <param name="FilePath">文件路径（可以是相对路径）</param>
+        /// <param name="Encoding">使用的编码格式（默认UTF-8）</param>
+        /// <returns>是否读取成功</returns>
+        public static bool ReadStringArray(ref System.Collections.Generic.List<string> StringArray, string FilePath, System.Text.Encoding Encoding)
+        {
+            System.IO.StreamReader Reader;
+            try
+            {
+                Reader = new System.IO.StreamReader(FilePath, Encoding);
+                StringArray = new System.Collections.Generic.List<string>(Reader.ReadToEnd().Replace("\r\n", "\n").Split(new char[] { '\n' }));
+                Reader.Dispose();
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 读取文件中的字符串数组
+        /// </summary>
+        /// <param name="StringArray">字符串数组</param>
+        /// <param name="FilePath">文件路径（可以是相对路径）</param>
         /// <returns>是否读取成功</returns>
         public static bool ReadStringArray(ref string[] StringArray, string FilePath)
         {
@@ -446,6 +592,28 @@
             try
             {
                 Reader = new System.IO.StreamReader(FilePath, System.Text.Encoding.UTF8);
+                StringArray = Reader.ReadToEnd().Replace("\r\n", "\n").Split(new char[] { '\n' });
+                Reader.Dispose();
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 读取文件中的字符串数组
+        /// </summary>
+        /// <param name="StringArray">字符串数组</param>
+        /// <param name="FilePath">文件路径（可以是相对路径）</param>
+        /// <param name="Encoding">使用的编码格式（默认UTF-8）</param>
+        /// <returns>是否读取成功</returns>
+        public static bool ReadStringArray(ref string[] StringArray, string FilePath, System.Text.Encoding Encoding)
+        {
+            System.IO.StreamReader Reader;
+            try
+            {
+                Reader = new System.IO.StreamReader(FilePath, Encoding);
                 StringArray = Reader.ReadToEnd().Replace("\r\n", "\n").Split(new char[] { '\n' });
                 Reader.Dispose();
                 return true;
@@ -490,7 +658,7 @@
                 }
                 return true;
             }
-            catch (System.Exception )
+            catch (System.Exception)
             {
                 return false;
             }
@@ -498,36 +666,327 @@
         /// <summary>
         /// 获取指定文件的行数
         /// </summary>
+        /// <param name="FileLine">文件行数</param>
         /// <param name="FilePath">文件路径（可以是相对路径）</param>
-        /// <returns>行数（获取失败时返回0）</returns>
-        public static int GetFileLine(string FilePath)
+        /// <returns>是否获取成功</returns>
+        public static bool GetFileLine(ref int FileLine, string FilePath)
         {
             try
             {
                 System.IO.StreamReader reader = new System.IO.StreamReader(FilePath, System.Text.Encoding.UTF8);
-                return  reader.ReadToEnd().Replace("\r\n", "\n").Split(new char[] { '\n' }).Length;
+                FileLine = reader.ReadToEnd().Replace("\r\n", "\n").Split(new char[] { '\n' }).Length;
+                return true;
             }
             catch (System.Exception)
             {
-                return 0;
+                return false;
             }
         }
         /// <summary>
         /// 获取指定文件的行数
         /// </summary>
+        /// <param name="FileLine">文件行数</param>
         /// <param name="FilePath">文件路径（可以是相对路径）</param>
         /// <param name="Encoding">使用的编码格式（默认UTF-8）</param>
-        /// <returns>行数（获取失败时返回0）</returns>
-        public static int GetFileLine(string FilePath, System.Text.Encoding Encoding)
+        /// <returns>是否获取成功</returns>
+        public static bool GetFileLine(ref int FileLine, string FilePath, System.Text.Encoding Encoding)
         {
             try
             {
                 System.IO.StreamReader reader = new System.IO.StreamReader(FilePath, Encoding);
-                return  reader.ReadToEnd().Replace("\r\n", "\n").Split(new char[] { '\n' }).Length;
+                FileLine = reader.ReadToEnd().Replace("\r\n", "\n").Split(new char[] { '\n' }).Length;
+                return true;
             }
             catch (System.Exception)
             {
-                return 0;
+                return false;
+            }
+        }
+        /// <summary>
+        /// 将程序嵌入的资源文件写入为磁盘文件（注意必须在解决方案资源管理器中，将资源文件的"属性"-"生成操作"设置为"嵌入的资源"）
+        /// </summary>
+        /// <param name="ResourceName">资源文件名称（注意这个参数的值为资源文件在工程内的相对路径，例如A.jpg文件在Resources文件夹内，则此处的参数应为"Resources.A.jpg"）</param>
+        /// <param name="FilePath">写入到磁盘的文件路径</param>
+        /// <returns>是否执行成功</returns>
+        public static bool WriteResourceFile(string ResourceName, string FilePath)
+        {
+            try
+            {
+                System.Reflection.Assembly executingAssembly = System.Reflection.Assembly.GetExecutingAssembly();
+                System.IO.Stream manifestResourceStream = executingAssembly.GetManifestResourceStream(executingAssembly.GetName().Name + "." + ResourceName);
+                byte[] buffer = new byte[((int)(manifestResourceStream.Length - 1L)) + 1];
+                System.IO.FileStream stream2 = new System.IO.FileStream(FilePath, System.IO.FileMode.OpenOrCreate, System.IO.FileAccess.ReadWrite);
+                manifestResourceStream.Read(buffer, 0, buffer.Length);
+                stream2.Write(buffer, 0, buffer.Length);
+                manifestResourceStream.Dispose();
+                stream2.Dispose();
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 读取程序嵌入的图片类型的资源文件（注意必须在解决方案资源管理器中，将资源文件的"属性"-"生成操作"设置为"嵌入的资源"）
+        /// </summary>
+        /// <param name="ResourcePicture">图片</param>
+        /// <param name="ResourceName">资源文件名称（注意这个参数的值为资源文件在工程内的相对路径，例如A.jpg文件在Resources文件夹内，则此处的参数应为"Resources.A.jpg"）</param>
+        /// <returns>是否读取成功</returns>
+        public static bool ReadResourcePicture(ref System.Drawing.Bitmap ResourcePicture, string ResourceName)
+        {
+            try
+            {
+                System.Reflection.Assembly executingAssembly = System.Reflection.Assembly.GetExecutingAssembly();
+                ResourcePicture = new System.Drawing.Bitmap(executingAssembly.GetManifestResourceStream(executingAssembly.GetName().Name + "." + ResourceName));
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 读取程序嵌入的文本类型的资源文件（注意必须在解决方案资源管理器中，将资源文件的"属性"-"生成操作"设置为"嵌入的资源"）
+        /// </summary>
+        /// <param name="ResourceString">文本</param>
+        /// <param name="ResourceName">资源文件名称（注意这个参数的值为资源文件在工程内的相对路径，例如A.jpg文件在Resources文件夹内，则此处的参数应为"Resources.A.jpg"）</param>
+        /// <returns>是否读取成功</returns>
+        public static bool ReadResourceString(ref string ResourceString, string ResourceName)
+        {
+            try
+            {
+                System.Reflection.Assembly executingAssembly = System.Reflection.Assembly.GetExecutingAssembly();
+                System.IO.Stream manifestResourceStream = executingAssembly.GetManifestResourceStream(executingAssembly.GetName().Name + "." + ResourceName);
+                byte[] buffer = new byte[((int)(manifestResourceStream.Length - 1L)) + 1];
+                manifestResourceStream.Read(buffer, 0, buffer.Length);
+                manifestResourceStream.Dispose();
+                ResourceString = System.Text.Encoding.UTF8.GetString(buffer);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 读取程序嵌入的文本类型的资源文件（注意必须在解决方案资源管理器中，将资源文件的"属性"-"生成操作"设置为"嵌入的资源"）
+        /// </summary>
+        /// <param name="ResourceString">文本</param>
+        /// <param name="ResourceName">资源文件名称（注意这个参数的值为资源文件在工程内的相对路径，例如A.jpg文件在Resources文件夹内，则此处的参数应为"Resources.A.jpg"）</param>
+        /// <param name="Encoding">使用的编码格式（默认UTF-8）</param>
+        /// <returns>是否读取成功</returns>
+        public static bool ReadResourceString(ref string ResourceString, string ResourceName, System.Text.Encoding Encoding)
+        {
+            try
+            {
+                System.Reflection.Assembly executingAssembly = System.Reflection.Assembly.GetExecutingAssembly();
+                System.IO.Stream manifestResourceStream = executingAssembly.GetManifestResourceStream(executingAssembly.GetName().Name + "." + ResourceName);
+                byte[] buffer = new byte[((int)(manifestResourceStream.Length - 1L)) + 1];
+                manifestResourceStream.Read(buffer, 0, buffer.Length);
+                manifestResourceStream.Dispose();
+                ResourceString = Encoding.GetString(buffer);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 读取程序嵌入的字符串数组类型的资源文件（注意必须在解决方案资源管理器中，将资源文件的"属性"-"生成操作"设置为"嵌入的资源"）
+        /// </summary>
+        /// <param name="ResourceArray">字符串数组</param>
+        /// <param name="ResourceName">资源文件名称（注意这个参数的值为资源文件在工程内的相对路径，例如A.jpg文件在Resources文件夹内，则此处的参数应为"Resources.A.jpg"）</param>
+        /// <returns>是否读取成功</returns>
+        public static bool ReadResourceArray(ref System.Collections.ArrayList ResourceArray, string ResourceName)
+        {
+            try
+            {
+                System.Reflection.Assembly executingAssembly = System.Reflection.Assembly.GetExecutingAssembly();
+                System.IO.Stream manifestResourceStream = executingAssembly.GetManifestResourceStream(executingAssembly.GetName().Name + "." + ResourceName);
+                byte[] buffer = new byte[((int)(manifestResourceStream.Length - 1L)) + 1];
+                manifestResourceStream.Read(buffer, 0, buffer.Length);
+                manifestResourceStream.Dispose();
+                ResourceArray = new System.Collections.ArrayList(System.Text.Encoding.UTF8.GetString(buffer).Replace("\r\n", "\n").Split(new char[] { '\n' }));
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 读取程序嵌入的字符串数组类型的资源文件（注意必须在解决方案资源管理器中，将资源文件的"属性"-"生成操作"设置为"嵌入的资源"）
+        /// </summary>
+        /// <param name="ResourceArray">字符串数组</param>
+        /// <param name="ResourceName">资源文件名称（注意这个参数的值为资源文件在工程内的相对路径，例如A.jpg文件在Resources文件夹内，则此处的参数应为"Resources.A.jpg"）</param>
+        /// <param name="Encoding">使用的编码格式（默认UTF-8）</param>
+        /// <returns>是否读取成功</returns>
+        public static bool ReadResourceArray(ref System.Collections.ArrayList ResourceArray, string ResourceName, System.Text.Encoding Encoding)
+        {
+            try
+            {
+                System.Reflection.Assembly executingAssembly = System.Reflection.Assembly.GetExecutingAssembly();
+                System.IO.Stream manifestResourceStream = executingAssembly.GetManifestResourceStream(executingAssembly.GetName().Name + "." + ResourceName);
+                byte[] buffer = new byte[((int)(manifestResourceStream.Length - 1L)) + 1];
+                manifestResourceStream.Read(buffer, 0, buffer.Length);
+                manifestResourceStream.Dispose();
+                ResourceArray = new System.Collections.ArrayList(Encoding.GetString(buffer).Replace("\r\n", "\n").Split(new char[] { '\n' }));
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 读取程序嵌入的字符串数组类型的资源文件（注意必须在解决方案资源管理器中，将资源文件的"属性"-"生成操作"设置为"嵌入的资源"）
+        /// </summary>
+        /// <param name="ResourceArray">字符串数组</param>
+        /// <param name="ResourceName">资源文件名称（注意这个参数的值为资源文件在工程内的相对路径，例如A.jpg文件在Resources文件夹内，则此处的参数应为"Resources.A.jpg"）</param>
+        /// <returns>是否读取成功</returns>
+        public static bool ReadResourceArray(ref System.Collections.Generic.List<string> ResourceArray, string ResourceName)
+        {
+            try
+            {
+                System.Reflection.Assembly executingAssembly = System.Reflection.Assembly.GetExecutingAssembly();
+                System.IO.Stream manifestResourceStream = executingAssembly.GetManifestResourceStream(executingAssembly.GetName().Name + "." + ResourceName);
+                byte[] buffer = new byte[((int)(manifestResourceStream.Length - 1L)) + 1];
+                manifestResourceStream.Read(buffer, 0, buffer.Length);
+                manifestResourceStream.Dispose();
+                ResourceArray = new System.Collections.Generic.List<string>(System.Text.Encoding.UTF8.GetString(buffer).Replace("\r\n", "\n").Split(new char[] { '\n' }));
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 读取程序嵌入的字符串数组类型的资源文件（注意必须在解决方案资源管理器中，将资源文件的"属性"-"生成操作"设置为"嵌入的资源"）
+        /// </summary>
+        /// <param name="ResourceArray">字符串数组</param>
+        /// <param name="ResourceName">资源文件名称（注意这个参数的值为资源文件在工程内的相对路径，例如A.jpg文件在Resources文件夹内，则此处的参数应为"Resources.A.jpg"）</param>
+        /// <param name="Encoding">使用的编码格式（默认UTF-8）</param>
+        /// <returns>是否读取成功</returns>
+        public static bool ReadResourceArray(ref System.Collections.Generic.List<string> ResourceArray, string ResourceName, System.Text.Encoding Encoding)
+        {
+            try
+            {
+                System.Reflection.Assembly executingAssembly = System.Reflection.Assembly.GetExecutingAssembly();
+                System.IO.Stream manifestResourceStream = executingAssembly.GetManifestResourceStream(executingAssembly.GetName().Name + "." + ResourceName);
+                byte[] buffer = new byte[((int)(manifestResourceStream.Length - 1L)) + 1];
+                manifestResourceStream.Read(buffer, 0, buffer.Length);
+                manifestResourceStream.Dispose();
+                ResourceArray = new System.Collections.Generic.List<string>(Encoding.GetString(buffer).Replace("\r\n", "\n").Split(new char[] { '\n' }));
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 读取程序嵌入的字符串数组类型的资源文件（注意必须在解决方案资源管理器中，将资源文件的"属性"-"生成操作"设置为"嵌入的资源"）
+        /// </summary>
+        /// <param name="ResourceArray">字符串数组</param>
+        /// <param name="ResourceName">资源文件名称（注意这个参数的值为资源文件在工程内的相对路径，例如A.jpg文件在Resources文件夹内，则此处的参数应为"Resources.A.jpg"）</param>
+        /// <returns>是否读取成功</returns>
+        public static bool ReadResourceArray(ref string[] ResourceArray, string ResourceName)
+        {
+            try
+            {
+                System.Reflection.Assembly executingAssembly = System.Reflection.Assembly.GetExecutingAssembly();
+                System.IO.Stream manifestResourceStream = executingAssembly.GetManifestResourceStream(executingAssembly.GetName().Name + "." + ResourceName);
+                byte[] buffer = new byte[((int)(manifestResourceStream.Length - 1L)) + 1];
+                manifestResourceStream.Read(buffer, 0, buffer.Length);
+                manifestResourceStream.Dispose();
+                ResourceArray = System.Text.Encoding.UTF8.GetString(buffer).Replace("\r\n", "\n").Split(new char[] { '\n' });
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 读取程序嵌入的字符串数组类型的资源文件（注意必须在解决方案资源管理器中，将资源文件的"属性"-"生成操作"设置为"嵌入的资源"）
+        /// </summary>
+        /// <param name="ResourceArray">字符串数组</param>
+        /// <param name="ResourceName">资源文件名称（注意这个参数的值为资源文件在工程内的相对路径，例如A.jpg文件在Resources文件夹内，则此处的参数应为"Resources.A.jpg"）</param>
+        /// <param name="Encoding">使用的编码格式（默认UTF-8）</param>
+        /// <returns>是否读取成功</returns>
+        public static bool ReadResourceArray(ref string[] ResourceArray, string ResourceName, System.Text.Encoding Encoding)
+        {
+            try
+            {
+                System.Reflection.Assembly executingAssembly = System.Reflection.Assembly.GetExecutingAssembly();
+                System.IO.Stream manifestResourceStream = executingAssembly.GetManifestResourceStream(executingAssembly.GetName().Name + "." + ResourceName);
+                byte[] buffer = new byte[((int)(manifestResourceStream.Length - 1L)) + 1];
+                manifestResourceStream.Read(buffer, 0, buffer.Length);
+                manifestResourceStream.Dispose();
+                ResourceArray = Encoding.GetString(buffer).Replace("\r\n", "\n").Split(new char[] { '\n' });
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 创建快捷方式
+        /// </summary>
+        /// <param name="TargetPath">快捷方式指向的路径（建议使用绝对路径，使用相对路径时，默认将以桌面作为父目录）</param>
+        /// <param name="LinkFilePath">快捷方式文件的路径（可以是相对路径，如"1.lnk"）</param>
+        /// <param name="Arguments">打开程序的参数（例如"/?"）</param>
+        /// <param name="Description">鼠标悬停在快捷方式上的描述</param>
+        /// <param name="WorkingDirectory">快捷方式的起始位置（不设置此参数时，按照系统默认，自动设置为快捷方式指向的路径的父目录）</param>
+        /// <returns>是否创建成功</returns>
+        public static bool CreatLinkFile(string TargetPath, string LinkFilePath, string Arguments = "", string Description = "", string WorkingDirectory = "")
+        {
+            try
+            {
+                if (System.IO.File.Exists(LinkFilePath))
+                {
+                    System.IO.File.Delete(LinkFilePath);
+                }
+                if (WorkingDirectory == "")
+                {
+                    WorkingDirectory = System.IO.Directory.GetParent(LinkFilePath).FullName;
+                }
+                object instance = Microsoft.VisualBasic.CompilerServices.NewLateBinding.LateGet(Microsoft.VisualBasic.Interaction.CreateObject("WScript.Shell", ""), null, "CreateShortcut", new object[] { LinkFilePath }, null, null, new bool[] { true });
+                Microsoft.VisualBasic.CompilerServices.NewLateBinding.LateSet(instance, null, "TargetPath", new object[] { TargetPath }, null, null);
+                Microsoft.VisualBasic.CompilerServices.NewLateBinding.LateSet(instance, null, "IconLocation", new object[] { TargetPath }, null, null);
+                Microsoft.VisualBasic.CompilerServices.NewLateBinding.LateSet(instance, null, "Arguments", new object[] { Arguments }, null, null);
+                Microsoft.VisualBasic.CompilerServices.NewLateBinding.LateSet(instance, null, "Description", new object[] { Description }, null, null);
+                Microsoft.VisualBasic.CompilerServices.NewLateBinding.LateSet(instance, null, "WorkingDirectory", new object[] { WorkingDirectory }, null, null);
+                Microsoft.VisualBasic.CompilerServices.NewLateBinding.LateCall(instance, null, "Save", new object[0], null, null, null, true);
+                instance = null;
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 读取快捷方式指向的路径
+        /// </summary>
+        /// <param name="TargetPath">快捷方式指向的路径（获得完整的绝对路径）</param>
+        /// <param name="LinkFilePath">快捷方式文件的路径（可以是相对路径，如"1.lnk"）</param>
+        /// <returns>是否读取成功</returns>
+        public static bool ReadLinkFile(ref string TargetPath, string LinkFilePath)
+        {
+            try
+            {
+                object objectValue = Microsoft.VisualBasic.CompilerServices.NewLateBinding.LateGet(Microsoft.VisualBasic.Interaction.CreateObject("WScript.Shell", ""), null, "CreateShortcut", new object[] { LinkFilePath }, null, null, new bool[] { true });
+                TargetPath = Microsoft.VisualBasic.CompilerServices.Conversions.ToString(Microsoft.VisualBasic.CompilerServices.NewLateBinding.LateGet(objectValue, null, "TargetPath", new object[0], null, null, null));
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
             }
         }
     }
@@ -535,7 +994,8 @@
     /// <summary>
     /// 字符串处理函数
     /// </summary>
-    public sealed class StringData {
+    public sealed class StringData
+    {
         /// <summary>
         /// 搜索字符串（从第一个开始字符串的位置，向后搜寻结束字符串，取出中间的部分）
         /// </summary>
@@ -659,12 +1119,220 @@
             }
             return Temp;
         }
+        /// <summary>
+        /// 对两个字符串数组取交集（取出满足在第一个数组里，也在第二个数组里的元素）
+        /// </summary>
+        /// <param name="StringArray1">字符串数组</param>
+        /// <param name="StringArray2">字符串数组</param>
+        /// <returns>取出的元素的集合</returns>
+        public static System.Collections.ArrayList Intersect(ref System.Collections.ArrayList StringArray1, ref System.Collections.ArrayList StringArray2)
+        {
+            System.Collections.ArrayList list2 = new System.Collections.ArrayList();
+            foreach (string str in StringArray1)
+            {
+                foreach (string str2 in StringArray2)
+                {
+                    if (str == str2)
+                    {
+                        list2.Add(str);
+                        break;
+                    }
+                }
+            }
+            return list2;
+        }
+        /// <summary>
+        /// 对两个字符串数组取交集（取出满足在第一个数组里，也在第二个数组里的元素）
+        /// </summary>
+        /// <param name="StringArray1">字符串数组</param>
+        /// <param name="StringArray2">字符串数组</param>
+        /// <returns>取出的元素的集合</returns>
+        public static System.Collections.Generic.List<string> Intersect(ref System.Collections.Generic.List<string> StringArray1, ref System.Collections.Generic.List<string> StringArray2)
+        {
+            System.Collections.Generic.List<string> list2 = new System.Collections.Generic.List<string>();
+            foreach (string str in StringArray1)
+            {
+                foreach (string str2 in StringArray2)
+                {
+                    if (str == str2)
+                    {
+                        list2.Add(str);
+                        break;
+                    }
+                }
+            }
+            return list2;
+        }
+        /// <summary>
+        /// 对两个字符串数组取交集（取出满足在第一个数组里，也在第二个数组里的元素）
+        /// </summary>
+        /// <param name="StringArray1">字符串数组</param>
+        /// <param name="StringArray2">字符串数组</param>
+        /// <returns>取出的元素的集合</returns>
+        public static string[] Intersect(ref string[] StringArray1, ref string[] StringArray2)
+        {
+            System.Collections.Generic.List<string> list = new System.Collections.Generic.List<string>();
+            foreach (string str in StringArray1)
+            {
+                foreach (string str2 in StringArray2)
+                {
+                    if (str == str2)
+                    {
+                        list.Add(str);
+                        break;
+                    }
+                }
+            }
+            return list.ToArray();
+        }
+        /// <summary>
+        /// 对两个字符串数组取并集（取出第一个数组里的元素，然后取出第二个数组里的元素）
+        /// </summary>
+        /// <param name="StringArray1">字符串数组</param>
+        /// <param name="StringArray2">字符串数组</param>
+        /// <returns>取出的元素的集合</returns>
+        public static System.Collections.ArrayList Union(ref System.Collections.ArrayList StringArray1, ref System.Collections.ArrayList StringArray2)
+        {
+            System.Collections.ArrayList list = new System.Collections.ArrayList();
+            foreach (string str in StringArray1)
+            {
+                list.Add(str);
+            }
+            foreach (string str2 in StringArray2)
+            {
+                list.Add(str2);
+            }
+            return list;
+        }
+        /// <summary>
+        /// 对两个字符串数组取并集（取出第一个数组里的元素，然后取出第二个数组里的元素）
+        /// </summary>
+        /// <param name="StringArray1">字符串数组</param>
+        /// <param name="StringArray2">字符串数组</param>
+        /// <returns>取出的元素的集合</returns>
+        public static System.Collections.Generic.List<string> Union(ref System.Collections.Generic.List<string> StringArray1, ref System.Collections.Generic.List<string> StringArray2)
+        {
+            System.Collections.Generic.List<string> list = new System.Collections.Generic.List<string>();
+            foreach (string str in StringArray1)
+            {
+                list.Add(str);
+            }
+            foreach (string str2 in StringArray2)
+            {
+                list.Add(str2);
+            }
+            return list;
+        }
+        /// <summary>
+        /// 对两个字符串数组取并集（取出第一个数组里的元素，然后取出第二个数组里的元素）
+        /// </summary>
+        /// <param name="StringArray1">字符串数组</param>
+        /// <param name="StringArray2">字符串数组</param>
+        /// <returns>取出的元素的集合</returns>
+        public static string[] Union(ref string[] StringArray1, ref string[] StringArray2)
+        {
+            System.Collections.Generic.List<string> list = new System.Collections.Generic.List<string>();
+            foreach (string str in StringArray1)
+            {
+                list.Add(str);
+            }
+            foreach (string str2 in StringArray2)
+            {
+                list.Add(str2);
+            }
+            return list.ToArray();
+        }
+        /// <summary>
+        /// 对两个字符串数组取差集（取出满足在第一个数组里，但是不在第二个数组里的元素）
+        /// </summary>
+        /// <param name="StringArray1">字符串数组</param>
+        /// <param name="StringArray2">字符串数组</param>
+        /// <returns>取出的元素的集合</returns>
+        public static System.Collections.ArrayList Except(ref System.Collections.ArrayList StringArray1, ref System.Collections.ArrayList StringArray2)
+        {
+            System.Collections.ArrayList list2 = new System.Collections.ArrayList();
+            bool flag = false;
+            foreach (string str in StringArray1)
+            {
+                flag = false;
+                foreach (string str2 in StringArray2)
+                {
+                    if (str == str2)
+                    {
+                        flag = true;
+                        break;
+                    }
+                }
+                if (!flag)
+                {
+                    list2.Add(str);
+                }
+            }
+            return list2;
+        }
+        /// <summary>
+        /// 对两个字符串数组取差集（取出满足在第一个数组里，但是不在第二个数组里的元素）
+        /// </summary>
+        /// <param name="StringArray1">字符串数组</param>
+        /// <param name="StringArray2">字符串数组</param>
+        /// <returns>取出的元素的集合</returns>
+        public static System.Collections.Generic.List<string> Except(ref System.Collections.Generic.List<string> StringArray1, ref System.Collections.Generic.List<string> StringArray2)
+        {
+            System.Collections.Generic.List<string> list2 = new System.Collections.Generic.List<string>();
+            bool flag = false;
+            foreach (string str in StringArray1)
+            {
+                flag = false;
+                foreach (string str2 in StringArray2)
+                {
+                    if (str == str2)
+                    {
+                        flag = true;
+                        break;
+                    }
+                }
+                if (!flag)
+                {
+                    list2.Add(str);
+                }
+            }
+            return list2;
+        }
+        /// <summary>
+        /// 对两个字符串数组取差集（取出满足在第一个数组里，但是不在第二个数组里的元素）
+        /// </summary>
+        /// <param name="StringArray1">字符串数组</param>
+        /// <param name="StringArray2">字符串数组</param>
+        /// <returns>取出的元素的集合</returns>
+        public static string[] Except(ref string[] StringArray1, ref string[] StringArray2)
+        {
+            System.Collections.Generic.List<string> list = new System.Collections.Generic.List<string>();
+            bool flag = false;
+            foreach (string str in StringArray1)
+            {
+                flag = false;
+                foreach (string str2 in StringArray2)
+                {
+                    if (str == str2)
+                    {
+                        flag = true;
+                        break;
+                    }
+                }
+                if (!flag)
+                {
+                    list.Add(str);
+                }
+            }
+            return list.ToArray();
+        }
     }
 
     /// <summary>
     /// HTML代码处理函数
     /// </summary>
-    public sealed class StringData {
+    public sealed class HTML
+    {
         /// <summary>
         /// 获取网页源码中指定标签的元素的文本
         /// </summary>
@@ -696,6 +1364,547 @@
             browser.DocumentText = "";
             browser.Document.OpenNew(true).Write(Source);
             return browser.Document.GetElementById(Id).InnerText;
+        }
+    }
+
+    /// <summary>
+    /// 访问主机及其资源、服务和数据
+    /// </summary>
+    public sealed class Computer {
+        /// <summary>
+        /// 延时关闭计算机（注意会取代之前可能存在的关机计划）
+        /// </summary>
+        /// <param name="DelaySecond">延时时间（单位秒，最多可以延时10年）</param>
+        /// <returns>是否执行成功</returns>
+        public bool ShutDown(int DelaySecond = 0)
+        {
+            try
+            {
+                System.Diagnostics.Process process = new System.Diagnostics.Process();
+                process.StartInfo.FileName = "cmd.exe";
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.RedirectStandardInput = true;
+                process.StartInfo.RedirectStandardOutput = true;
+                process.StartInfo.RedirectStandardError = true;
+                process.StartInfo.CreateNoWindow = true;
+                process.Start();
+                process.StandardOutput.ReadLine();
+                process.StandardOutput.ReadLine();
+                process.StandardOutput.ReadLine();
+                process.StandardInput.WriteLine("shutdown -a >nul 2>nul");
+                process.StandardInput.WriteLine("shutdown -s -t " + DelaySecond + " >nul 2>nul");
+                process.StandardInput.WriteLine("exit");
+                process.StandardOutput.ReadToEnd();
+                process.StandardOutput.Close();
+                process.Dispose();
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 延时重启计算机（注意会取代之前可能存在的关机计划）
+        /// </summary>
+        /// <param name="DelaySecond">延时时间（单位秒，最多可以延时10年）</param>
+        /// <returns>是否执行成功</returns>
+        public bool ShutDownReboot(int DelaySecond = 0)
+        {
+            try
+            {
+                System.Diagnostics.Process process = new System.Diagnostics.Process();
+                process.StartInfo.FileName = "cmd.exe";
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.RedirectStandardInput = true;
+                process.StartInfo.RedirectStandardOutput = true;
+                process.StartInfo.RedirectStandardError = true;
+                process.StartInfo.CreateNoWindow = true;
+                process.Start();
+                process.StandardOutput.ReadLine();
+                process.StandardOutput.ReadLine();
+                process.StandardOutput.ReadLine();
+                process.StandardInput.WriteLine("shutdown -a >nul 2>nul");
+                process.StandardInput.WriteLine("shutdown -r -t " + DelaySecond + " >nul 2>nul");
+                process.StandardInput.WriteLine("exit");
+                process.StandardOutput.ReadToEnd();
+                process.StandardOutput.Close();
+                process.Dispose();
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 取消关机计划（没有关机计划时则无效果）
+        /// </summary>
+        /// <returns>是否执行成功</returns>
+        public bool ShutDownAbort()
+        {
+            try
+            {
+                System.Diagnostics.Process process = new System.Diagnostics.Process();
+                process.StartInfo.FileName = "cmd.exe";
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.RedirectStandardInput = true;
+                process.StartInfo.RedirectStandardOutput = true;
+                process.StartInfo.RedirectStandardError = true;
+                process.StartInfo.CreateNoWindow = true;
+                process.Start();
+                process.StandardOutput.ReadLine();
+                process.StandardOutput.ReadLine();
+                process.StandardOutput.ReadLine();
+                process.StandardInput.WriteLine("shutdown -a >nul 2>nul");
+                process.StandardInput.WriteLine("exit");
+                process.StandardOutput.ReadToEnd();
+                process.StandardOutput.Close();
+                process.Dispose();
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 打开指定的程序（多次调用本函数会打开程序的多个实例，新打开的程序会夺取鼠标焦点）
+        /// </summary>
+        /// <param name="TaskName">程序名称（例如"notepad"或"notepad.exe"）</param>
+        /// <returns>是否执行成功</returns>
+        public bool TaskRun( string TaskName)
+        {
+            try
+            {
+                if (!TaskName.ToLower().EndsWith(".exe"))
+                {
+                    TaskName = TaskName + ".exe";
+                }
+                System.Diagnostics.Process process = new System.Diagnostics.Process();
+                process.StartInfo.FileName = "cmd.exe";
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.RedirectStandardInput = true;
+                process.StartInfo.RedirectStandardOutput = true;
+                process.StartInfo.RedirectStandardError = true;
+                process.StartInfo.CreateNoWindow = true;
+                process.Start();
+                process.StandardOutput.ReadLine();
+                process.StandardOutput.ReadLine();
+                process.StandardOutput.ReadLine();
+                process.StandardInput.WriteLine((string)TaskName);
+                process.StandardOutput.ReadLine();
+                process.StandardOutput.Close();
+                process.Dispose();
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 打开指定的程序（多次调用本函数会打开程序的多个实例，新打开的程序不会夺取鼠标焦点）
+        /// </summary>
+        /// <param name="TaskName">程序名称（例如"notepad"或"notepad.exe"）</param>
+        /// <returns>是否执行成功</returns>
+        public bool ShellRun( string TaskName)
+        {
+            try
+            {
+                if (!TaskName.ToLower().EndsWith(".exe"))
+                {
+                    TaskName = TaskName + ".exe";
+                }
+                Microsoft.VisualBasic.Interaction.Shell(TaskName, Microsoft.VisualBasic.AppWinStyle.NormalNoFocus, false, -1);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 关闭指定的程序（程序如果有多个实例，会一并结束，多次调用本函数无特别效果）
+        /// </summary>
+        /// <param name="TaskName">程序名称（例如"notepad"或"notepad.exe"）</param>
+        /// <returns>是否执行成功</returns>
+        public bool TaskKill( string TaskName)
+        {
+            try
+            {
+                if (!TaskName.ToLower().EndsWith(".exe"))
+                {
+                    TaskName = TaskName + ".exe";
+                }
+                System.Diagnostics.Process process = new System.Diagnostics.Process();
+                process.StartInfo.FileName = "cmd.exe";
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.RedirectStandardInput = true;
+                process.StartInfo.RedirectStandardOutput = true;
+                process.StartInfo.RedirectStandardError = true;
+                process.StartInfo.CreateNoWindow = true;
+                process.Start();
+                process.StandardOutput.ReadLine();
+                process.StandardOutput.ReadLine();
+                process.StandardOutput.ReadLine();
+                process.StandardInput.WriteLine("taskkill /f /t /im " + TaskName);
+                process.StandardInput.WriteLine("exit");
+                process.StandardOutput.ReadToEnd();
+                process.StandardOutput.Close();
+                process.Dispose();
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 关闭指定的程序（程序如果有多个实例，会一并结束，多次调用本函数无特别效果）
+        /// </summary>
+        /// <param name="TaskName">程序名称（例如"notepad"或"notepad.exe"）</param>
+        /// <returns>是否执行成功</returns>
+        public bool ShellKill( string TaskName)
+        {
+            try
+            {
+                if (!TaskName.ToLower().EndsWith(".exe"))
+                {
+                    TaskName = TaskName + ".exe";
+                }
+                Microsoft.VisualBasic.Interaction.Shell("taskkill /f /t /im " + TaskName, Microsoft.VisualBasic.AppWinStyle.Hide, false, -1);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 获取屏幕截图（默认保存格式，实测1920*1080分辨率的截图文件大小为293K，文件大小中等）
+        /// </summary>
+        /// <param name="ScreenFilePath">截图文件保存路径</param>
+        /// <returns>是否执行成功</returns>
+        public bool SaveScreen(string ScreenFilePath)
+        {
+            try
+            {
+                System.Drawing.Rectangle bounds = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
+                System.Drawing.Bitmap image = new System.Drawing.Bitmap(bounds.Width, bounds.Height);
+                using (System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(image))
+                {
+                    graphics.CopyFromScreen(0, 0, bounds.Left, bounds.Top, bounds.Size);
+                }
+                image.Save(ScreenFilePath);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 获取屏幕截图（bmp格式，实测1920*1080分辨率的截图文件大小为7.91M，文件大小最大）
+        /// </summary>
+        /// <param name="ScreenFilePath">截图文件保存路径</param>
+        /// <returns>是否执行成功</returns>
+        public bool SaveScreenBmp(string ScreenFilePath)
+        {
+            try
+            {
+                System.Drawing.Rectangle bounds = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
+                System.Drawing.Bitmap image = new System.Drawing.Bitmap(bounds.Width, bounds.Height);
+                using (System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(image))
+                {
+                    graphics.CopyFromScreen(0, 0, bounds.Left, bounds.Top, bounds.Size);
+                }
+                image.Save(ScreenFilePath, System.Drawing.Imaging.ImageFormat.Bmp);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 获取屏幕截图（png格式，实测1920*1080分辨率的截图文件大小为293K，文件大小中等）
+        /// </summary>
+        /// <param name="ScreenFilePath">截图文件保存路径</param>
+        /// <returns>是否执行成功</returns>
+        public bool SaveScreenPng(string ScreenFilePath)
+        {
+            try
+            {
+                System.Drawing.Rectangle bounds = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
+                System.Drawing.Bitmap image = new System.Drawing.Bitmap(bounds.Width, bounds.Height);
+                using (System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(image))
+                {
+                    graphics.CopyFromScreen(0, 0, bounds.Left, bounds.Top, bounds.Size);
+                }
+                image.Save(ScreenFilePath, System.Drawing.Imaging.ImageFormat.Png);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 获取屏幕截图（jpeg格式，实测1920*1080分辨率的截图文件大小为212K，文件大小最小）
+        /// </summary>
+        /// <param name="ScreenFilePath">截图文件保存路径</param>
+        /// <returns>是否执行成功</returns>
+        public bool SaveScreenJpeg(string ScreenFilePath)
+        {
+            try
+            {
+                System.Drawing.Rectangle bounds = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
+                System.Drawing.Bitmap image = new System.Drawing.Bitmap(bounds.Width, bounds.Height);
+                using (System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(image))
+                {
+                    graphics.CopyFromScreen(0, 0, bounds.Left, bounds.Top, bounds.Size);
+                }
+                image.Save(ScreenFilePath, System.Drawing.Imaging.ImageFormat.Jpeg);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 获取屏幕截图（gif格式，实测1920*1080分辨率的截图文件大小为232K，文件大小较小）
+        /// </summary>
+        /// <param name="ScreenFilePath">截图文件保存路径</param>
+        /// <returns>是否执行成功</returns>
+        public bool SaveScreenGif(string ScreenFilePath)
+        {
+            try
+            {
+                System.Drawing.Rectangle bounds = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
+                System.Drawing.Bitmap image = new System.Drawing.Bitmap(bounds.Width, bounds.Height);
+                using (System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(image))
+                {
+                    graphics.CopyFromScreen(0, 0, bounds.Left, bounds.Top, bounds.Size);
+                }
+                image.Save(ScreenFilePath, System.Drawing.Imaging.ImageFormat.Gif);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 获取屏幕截图（ico格式，实测1920*1080分辨率的截图文件大小为294K，文件大小中等）
+        /// </summary>
+        /// <param name="ScreenFilePath">截图文件保存路径</param>
+        /// <returns>是否执行成功</returns>
+        public bool SaveScreenIcon(string ScreenFilePath)
+        {
+            try
+            {
+                System.Drawing.Rectangle bounds = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
+                System.Drawing.Bitmap image = new System.Drawing.Bitmap(bounds.Width, bounds.Height);
+                using (System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(image))
+                {
+                    graphics.CopyFromScreen(0, 0, bounds.Left, bounds.Top, bounds.Size);
+                }
+                image.Save(ScreenFilePath, System.Drawing.Imaging.ImageFormat.Icon);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 获取屏幕截图（tiff格式，实测1920*1080分辨率的截图文件大小为388K，文件大小较大）
+        /// </summary>
+        /// <param name="ScreenFilePath">截图文件保存路径</param>
+        /// <returns>是否执行成功</returns>
+        public bool SaveScreenTiff(string ScreenFilePath)
+        {
+            try
+            {
+                System.Drawing.Rectangle bounds = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
+                System.Drawing.Bitmap image = new System.Drawing.Bitmap(bounds.Width, bounds.Height);
+                using (System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(image))
+                {
+                    graphics.CopyFromScreen(0, 0, bounds.Left, bounds.Top, bounds.Size);
+                }
+                image.Save(ScreenFilePath, System.Drawing.Imaging.ImageFormat.Tiff);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 获取屏幕截图（exif格式，实测1920*1080分辨率的截图文件大小为294K，文件大小中等）
+        /// </summary>
+        /// <param name="ScreenFilePath">截图文件保存路径</param>
+        /// <returns>是否执行成功</returns>
+        public bool SaveScreenExif(string ScreenFilePath)
+        {
+            try
+            {
+                System.Drawing.Rectangle bounds = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
+                System.Drawing.Bitmap image = new System.Drawing.Bitmap(bounds.Width, bounds.Height);
+                using (System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(image))
+                {
+                    graphics.CopyFromScreen(0, 0, bounds.Left, bounds.Top, bounds.Size);
+                }
+                image.Save(ScreenFilePath, System.Drawing.Imaging.ImageFormat.Exif);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 获取屏幕截图（memorybmp格式，实测1920*1080分辨率的截图文件大小为294K，文件大小中等）
+        /// </summary>
+        /// <param name="ScreenFilePath">截图文件保存路径</param>
+        /// <returns>是否执行成功</returns>
+        public bool SaveScreenMemoryBmp(string ScreenFilePath)
+        {
+            try
+            {
+                System.Drawing.Rectangle bounds = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
+                System.Drawing.Bitmap image = new System.Drawing.Bitmap(bounds.Width, bounds.Height);
+                using (System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(image))
+                {
+                    graphics.CopyFromScreen(0, 0, bounds.Left, bounds.Top, bounds.Size);
+                }
+                image.Save(ScreenFilePath, System.Drawing.Imaging.ImageFormat.MemoryBmp);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 获取屏幕截图（emf格式，实测1920*1080分辨率的截图文件大小为293K，文件大小中等）
+        /// </summary>
+        /// <param name="ScreenFilePath">截图文件保存路径</param>
+        /// <returns>是否执行成功</returns>
+        public bool SaveScreenEmf(string ScreenFilePath)
+        {
+            try
+            {
+                System.Drawing.Rectangle bounds = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
+                System.Drawing.Bitmap image = new System.Drawing.Bitmap(bounds.Width, bounds.Height);
+                using (System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(image))
+                {
+                    graphics.CopyFromScreen(0, 0, bounds.Left, bounds.Top, bounds.Size);
+                }
+                image.Save(ScreenFilePath, System.Drawing.Imaging.ImageFormat.Emf);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 获取屏幕截图（wmf格式，实测1920*1080分辨率的截图文件大小为293K，文件大小中等）
+        /// </summary>
+        /// <param name="ScreenFilePath">截图文件保存路径</param>
+        /// <returns>是否执行成功</returns>
+        public bool SaveScreenWmf(string ScreenFilePath)
+        {
+            try
+            {
+                System.Drawing.Rectangle bounds = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
+                System.Drawing.Bitmap image = new System.Drawing.Bitmap(bounds.Width, bounds.Height);
+                using (System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(image))
+                {
+                    graphics.CopyFromScreen(0, 0, bounds.Left, bounds.Top, bounds.Size);
+                }
+                image.Save(ScreenFilePath, System.Drawing.Imaging.ImageFormat.Wmf);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 获取屏幕缩略图（默认保存格式，实测1920*1080【长宽都只保留50%】分辨率，缩略图文件大小为157K，文件大小中等）
+        /// </summary>
+        /// <param name="ScreenFilePath">截图文件保存路径</param>
+        /// <returns>是否执行成功</returns>
+        public bool SaveScreenThumbnail(string ScreenFilePath)
+        {
+            try
+            {
+                System.Drawing.Rectangle bounds = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
+                System.Drawing.Bitmap image = new System.Drawing.Bitmap(bounds.Width, bounds.Height);
+                using (System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(image))
+                {
+                    graphics.CopyFromScreen(0, 0, bounds.Left, bounds.Top, bounds.Size);
+                }
+                System.IntPtr callbackData = new System.IntPtr(0);
+                image.GetThumbnailImage(bounds.Width / 2, bounds.Height / 2, null, callbackData).Save(ScreenFilePath);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 获取屏幕缩略图（png格式，实测1920*1080【长宽都只保留50%】分辨率，缩略图文件大小为157K，文件大小中等）
+        /// </summary>
+        /// <param name="ScreenFilePath">截图文件保存路径</param>
+        /// <returns>是否执行成功</returns>
+        public bool SaveScreenPngThumbnail(string ScreenFilePath)
+        {
+            try
+            {
+                System.Drawing.Rectangle bounds = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
+                System.Drawing.Bitmap image = new System.Drawing.Bitmap(bounds.Width, bounds.Height);
+                using (System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(image))
+                {
+                    graphics.CopyFromScreen(0, 0, bounds.Left, bounds.Top, bounds.Size);
+                }
+                System.IntPtr callbackData = new System.IntPtr(0);
+                image.GetThumbnailImage(bounds.Width / 2, bounds.Height / 2, null, callbackData).Save(ScreenFilePath, System.Drawing.Imaging.ImageFormat.Png);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 获取屏幕缩略图（jpeg格式，实测1920*1080【长宽都只保留50%】分辨率，缩略图文件大小为64K，文件大小最小）
+        /// </summary>
+        /// <param name="ScreenFilePath">截图文件保存路径</param>
+        /// <returns>是否执行成功</returns>
+        public bool SaveScreenJpegThumbnail(string ScreenFilePath)
+        {
+            try
+            {
+                System.Drawing.Rectangle bounds = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
+                System.Drawing.Bitmap image = new System.Drawing.Bitmap(bounds.Width, bounds.Height);
+                using (System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(image))
+                {
+                    graphics.CopyFromScreen(0, 0, bounds.Left, bounds.Top, bounds.Size);
+                }
+                System.IntPtr callbackData = new System.IntPtr(0);
+                image.GetThumbnailImage(bounds.Width / 2, bounds.Height / 2, null, callbackData).Save(ScreenFilePath, System.Drawing.Imaging.ImageFormat.Jpeg);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
         }
     }
 }
