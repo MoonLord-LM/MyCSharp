@@ -1370,13 +1370,14 @@
     /// <summary>
     /// 访问主机及其资源、服务和数据
     /// </summary>
-    public sealed class Computer {
+    public sealed class Computer
+    {
         /// <summary>
         /// 延时关闭计算机（注意会取代之前可能存在的关机计划）
         /// </summary>
         /// <param name="DelaySecond">延时时间（单位秒，最多可以延时10年）</param>
         /// <returns>是否执行成功</returns>
-        public bool ShutDown(int DelaySecond = 0)
+        public static bool ShutDown(int DelaySecond = 0)
         {
             try
             {
@@ -1409,7 +1410,7 @@
         /// </summary>
         /// <param name="DelaySecond">延时时间（单位秒，最多可以延时10年）</param>
         /// <returns>是否执行成功</returns>
-        public bool ShutDownReboot(int DelaySecond = 0)
+        public static bool ShutDownReboot(int DelaySecond = 0)
         {
             try
             {
@@ -1441,7 +1442,7 @@
         /// 取消关机计划（没有关机计划时则无效果）
         /// </summary>
         /// <returns>是否执行成功</returns>
-        public bool ShutDownAbort()
+        public static bool ShutDownAbort()
         {
             try
             {
@@ -1473,7 +1474,7 @@
         /// </summary>
         /// <param name="TaskName">程序名称（例如"notepad"或"notepad.exe"）</param>
         /// <returns>是否执行成功</returns>
-        public bool TaskRun( string TaskName)
+        public static bool TaskRun(string TaskName)
         {
             try
             {
@@ -1508,7 +1509,7 @@
         /// </summary>
         /// <param name="TaskName">程序名称（例如"notepad"或"notepad.exe"）</param>
         /// <returns>是否执行成功</returns>
-        public bool ShellRun( string TaskName)
+        public static bool ShellRun(string TaskName)
         {
             try
             {
@@ -1529,7 +1530,7 @@
         /// </summary>
         /// <param name="TaskName">程序名称（例如"notepad"或"notepad.exe"）</param>
         /// <returns>是否执行成功</returns>
-        public bool TaskKill( string TaskName)
+        public static bool TaskKill(string TaskName)
         {
             try
             {
@@ -1565,7 +1566,7 @@
         /// </summary>
         /// <param name="TaskName">程序名称（例如"notepad"或"notepad.exe"）</param>
         /// <returns>是否执行成功</returns>
-        public bool ShellKill( string TaskName)
+        public static bool ShellKill(string TaskName)
         {
             try
             {
@@ -1586,7 +1587,7 @@
         /// </summary>
         /// <param name="ScreenFilePath">截图文件保存路径</param>
         /// <returns>是否执行成功</returns>
-        public bool SaveScreen(string ScreenFilePath)
+        public static bool SaveScreen(string ScreenFilePath)
         {
             try
             {
@@ -1609,7 +1610,7 @@
         /// </summary>
         /// <param name="ScreenFilePath">截图文件保存路径</param>
         /// <returns>是否执行成功</returns>
-        public bool SaveScreenBmp(string ScreenFilePath)
+        public static bool SaveScreenBmp(string ScreenFilePath)
         {
             try
             {
@@ -1632,7 +1633,7 @@
         /// </summary>
         /// <param name="ScreenFilePath">截图文件保存路径</param>
         /// <returns>是否执行成功</returns>
-        public bool SaveScreenPng(string ScreenFilePath)
+        public static bool SaveScreenPng(string ScreenFilePath)
         {
             try
             {
@@ -1655,7 +1656,7 @@
         /// </summary>
         /// <param name="ScreenFilePath">截图文件保存路径</param>
         /// <returns>是否执行成功</returns>
-        public bool SaveScreenJpeg(string ScreenFilePath)
+        public static bool SaveScreenJpeg(string ScreenFilePath)
         {
             try
             {
@@ -1678,7 +1679,7 @@
         /// </summary>
         /// <param name="ScreenFilePath">截图文件保存路径</param>
         /// <returns>是否执行成功</returns>
-        public bool SaveScreenGif(string ScreenFilePath)
+        public static bool SaveScreenGif(string ScreenFilePath)
         {
             try
             {
@@ -1701,7 +1702,7 @@
         /// </summary>
         /// <param name="ScreenFilePath">截图文件保存路径</param>
         /// <returns>是否执行成功</returns>
-        public bool SaveScreenIcon(string ScreenFilePath)
+        public static bool SaveScreenIcon(string ScreenFilePath)
         {
             try
             {
@@ -1724,7 +1725,7 @@
         /// </summary>
         /// <param name="ScreenFilePath">截图文件保存路径</param>
         /// <returns>是否执行成功</returns>
-        public bool SaveScreenTiff(string ScreenFilePath)
+        public static bool SaveScreenTiff(string ScreenFilePath)
         {
             try
             {
@@ -1747,7 +1748,7 @@
         /// </summary>
         /// <param name="ScreenFilePath">截图文件保存路径</param>
         /// <returns>是否执行成功</returns>
-        public bool SaveScreenExif(string ScreenFilePath)
+        public static bool SaveScreenExif(string ScreenFilePath)
         {
             try
             {
@@ -1770,7 +1771,7 @@
         /// </summary>
         /// <param name="ScreenFilePath">截图文件保存路径</param>
         /// <returns>是否执行成功</returns>
-        public bool SaveScreenMemoryBmp(string ScreenFilePath)
+        public static bool SaveScreenMemoryBmp(string ScreenFilePath)
         {
             try
             {
@@ -1793,7 +1794,7 @@
         /// </summary>
         /// <param name="ScreenFilePath">截图文件保存路径</param>
         /// <returns>是否执行成功</returns>
-        public bool SaveScreenEmf(string ScreenFilePath)
+        public static bool SaveScreenEmf(string ScreenFilePath)
         {
             try
             {
@@ -1816,7 +1817,7 @@
         /// </summary>
         /// <param name="ScreenFilePath">截图文件保存路径</param>
         /// <returns>是否执行成功</returns>
-        public bool SaveScreenWmf(string ScreenFilePath)
+        public static bool SaveScreenWmf(string ScreenFilePath)
         {
             try
             {
@@ -1839,7 +1840,7 @@
         /// </summary>
         /// <param name="ScreenFilePath">截图文件保存路径</param>
         /// <returns>是否执行成功</returns>
-        public bool SaveScreenThumbnail(string ScreenFilePath)
+        public static bool SaveScreenThumbnail(string ScreenFilePath)
         {
             try
             {
@@ -1863,7 +1864,7 @@
         /// </summary>
         /// <param name="ScreenFilePath">截图文件保存路径</param>
         /// <returns>是否执行成功</returns>
-        public bool SaveScreenPngThumbnail(string ScreenFilePath)
+        public static bool SaveScreenPngThumbnail(string ScreenFilePath)
         {
             try
             {
@@ -1887,7 +1888,7 @@
         /// </summary>
         /// <param name="ScreenFilePath">截图文件保存路径</param>
         /// <returns>是否执行成功</returns>
-        public bool SaveScreenJpegThumbnail(string ScreenFilePath)
+        public static bool SaveScreenJpegThumbnail(string ScreenFilePath)
         {
             try
             {
@@ -1899,6 +1900,480 @@
                 }
                 System.IntPtr callbackData = new System.IntPtr(0);
                 image.GetThumbnailImage(bounds.Width / 2, bounds.Height / 2, null, callbackData).Save(ScreenFilePath, System.Drawing.Imaging.ImageFormat.Jpeg);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 发送按键（使用Microsoft.VisualBasic.Devices.Computer类的Keyboard.SendKeys方式）
+        /// </summary>
+        /// <param name="Keys">按键字符串（参照SendKeys的规则）</param>
+        /// <returns>是否执行成功</returns>
+        public static bool SendKeys(string Keys)
+        {
+            try
+            {
+                (new Microsoft.VisualBasic.Devices.Computer()).Keyboard.SendKeys(Keys);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 发送按键（使用Wscript.Shell的SendKeys方式）
+        /// </summary>
+        /// <param name="Keys">按键字符串（参照SendKeys的规则）</param>
+        /// <returns>是否执行成功</returns>
+        public static bool SendKeysWshShell(string Keys)
+        {
+            try
+            {
+                Microsoft.VisualBasic.CompilerServices.NewLateBinding.LateCall(Microsoft.VisualBasic.Interaction.CreateObject("Wscript.Shell", ""), null, "SendKeys", new object[] { Keys }, null, null, new bool[] { true }, true);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 发送按键（使用System.Windows.Forms.SendKeys.Send方式）
+        /// </summary>
+        /// <param name="Keys">按键字符串（参照SendKeys的规则）</param>
+        /// <returns>是否执行成功</returns>
+        public static bool SendKeysWinForm(string Keys)
+        {
+            try
+            {
+                System.Windows.Forms.SendKeys.Send(Keys);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        [System.Runtime.InteropServices.DllImport("user32.dll", CharSet = System.Runtime.InteropServices.CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
+        private static extern void keybd_event(byte bVk, byte bScan, long dwFlags, long dwExtraInfo);
+        /// <summary>
+        /// 按下单个按键（并保持按下状态直到下次按同一个键，连续调用本函数，可执行组合键）
+        /// </summary>
+        /// <param name="Key">键位</param>
+        /// <returns>是否执行成功</returns>
+        public static bool PressKey(System.Windows.Forms.Keys Key)
+        {
+            try
+            {
+                keybd_event((byte)Key, 0, 0L, 0L);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 按下单个按键（并保持按下状态直到下次按同一个键，连续调用本函数，可执行组合键）
+        /// </summary>
+        /// <param name="KeyChar">键位</param>
+        /// <returns>是否执行成功</returns>
+        public static bool PressKey(char KeyChar)
+        {
+            try
+            {
+                keybd_event((byte)Microsoft.VisualBasic.Strings.Asc(KeyChar), 0, 0L, 0L);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 按下多个按键（并保持按下状态直到下次按同一个键，连续调用本函数，可执行组合键）
+        /// </summary>
+        /// <param name="KeyString">键位（只允许字母和数字）</param>
+        /// <returns>是否执行成功</returns>
+        public static bool PressKey(string KeyString)
+        {
+            try
+            {
+                foreach (char ch in KeyString.ToCharArray())
+                {
+                    keybd_event((byte)Microsoft.VisualBasic.Strings.Asc(ch), 0, 0L, 0L);
+                }
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 释放单个按键（取消按下状态）
+        /// </summary>
+        /// <param name="Key">键位</param>
+        /// <returns>是否执行成功</returns>
+        public static bool ReleaseKey(System.Windows.Forms.Keys Key)
+        {
+            try
+            {
+                keybd_event((byte)Key, 0, 2L, 0L);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 释放单个按键（取消按下状态）
+        /// </summary>
+        /// <param name="KeyChar">键位</param>
+        /// <returns>是否执行成功</returns>
+        public static bool ReleaseKey(char KeyChar)
+        {
+            try
+            {
+                keybd_event((byte)Microsoft.VisualBasic.Strings.Asc(KeyChar), 0, 2L, 0L);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 释放多个按键（取消按下状态）
+        /// </summary>
+        /// <param name="KeyString">键位（只允许字母和数字）</param>
+        /// <returns>是否执行成功</returns>
+        public static bool ReleaseKey(string KeyString)
+        {
+            try
+            {
+                foreach (char ch in KeyString.ToCharArray())
+                {
+                    keybd_event((byte)Microsoft.VisualBasic.Strings.Asc(ch), 0, 2L, 0L);
+                }
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        [System.Runtime.InteropServices.DllImport("user32.dll", CharSet = System.Runtime.InteropServices.CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
+        private static extern bool mouse_event(MouseEvent dwFlags, int dX, int dY, int dwData, int dwExtraInfo);
+        private enum MouseEvent
+        {
+            AbsoluteLocation = 0x8000,
+            AbsoluteScale = 0xffff,
+            LeftButtonDown = 2,
+            LeftButtonUp = 4,
+            MiddleButtonDown = 0x20,
+            MiddleButtonUp = 0x40,
+            Move = 1,
+            RightButtonDown = 8,
+            RightButtonUp = 0x10,
+            Wheel = 0x800
+        }
+        /// <summary>
+        /// 将鼠标位置移动一段距离（移动距离单位为像素）
+        /// </summary>
+        /// <param name="x">横向距离</param>
+        /// <param name="y">纵向距离</param>
+        /// <returns>是否执行成功</returns>
+        public static bool MouseMoveByPixel(int x = 0, int y = 0)
+        {
+            try
+            {
+                mouse_event(MouseEvent.Move, x, y, 0, 0);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 将鼠标位置移动一段距离（移动距离单位为屏幕百分比）
+        /// </summary>
+        /// <param name="x">横向距离</param>
+        /// <param name="y">纵向距离</param>
+        /// <returns>是否执行成功</returns>
+        public static bool MouseMoveByPercent(double x = 0.0, double y = 0.0)
+        {
+            try
+            {
+                mouse_event(MouseEvent.Move, (int)(x * System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width), (int)(y * System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height), 0, 0);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 移动鼠标到指定位置（定位单位为像素）
+        /// </summary>
+        /// <param name="x">横坐标</param>
+        /// <param name="y">纵坐标</param>
+        /// <returns>是否执行成功</returns>
+        public static bool MouseMoveToPixel(int x = 0, int y = 0)
+        {
+            try
+            {
+                mouse_event(MouseEvent.AbsoluteLocation | MouseEvent.Move, (int)((double)x / (double)System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width * 65535), (int)((double)y / (double)System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height * 65535), 0, 0);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 移动鼠标到指定位置（定位单位为屏幕百分比）
+        /// </summary>
+        /// <param name="x">横坐标</param>
+        /// <param name="y">纵坐标</param>
+        /// <returns>是否执行成功</returns>
+        public static bool MouseMoveToPercent(double x = 0.0, double y = 0.0)
+        {
+            try
+            {
+                mouse_event(MouseEvent.AbsoluteLocation | MouseEvent.Move, (int)(x * 65535), (int)(y * 65535), 0, 0);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 按下鼠标左键（保持按下状态）
+        /// </summary>
+        /// <returns>是否执行成功</returns>
+        public static bool MouseLeftDown()
+        {
+            try
+            {
+                mouse_event(MouseEvent.LeftButtonDown, 0, 0, 0, 0);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 释放鼠标左键（取消按下状态）
+        /// </summary>
+        /// <returns>是否执行成功</returns>
+        public static bool MouseLeftUp()
+        {
+            try
+            {
+                mouse_event(MouseEvent.LeftButtonUp, 0, 0, 0, 0);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 鼠标左键单击
+        /// </summary>
+        /// <returns>是否执行成功</returns>
+        public static bool MouseLeftClick()
+        {
+            try
+            {
+                mouse_event(MouseEvent.LeftButtonUp | MouseEvent.LeftButtonDown, 0, 0, 0, 0);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 鼠标左键双击
+        /// </summary>
+        /// <returns>是否执行成功</returns>
+        public static bool MouseLeftDoubleClick()
+        {
+            try
+            {
+                mouse_event(MouseEvent.LeftButtonUp | MouseEvent.LeftButtonDown, 0, 0, 0, 0);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 按下鼠标中键（保持按下状态）
+        /// </summary>
+        /// <returns>是否执行成功</returns>
+        public static bool MouseMiddleDown()
+        {
+            try
+            {
+                mouse_event(MouseEvent.MiddleButtonDown, 0, 0, 0, 0);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 释放鼠标中键（取消按下状态）
+        /// </summary>
+        /// <returns>是否执行成功</returns>
+        public static bool MouseMiddleUp()
+        {
+            try
+            {
+                mouse_event(MouseEvent.MiddleButtonUp, 0, 0, 0, 0);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 鼠标中键单击
+        /// </summary>
+        /// <returns>是否执行成功</returns>
+        public static bool MouseMiddleClick()
+        {
+            try
+            {
+                mouse_event(MouseEvent.MiddleButtonUp | MouseEvent.MiddleButtonDown, 0, 0, 0, 0);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 鼠标中键双击
+        /// </summary>
+        /// <returns>是否执行成功</returns>
+        public static bool MouseMiddleDoubleClick()
+        {
+            try
+            {
+                mouse_event(MouseEvent.MiddleButtonUp | MouseEvent.MiddleButtonDown, 0, 0, 0, 0);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 按下鼠标右键（保持按下状态）
+        /// </summary>
+        /// <returns>是否执行成功</returns>
+        public static bool MouseRightDown()
+        {
+            try
+            {
+                mouse_event(MouseEvent.RightButtonDown, 0, 0, 0, 0);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 释放鼠标右键（取消按下状态）
+        /// </summary>
+        /// <returns>是否执行成功</returns>
+        public static bool MouseRightUp()
+        {
+            try
+            {
+                mouse_event(MouseEvent.RightButtonUp, 0, 0, 0, 0);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 鼠标右键单击
+        /// </summary>
+        /// <returns>是否执行成功</returns>
+        public static bool MouseRightClick()
+        {
+            try
+            {
+                mouse_event(MouseEvent.RightButtonUp | MouseEvent.RightButtonDown, 0, 0, 0, 0);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 鼠标右键双击
+        /// </summary>
+        /// <returns>是否执行成功</returns>
+        public static bool MouseRightDoubleClick()
+        {
+            try
+            {
+                mouse_event(MouseEvent.RightButtonUp | MouseEvent.RightButtonDown, 0, 0, 0, 0);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 鼠标滚轮向上滚动（滚动距离单位为像素）
+        /// </summary>
+        /// <param name="ScrollValue">滚动距离</param>
+        /// <returns>是否执行成功</returns>
+        public static bool MouseWheelUp(int ScrollValue)
+        {
+            try
+            {
+                mouse_event(MouseEvent.Wheel, 0, 0, ScrollValue, 0);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 鼠标滚轮向下滚动（滚动距离单位为像素）
+        /// </summary>
+        /// <param name="ScrollValue">滚动距离</param>
+        /// <returns>是否执行成功</returns>
+        public static bool MouseWheelDown(int ScrollValue)
+        {
+            try
+            {
+                mouse_event(MouseEvent.Wheel, 0, 0, 0 - ScrollValue, 0);
                 return true;
             }
             catch (System.Exception)

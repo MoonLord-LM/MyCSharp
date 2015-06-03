@@ -16,7 +16,9 @@ namespace MyCSharp
 
         private void FormMain_Load(object sender, EventArgs e)
         {
-
+            //My.Computer.SendKeys("^+{ESC}");
+            //My.Computer.MouseMoveByPercent(1,1);
+            //My.Computer.MouseLeftDoubleClick();
         }
     }
 }
