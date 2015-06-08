@@ -2381,5 +2381,79 @@
                 return false;
             }
         }
+        [System.Runtime.InteropServices.DllImport("user32.dll", CharSet = System.Runtime.InteropServices.CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
+        private static extern int GetAsyncKeyState(long vKey);
+        /// <summary>
+        /// 判断物理键盘设备上的单个键位是否正处于被按下的状态（侦测键盘的硬件中断）
+        /// </summary>
+        /// <param name="Key">键位</param>
+        /// <returns>是否按下</returns>
+        public static bool KeyBeingPressed(System.Windows.Forms.Keys Key)
+        {
+            int asyncKeyState = GetAsyncKeyState((long)Key);
+            return ((asyncKeyState == -32768) | (asyncKeyState == -32767));
+        }
+        /// <summary>
+        /// 判断物理键盘设备上的单个键位是否正处于被按下的状态（侦测键盘的硬件中断）
+        /// </summary>
+        /// <param name="KeyChar">键位</param>
+        /// <returns>是否按下</returns>
+        public static bool KeyBeingPressed(char KeyChar)
+        {
+            int asyncKeyState = GetAsyncKeyState((long)Microsoft.VisualBasic.Strings.Asc(KeyChar));
+            return ((asyncKeyState == -32768) | (asyncKeyState == -32767));
+        }
+        /// <summary>
+        /// 判断物理键盘设备上的多个键位是否都处于被按下的状态（侦测键盘的硬件中断）
+        /// </summary>
+        /// <param name="KeyString">键位（只允许字母和数字）</param>
+        /// <returns>是否按下</returns>
+        public static bool KeyBeingPressed(string KeyString)
+        {
+            foreach (char ch in KeyString.ToCharArray())
+            {
+                int asyncKeyState = GetAsyncKeyState((long)Microsoft.VisualBasic.Strings.Asc(ch));
+                if ((asyncKeyState != -32768) & (asyncKeyState != -32767))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        [System.Runtime.InteropServices.DllImport("user32", EntryPoint = "FindWindowA", CharSet = System.Runtime.InteropServices.CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
+        private static extern System.IntPtr FindWindow(ref string lpClassName, ref string lpWindowName);
+        [System.Runtime.InteropServices.DllImport("user32", CharSet = System.Runtime.InteropServices.CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
+        private static extern System.IntPtr GetWindowRect(System.IntPtr hwnd, ref RECT lpRect);
+        private struct RECT
+        {
+            public int Left;
+            public int Top;
+            public int Right;
+            public int Bottom;
+        }
+        /// <summary>
+        /// 根据窗口标题获取窗口的大小和位置（当多个标题相同的窗体存在时，默认获取上一个活动的窗体）
+        /// </summary>
+        /// <param name="WindowTitle">窗口标题（字符串不能有任何差别）</param>
+        /// <returns>窗口的大小和位置（System.Drawing.Rectangle）</returns>
+        public static System.Drawing.Rectangle FindWindow(string WindowTitle)
+        {
+            RECT rect = new RECT();
+            string lpClassName = null;
+            GetWindowRect(FindWindow(ref lpClassName, ref WindowTitle), ref rect);
+            return new System.Drawing.Rectangle(rect.Left, rect.Top, rect.Right - rect.Left, rect.Bottom - rect.Top);
+        }
+        [System.Runtime.InteropServices.DllImport("user32", CharSet = System.Runtime.InteropServices.CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
+        private static extern System.IntPtr GetForegroundWindow();
+        /// <summary>
+        /// 获取当前的焦点窗口的大小和位置
+        /// </summary>
+        /// <returns>窗口的大小和位置（System.Drawing.Rectangle）</returns>
+        public static System.Drawing.Rectangle FindFocusWindow()
+        {
+            RECT rect = new RECT();
+            GetWindowRect(GetForegroundWindow(), ref rect);
+            return new System.Drawing.Rectangle(rect.Left, rect.Top, rect.Right - rect.Left, rect.Bottom - rect.Top);
+        }
     }
 }

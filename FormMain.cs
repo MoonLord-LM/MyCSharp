@@ -20,5 +20,13 @@ namespace MyCSharp
             //My.Computer.MouseMoveByPercent(1,1);
             //My.Computer.MouseLeftDoubleClick();
         }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            Console.Write(My.Computer.FindFocusWindow().X);
+            Console.Write("--");
+            Console.Write(My.Computer.FindFocusWindow().Y);
+            Console.Write("\r\n");
+        }
     }
 }
