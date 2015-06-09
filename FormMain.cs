@@ -19,6 +19,8 @@ namespace MyCSharp
             //My.Computer.SendKeys("^+{ESC}");
             //My.Computer.MouseMoveByPercent(1,1);
             //My.Computer.MouseLeftDoubleClick();
+            object A = new string[] {"abc","123" };
+            MessageBox.Show(My.StringData.ChangeObjectToJson(ref A));
         }
 
         private void timer1_Tick(object sender, EventArgs e)

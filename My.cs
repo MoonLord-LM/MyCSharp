@@ -1326,6 +1326,65 @@
             }
             return list.ToArray();
         }
+        /// <summary>
+        /// 将一个对象转换为JSON字符串（必须为常见类型的数组对象，或是含有若干属性的自定义类的对象）
+        /// </summary>
+        /// <param name="JsonObject">含有JSON信息的对象（会识别是否为数组、会识别自定义的类的属性、会进行基本的字符串转义以保证满足JSON格式）</param>
+        /// <returns>JSON字符串</returns>
+        public static string ChangeObjectToJson(ref object JsonObject)
+        {
+            if ((JsonObject.GetType().IsPrimitive | (JsonObject.GetType() == typeof(string))) | (JsonObject.GetType() == typeof(System.DateTime)))
+            {
+                return ("\"" + JsonObject.ToString().Replace("\r", @"\r").Replace("\n", @"\n").Replace("\"", "\\\"") + "\"");
+            }
+            if ((JsonObject.GetType().IsGenericType | JsonObject.GetType().IsArray) | (JsonObject.GetType() == typeof(System.Collections.ArrayList)))
+            {
+                System.Collections.IEnumerator enumerator;
+                System.Text.StringBuilder builder = new System.Text.StringBuilder("[");
+                enumerator = ((System.Collections.IEnumerable)JsonObject).GetEnumerator();
+                while (enumerator.MoveNext())
+                {
+                    object objectValue = enumerator.Current;
+                    builder.Append(ChangeObjectToJson(ref objectValue) + ",");
+                }
+                if (builder.Length > 1)
+                {
+                    builder.Remove(builder.Length - 1, 1);
+                }
+                builder.Append("]");
+                return builder.ToString();
+            }
+            System.Text.StringBuilder builder2 = new System.Text.StringBuilder("{");
+            foreach (System.Reflection.PropertyInfo info in JsonObject.GetType().GetProperties())
+            {
+                builder2.Append("\"" + info.Name + "\":");
+                object obj3 = info.GetValue(System.Runtime.CompilerServices.RuntimeHelpers.GetObjectValue(JsonObject), null);
+                if (obj3 == null)
+                {
+                    builder2.Append("null,");
+                }
+                else
+                {
+                    System.Type type = obj3.GetType();
+                    if ((type.IsPrimitive | (type == typeof(string))) | (type == typeof(System.DateTime)))
+                    {
+                        builder2.Append("\"" + info.GetValue(JsonObject, null).ToString().Replace("\r", @"\r").Replace("\n", @"\n").Replace("\"", "\\\"") + "\",");
+                    }
+                    else
+                    {
+                        object obj4 = info.GetValue(JsonObject, null);
+                        builder2.Append(ChangeObjectToJson(ref obj4) + ",");
+                    }
+                }
+            }
+            if (builder2.Length > 1)
+            {
+                builder2.Remove(builder2.Length - 1, 1);
+            }
+            builder2.Append("}");
+            return builder2.ToString();
+        }
+
     }
 
     /// <summary>
@@ -2455,5 +2514,107 @@
             GetWindowRect(GetForegroundWindow(), ref rect);
             return new System.Drawing.Rectangle(rect.Left, rect.Top, rect.Right - rect.Left, rect.Bottom - rect.Top);
         }
+        [System.Runtime.InteropServices.DllImport("user32", CharSet = System.Runtime.InteropServices.CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
+        private static extern bool MoveWindow(System.IntPtr hwnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
+        /// <summary>
+        /// 根据窗口标题修改窗口的位置（当多个标题相同的窗体存在时，默认修改上一个活动的窗体；注意可能会把窗口移动到用户鼠标无法触及的位置）
+        /// </summary>
+        /// <param name="WindowTitle">窗口标题（字符串不能有任何差别）</param>
+        /// <param name="X">Left属性</param>
+        /// <param name="Y">Top属性</param>
+        /// <returns>是否修改成功</returns>
+        public static bool MoveWindow(string WindowTitle, int X = 0, int Y = 0)
+        {
+            RECT rect = new RECT();
+            string lpClassName = null;
+            System.IntPtr hwnd = FindWindow(ref lpClassName, ref WindowTitle);
+            GetWindowRect(hwnd, ref rect);
+            if (hwnd == System.IntPtr.Zero)
+            {
+                return false;
+            }
+            MoveWindow(hwnd, rect.Left + X, rect.Top + Y, rect.Right - rect.Left, rect.Bottom - rect.Top, true);
+            return true;
+        }
+        /// <summary>
+        /// 根据窗口标题修改窗口的大小（当多个标题相同的窗体存在时，默认修改上一个活动的窗体；注意某些程序的窗口大小，实际上不能被修改的太小）
+        /// </summary>
+        /// <param name="WindowTitle">窗口标题（字符串不能有任何差别）</param>
+        /// <param name="Width">宽度</param>
+        /// <param name="Height">高度</param>
+        /// <returns>是否修改成功</returns>
+        public static bool ResizeWindow(string WindowTitle, int Width = 0, int Height = 0)
+        {
+            RECT rect = new RECT();
+            string lpClassName = null;
+            System.IntPtr hwnd = FindWindow(ref lpClassName, ref WindowTitle);
+            GetWindowRect(hwnd, ref rect);
+            if (hwnd == System.IntPtr.Zero)
+            {
+                return false;
+            }
+            MoveWindow(hwnd, rect.Left, rect.Top, Width, Height, true);
+            return true;
+        }
+        /// <summary>
+        /// 将鼠标位置移动一段距离（移动距离单位为像素，使用System.Windows.Forms.Cursor）
+        /// </summary>
+        /// <param name="x">横向距离</param>
+        /// <param name="y">纵向距离</param>
+        /// <returns>是否执行成功</returns>
+        public static bool MouseMove(int x, int y)
+        {
+            try
+            {
+                System.Drawing.Point position = System.Windows.Forms.Cursor.Position;
+                position.Offset(x, y);
+                System.Windows.Forms.Cursor.Position = position;
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 获取鼠标的当前位置（System.Windows.Forms.Cursor.Position）
+        /// </summary>
+        /// <returns>位置坐标（System.Drawing.Point）</returns>
+        public static System.Drawing.Point MousePosition()
+        {
+            return System.Windows.Forms.Cursor.Position;
+        }
+        /// <summary>
+        /// 获取鼠标的当前位置的屏幕颜色
+        /// </summary>
+        /// <returns>颜色值（System.Drawing.Color）</returns>
+        public static System.Drawing.Color MousePositionColor()
+        {
+            System.Drawing.Rectangle bounds = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
+            System.Drawing.Bitmap image = new System.Drawing.Bitmap(bounds.Width, bounds.Height);
+            using (System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(image))
+            {
+                graphics.CopyFromScreen(0, 0, bounds.Left, bounds.Top, bounds.Size);
+            }
+            return image.GetPixel(System.Windows.Forms.Cursor.Position.X, System.Windows.Forms.Cursor.Position.Y);
+        }
+        /// <summary>
+        /// 强制把所有运行的程序窗口最小化，显示桌面（效果类似Win7系统鼠标点击屏幕右下角）
+        /// </summary>
+        /// <returns>是否执行成功</returns>
+        public static bool ShowDesktop()
+        {
+            try
+            {
+                Microsoft.VisualBasic.CompilerServices.NewLateBinding.LateCall(Microsoft.VisualBasic.Interaction.CreateObject("Shell.Application", ""), null, "ToggleDesktop", new object[0], null, null, null, true);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+
+
     }
 }
