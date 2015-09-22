@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace MyCSharp
 {
@@ -21,6 +22,12 @@ namespace MyCSharp
             //My.Computer.MouseLeftDoubleClick();
             object A = new string[] {"abc","123" };
             MessageBox.Show(My.StringData.ChangeObjectToJson(ref A));
+            Thread t = new Thread((ThreadStart)delegate
+            {
+                //throw new Exception("非窗体线程异常");
+            });
+            t.Start();
+            throw new Exception("窗体线程异常");
         }
 
         private void timer1_Tick(object sender, EventArgs e)
