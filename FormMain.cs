@@ -8,8 +8,14 @@ using System.Threading;
 
 namespace MyCSharp
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public partial class FormMain : Form
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public FormMain()
         {
             InitializeComponent();
@@ -27,6 +33,8 @@ namespace MyCSharp
                 //throw new Exception("非窗体线程异常");
             });
             t.Start();
+            //throw new Exception(My.Security.Base64_Encode("窗体线程异常"));
+            throw new Exception(My.Security.URL_Decode("微软.NET"));
             throw new Exception("窗体线程异常");
         }
 

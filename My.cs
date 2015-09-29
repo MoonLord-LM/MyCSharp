@@ -10,7 +10,55 @@
     public sealed class Security
     {
         /// <summary>
-        /// Base64加密算法
+        /// URL编码（例如，"微软.NET"的编码结果为"%e5%be%ae%e8%bd%af.NET"）
+        /// </summary>
+        /// <param name="Source">要加密的字符串</param>
+        /// <param name="ToUpper">是否将结果转换为大写字母形式</param>
+        /// <returns>加密后的结果字符串</returns>
+        public static string URL_Encode(string Source ,bool ToUpper = false)
+        {
+            if (ToUpper)
+            {
+                return System.Web.HttpUtility.UrlEncode(Source, System.Text.Encoding.UTF8).ToUpper();
+            }
+            return System.Web.HttpUtility.UrlEncode(Source, System.Text.Encoding.UTF8);
+        }
+        /// <summary>
+        /// URL编码（例如，"微软.NET"的编码结果为"%e5%be%ae%e8%bd%af.NET"）
+        /// </summary>
+        /// <param name="Source">要加密的字符串</param>
+        /// <param name="Encoding">使用的编码格式（默认UTF-8）</param>
+        /// <param name="ToUpper">是否将结果转换为大写字母形式</param>
+        /// <returns>加密后的结果字符串</returns>
+        public static string URL_Encode(string Source, System.Text.Encoding Encoding, bool ToUpper = false)
+        {
+            if (ToUpper)
+            {
+                return System.Web.HttpUtility.UrlEncode(Source, Encoding).ToUpper();
+            }
+            return System.Web.HttpUtility.UrlEncode(Source, Encoding);
+        }
+        /// <summary>
+        /// URL解码（大小写形式都可以识别）
+        /// </summary>
+        /// <param name="Source">要解密的字符串</param>
+        /// <returns>解密后的结果字符串</returns>
+        public static string URL_Decode(string Source)
+        {
+            return System.Web.HttpUtility.UrlDecode(Source, System.Text.Encoding.UTF8);
+        }
+        /// <summary>
+        /// URL解码（大小写形式都可以识别）
+        /// </summary>
+        /// <param name="Source">要解密的字符串</param>
+        /// <param name="Encoding">使用的编码格式（默认UTF-8）</param>
+        /// <returns>解密后的结果字符串</returns>
+        public static string URL_Decode(string Source, System.Text.Encoding Encoding)
+        {
+            return System.Web.HttpUtility.UrlDecode(Source, Encoding);
+        }
+        /// <summary>
+        /// Base64加密算法（加密结果的字符串中包含字母A-Z，a-z，数字0-9，符号+/=）
         /// </summary>
         /// <param name="Source">要加密的字符串</param>
         /// <returns>加密后的结果字符串</returns>
@@ -19,7 +67,7 @@
             return System.Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(Source));
         }
         /// <summary>
-        /// Base64加密算法
+        /// Base64加密算法（加密结果的字符串中包含字母A-Z，a-z，数字0-9，符号+/=）
         /// </summary>
         /// <param name="Source">要加密的字符串</param>
         /// <param name="Encoding">使用的编码格式（默认UTF-8）</param>
@@ -29,7 +77,26 @@
             return System.Convert.ToBase64String(Encoding.GetBytes(Source));
         }
         /// <summary>
-        /// Base64解密算法
+        /// Base64加密算法（用于URL的改进Base64编码，加密结果的字符串中包含字母A-Z，a-z，数字0-9，符号-_=）
+        /// </summary>
+        /// <param name="Source">要加密的字符串</param>
+        /// <returns>加密后的结果字符串</returns>
+        public static string Base64_URL_Encode(string Source)
+        {
+            return System.Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(Source)).Replace("+","-").Replace("/","_");
+        }
+        /// <summary>
+        /// Base64加密算法（用于URL的改进Base64编码，加密结果的字符串中包含字母A-Z，a-z，数字0-9，符号-_=）
+        /// </summary>
+        /// <param name="Source">要加密的字符串</param>
+        /// <param name="Encoding">使用的编码格式（默认UTF-8）</param>
+        /// <returns>加密后的结果字符串</returns>
+        public static string Base64_URL_Encode(string Source, System.Text.Encoding Encoding)
+        {
+            return System.Convert.ToBase64String(Encoding.GetBytes(Source)).Replace("+", "-").Replace("/", "_");
+        }
+        /// <summary>
+        /// Base64解密算法（要解密的字符串可以包含字母A-Z，a-z，数字0-9，符号+/=）
         /// </summary>
         /// <param name="Source">要解密的字符串</param>
         /// <returns>解密后的结果字符串</returns>
@@ -38,7 +105,7 @@
             return System.Text.Encoding.UTF8.GetString(System.Convert.FromBase64String(Source));
         }
         /// <summary>
-        /// Base64解密算法
+        /// Base64解密算法（要解密的字符串可以包含字母A-Z，a-z，数字0-9，符号+/=）
         /// </summary>
         /// <param name="Source">要解密的字符串</param>
         /// <param name="Encoding">使用的编码格式（默认UTF-8）</param>
@@ -46,6 +113,25 @@
         public static string Base64_Decode(string Source, System.Text.Encoding Encoding)
         {
             return Encoding.GetString(System.Convert.FromBase64String(Source));
+        }
+        /// <summary>
+        /// Base64解密算法（用于URL的改进Base64解码，要解密的字符串可以包含字母A-Z，a-z，数字0-9，符号-_=）
+        /// </summary>
+        /// <param name="Source">要解密的字符串</param>
+        /// <returns>解密后的结果字符串</returns>
+        public static string Base64_URL_Decode(string Source)
+        {
+            return System.Text.Encoding.UTF8.GetString(System.Convert.FromBase64String(Source.Replace("-", "+").Replace("_", "/")));
+        }
+        /// <summary>
+        /// Base64解密算法（用于URL的改进Base64解码，要解密的字符串可以包含字母A-Z，a-z，数字0-9，符号-_=）
+        /// </summary>
+        /// <param name="Source">要解密的字符串</param>
+        /// <param name="Encoding">使用的编码格式（默认UTF-8）</param>
+        /// <returns>解密后的结果字符串</returns>
+        public static string Base64_URL_Decode(string Source, System.Text.Encoding Encoding)
+        {
+            return Encoding.GetString(System.Convert.FromBase64String(Source.Replace("-", "+").Replace("_", "/")));
         }
         /// <summary>
         /// MD5加密算法（返回16位小写结果）
@@ -305,6 +391,65 @@
     /// </summary>
     public sealed class IO
     {
+        /// <summary>
+        /// 读取文件为字符串
+        /// </summary>
+        /// <param name="FilePath">文件路径</param>
+        /// <returns>字符串（读取失败返回空字符串""）</returns>
+        public static string ReadString(string FilePath)
+        {
+            try
+            {
+                System.IO.StreamReader reader = new System.IO.StreamReader(FilePath, System.Text.Encoding.UTF8);
+                string str2 = reader.ReadToEnd();
+                reader.Dispose();
+                return str2;
+            }
+            catch (System.Exception )
+            {
+                return "";
+            }
+        }
+        /// <summary>
+        /// 将字符串写入文件（覆盖）
+        /// </summary>
+        /// <param name="Source">字符串</param>
+        /// <param name="FilePath">文件路径</param>
+        /// <returns>是否写入成功</returns>
+        public static bool WriteString(string Source, string FilePath)
+        {
+            try
+            {
+                System.IO.StreamWriter writer = new System.IO.StreamWriter(FilePath, false, System.Text.Encoding.UTF8);
+                writer.Write(Source);
+                writer.Dispose();
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 将字符串写入文件（追加）
+        /// </summary>
+        /// <param name="Source">字符串</param>
+        /// <param name="FilePath">文件路径</param>
+        /// <returns>是否写入成功</returns>
+        public static bool AppendString(string Source, string FilePath)
+        {
+            try
+            {
+                System.IO.StreamWriter writer = new System.IO.StreamWriter(FilePath, true, System.Text.Encoding.UTF8);
+                writer.Write(Source);
+                writer.Dispose();
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
         /// <summary>
         /// 将字符串数组写入文件
         /// </summary>
