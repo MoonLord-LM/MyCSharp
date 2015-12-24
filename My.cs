@@ -2162,7 +2162,7 @@
                 return false;
             }
         }
-        [System.Runtime.InteropServices.DllImport("user32.dll", CharSet = System.Runtime.InteropServices.CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
+        [System.Runtime.InteropServices.DllImport("user32.dll", EntryPoint = "keybd_event", CharSet = System.Runtime.InteropServices.CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
         private static extern void keybd_event(byte bVk, byte bScan, long dwFlags, long dwExtraInfo);
         /// <summary>
         /// 按下单个按键（并保持按下状态直到下次按同一个键，连续调用本函数，可执行组合键）
@@ -2272,7 +2272,7 @@
                 return false;
             }
         }
-        [System.Runtime.InteropServices.DllImport("user32.dll", CharSet = System.Runtime.InteropServices.CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
+        [System.Runtime.InteropServices.DllImport("user32.dll", EntryPoint = "mouse_event", CharSet = System.Runtime.InteropServices.CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
         private static extern bool mouse_event(MouseEvent dwFlags, int dX, int dY, int dwData, int dwExtraInfo);
         private enum MouseEvent
         {
@@ -2585,7 +2585,7 @@
                 return false;
             }
         }
-        [System.Runtime.InteropServices.DllImport("user32.dll", CharSet = System.Runtime.InteropServices.CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
+        [System.Runtime.InteropServices.DllImport("user32.dll", EntryPoint = "GetAsyncKeyState", CharSet = System.Runtime.InteropServices.CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
         private static extern int GetAsyncKeyState(long vKey);
         /// <summary>
         /// 判断物理键盘设备上的单个键位是否正处于被按下的状态（侦测键盘的硬件中断）
@@ -2624,9 +2624,9 @@
             }
             return true;
         }
-        [System.Runtime.InteropServices.DllImport("user32", EntryPoint = "FindWindowA", CharSet = System.Runtime.InteropServices.CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
-        private static extern System.IntPtr FindWindow(ref string lpClassName, ref string lpWindowName);
-        [System.Runtime.InteropServices.DllImport("user32", CharSet = System.Runtime.InteropServices.CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
+        [System.Runtime.InteropServices.DllImport("user32.dll", EntryPoint = "FindWindowA", CharSet = System.Runtime.InteropServices.CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
+        private static extern System.IntPtr FindWindow(string lpClassName, string lpWindowName);
+        [System.Runtime.InteropServices.DllImport("user32.dll", EntryPoint = "GetWindowRect", CharSet = System.Runtime.InteropServices.CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
         private static extern System.IntPtr GetWindowRect(System.IntPtr hwnd, ref RECT lpRect);
         private struct RECT
         {
@@ -2644,10 +2644,10 @@
         {
             RECT rect = new RECT();
             string lpClassName = null;
-            GetWindowRect(FindWindow(ref lpClassName, ref WindowTitle), ref rect);
+            GetWindowRect(FindWindow(lpClassName, WindowTitle), ref rect);
             return new System.Drawing.Rectangle(rect.Left, rect.Top, rect.Right - rect.Left, rect.Bottom - rect.Top);
         }
-        [System.Runtime.InteropServices.DllImport("user32", CharSet = System.Runtime.InteropServices.CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
+        [System.Runtime.InteropServices.DllImport("user32.dll",CharSet = System.Runtime.InteropServices.CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
         private static extern System.IntPtr GetForegroundWindow();
         /// <summary>
         /// 获取当前的焦点窗口的大小和位置
@@ -2659,7 +2659,54 @@
             GetWindowRect(GetForegroundWindow(), ref rect);
             return new System.Drawing.Rectangle(rect.Left, rect.Top, rect.Right - rect.Left, rect.Bottom - rect.Top);
         }
-        [System.Runtime.InteropServices.DllImport("user32", CharSet = System.Runtime.InteropServices.CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
+        [System.Runtime.InteropServices.DllImport("user32.dll", CharSet = System.Runtime.InteropServices.CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
+        private static extern int SetForegroundWindow(System.IntPtr hwnd);
+        /// <summary>
+        /// 根据窗口标题获取窗口，并将其设置为当前的焦点窗口（实测：窗体处于最小化状态时，不会弹出到最前，只会在任务栏出现白色闪烁效果；窗体处于普通状态时，不一定会弹出到最前，可能只在任务栏出现黄色闪烁效果）
+        /// </summary>
+        /// <param name="WindowTitle">窗口标题（字符串不能有任何差别）</param>
+        /// <returns>设置成功返回非0值，失败返回0</returns>
+        public static int SetForegroundWindow(string WindowTitle)
+        {
+            string lpClassName = null;
+            return SetForegroundWindow(FindWindow(lpClassName, WindowTitle));
+        }
+        [System.Runtime.InteropServices.DllImport("user32.dll", EntryPoint = "ShowWindow", CharSet = System.Runtime.InteropServices.CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
+        private static extern bool ShowWindow(System.IntPtr hWnd, uint nCmdShow);
+        /// <summary>
+        /// 根据窗口标题获取窗口，并将其设置为普通样式（取消最大化、最小化效果）
+        /// </summary>
+        /// <param name="WindowTitle">窗口标题（字符串不能有任何差别）</param>
+        /// <returns>是否设置成功</returns>
+        public static bool ShowWindowNormal(string WindowTitle)
+        {
+            uint SW_SHOWNORMAL = 1;
+            string lpClassName = null;
+            return ShowWindow(FindWindow(lpClassName, WindowTitle), SW_SHOWNORMAL);
+        }
+        /// <summary>
+        /// 根据窗口标题获取窗口，并将其设置为最小化样式
+        /// </summary>
+        /// <param name="WindowTitle">窗口标题（字符串不能有任何差别）</param>
+        /// <returns>是否设置成功</returns>
+        public static bool ShowWindowMinimize(string WindowTitle)
+        {
+            uint SW_SHOWMINIMIZED = 2;
+            string lpClassName = null;
+            return ShowWindow(FindWindow(lpClassName, WindowTitle), SW_SHOWMINIMIZED);
+        }
+        /// <summary>
+        /// 根据窗口标题获取窗口，并将其设置为最大化样式
+        /// </summary>
+        /// <param name="WindowTitle">窗口标题（字符串不能有任何差别）</param>
+        /// <returns>是否设置成功</returns>
+        public static bool ShowWindowMaximize(string WindowTitle)
+        {
+            uint SW_SHOWMAXIMIZED = 3;
+            string lpClassName = null;
+            return ShowWindow(FindWindow(lpClassName, WindowTitle), SW_SHOWMAXIMIZED);
+        }
+        [System.Runtime.InteropServices.DllImport("user32.dll", EntryPoint = "MoveWindow", CharSet = System.Runtime.InteropServices.CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
         private static extern bool MoveWindow(System.IntPtr hwnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
         /// <summary>
         /// 根据窗口标题修改窗口的位置（当多个标题相同的窗体存在时，默认修改上一个活动的窗体；注意可能会把窗口移动到用户鼠标无法触及的位置）
@@ -2672,7 +2719,7 @@
         {
             RECT rect = new RECT();
             string lpClassName = null;
-            System.IntPtr hwnd = FindWindow(ref lpClassName, ref WindowTitle);
+            System.IntPtr hwnd = FindWindow(lpClassName, WindowTitle);
             GetWindowRect(hwnd, ref rect);
             if (hwnd == System.IntPtr.Zero)
             {
@@ -2692,7 +2739,7 @@
         {
             RECT rect = new RECT();
             string lpClassName = null;
-            System.IntPtr hwnd = FindWindow(ref lpClassName, ref WindowTitle);
+            System.IntPtr hwnd = FindWindow(lpClassName, WindowTitle);
             GetWindowRect(hwnd, ref rect);
             if (hwnd == System.IntPtr.Zero)
             {
@@ -2759,7 +2806,20 @@
                 return false;
             }
         }
-
-
+        /// <summary>
+        /// 获取上一个Win32 API调用产生的错误代码（实测：出现错误后，错误信息会一直保留，直到被下一个错误信息替换）
+        /// </summary>
+        /// <returns>错误代码（默认为0）</returns>
+        public static int Win32ErrorCode()
+        {
+            return System.Runtime.InteropServices.Marshal.GetLastWin32Error();
+        }
+        /// <summary>
+        /// 获取上一个Win32 API调用产生的错误说明（实测：出现错误后，错误信息会一直保留，直到被下一个错误信息替换）
+        /// </summary>
+        /// <returns>错误说明（默认为"操作成功完成。"）</returns>
+        public static string Win32ErrorMessage() {
+            return new System.ComponentModel.Win32Exception(System.Runtime.InteropServices.Marshal.GetLastWin32Error()).Message;
+        }
     }
 }
