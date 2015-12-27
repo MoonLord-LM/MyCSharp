@@ -15,7 +15,7 @@
         /// <param name="Source">要加密的字符串</param>
         /// <param name="ToUpper">是否将结果转换为大写字母形式</param>
         /// <returns>加密后的结果字符串</returns>
-        public static string URL_Encode(string Source ,bool ToUpper = false)
+        public static string URL_Encode(string Source, bool ToUpper = false)
         {
             if (ToUpper)
             {
@@ -83,7 +83,7 @@
         /// <returns>加密后的结果字符串</returns>
         public static string Base64_URL_Encode(string Source)
         {
-            return System.Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(Source)).Replace("+","-").Replace("/","_");
+            return System.Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(Source)).Replace("+", "-").Replace("/", "_");
         }
         /// <summary>
         /// Base64加密算法（用于URL的改进Base64编码，加密结果的字符串中包含字母A-Z，a-z，数字0-9，符号-_=）
@@ -405,7 +405,7 @@
                 reader.Dispose();
                 return str2;
             }
-            catch (System.Exception )
+            catch (System.Exception)
             {
                 return "";
             }
@@ -859,7 +859,7 @@
             {
                 System.Reflection.Assembly executingAssembly = System.Reflection.Assembly.GetExecutingAssembly();
                 System.IO.Stream manifestResourceStream = executingAssembly.GetManifestResourceStream(executingAssembly.GetName().Name + "." + ResourceName);
-                byte[] buffer = new byte[((int)(manifestResourceStream.Length - 1L)) + 1];
+                byte[] buffer = new byte[((int)(manifestResourceStream.Length - 1)) + 1];
                 System.IO.FileStream stream2 = new System.IO.FileStream(FilePath, System.IO.FileMode.OpenOrCreate, System.IO.FileAccess.ReadWrite);
                 manifestResourceStream.Read(buffer, 0, buffer.Length);
                 stream2.Write(buffer, 0, buffer.Length);
@@ -903,7 +903,7 @@
             {
                 System.Reflection.Assembly executingAssembly = System.Reflection.Assembly.GetExecutingAssembly();
                 System.IO.Stream manifestResourceStream = executingAssembly.GetManifestResourceStream(executingAssembly.GetName().Name + "." + ResourceName);
-                byte[] buffer = new byte[((int)(manifestResourceStream.Length - 1L)) + 1];
+                byte[] buffer = new byte[((int)(manifestResourceStream.Length - 1)) + 1];
                 manifestResourceStream.Read(buffer, 0, buffer.Length);
                 manifestResourceStream.Dispose();
                 ResourceString = System.Text.Encoding.UTF8.GetString(buffer);
@@ -927,7 +927,7 @@
             {
                 System.Reflection.Assembly executingAssembly = System.Reflection.Assembly.GetExecutingAssembly();
                 System.IO.Stream manifestResourceStream = executingAssembly.GetManifestResourceStream(executingAssembly.GetName().Name + "." + ResourceName);
-                byte[] buffer = new byte[((int)(manifestResourceStream.Length - 1L)) + 1];
+                byte[] buffer = new byte[((int)(manifestResourceStream.Length - 1)) + 1];
                 manifestResourceStream.Read(buffer, 0, buffer.Length);
                 manifestResourceStream.Dispose();
                 ResourceString = Encoding.GetString(buffer);
@@ -950,7 +950,7 @@
             {
                 System.Reflection.Assembly executingAssembly = System.Reflection.Assembly.GetExecutingAssembly();
                 System.IO.Stream manifestResourceStream = executingAssembly.GetManifestResourceStream(executingAssembly.GetName().Name + "." + ResourceName);
-                byte[] buffer = new byte[((int)(manifestResourceStream.Length - 1L)) + 1];
+                byte[] buffer = new byte[((int)(manifestResourceStream.Length - 1)) + 1];
                 manifestResourceStream.Read(buffer, 0, buffer.Length);
                 manifestResourceStream.Dispose();
                 ResourceArray = new System.Collections.ArrayList(System.Text.Encoding.UTF8.GetString(buffer).Replace("\r\n", "\n").Split(new char[] { '\n' }));
@@ -974,7 +974,7 @@
             {
                 System.Reflection.Assembly executingAssembly = System.Reflection.Assembly.GetExecutingAssembly();
                 System.IO.Stream manifestResourceStream = executingAssembly.GetManifestResourceStream(executingAssembly.GetName().Name + "." + ResourceName);
-                byte[] buffer = new byte[((int)(manifestResourceStream.Length - 1L)) + 1];
+                byte[] buffer = new byte[((int)(manifestResourceStream.Length - 1)) + 1];
                 manifestResourceStream.Read(buffer, 0, buffer.Length);
                 manifestResourceStream.Dispose();
                 ResourceArray = new System.Collections.ArrayList(Encoding.GetString(buffer).Replace("\r\n", "\n").Split(new char[] { '\n' }));
@@ -997,7 +997,7 @@
             {
                 System.Reflection.Assembly executingAssembly = System.Reflection.Assembly.GetExecutingAssembly();
                 System.IO.Stream manifestResourceStream = executingAssembly.GetManifestResourceStream(executingAssembly.GetName().Name + "." + ResourceName);
-                byte[] buffer = new byte[((int)(manifestResourceStream.Length - 1L)) + 1];
+                byte[] buffer = new byte[((int)(manifestResourceStream.Length - 1)) + 1];
                 manifestResourceStream.Read(buffer, 0, buffer.Length);
                 manifestResourceStream.Dispose();
                 ResourceArray = new System.Collections.Generic.List<string>(System.Text.Encoding.UTF8.GetString(buffer).Replace("\r\n", "\n").Split(new char[] { '\n' }));
@@ -1021,7 +1021,7 @@
             {
                 System.Reflection.Assembly executingAssembly = System.Reflection.Assembly.GetExecutingAssembly();
                 System.IO.Stream manifestResourceStream = executingAssembly.GetManifestResourceStream(executingAssembly.GetName().Name + "." + ResourceName);
-                byte[] buffer = new byte[((int)(manifestResourceStream.Length - 1L)) + 1];
+                byte[] buffer = new byte[((int)(manifestResourceStream.Length - 1)) + 1];
                 manifestResourceStream.Read(buffer, 0, buffer.Length);
                 manifestResourceStream.Dispose();
                 ResourceArray = new System.Collections.Generic.List<string>(Encoding.GetString(buffer).Replace("\r\n", "\n").Split(new char[] { '\n' }));
@@ -1044,7 +1044,7 @@
             {
                 System.Reflection.Assembly executingAssembly = System.Reflection.Assembly.GetExecutingAssembly();
                 System.IO.Stream manifestResourceStream = executingAssembly.GetManifestResourceStream(executingAssembly.GetName().Name + "." + ResourceName);
-                byte[] buffer = new byte[((int)(manifestResourceStream.Length - 1L)) + 1];
+                byte[] buffer = new byte[((int)(manifestResourceStream.Length - 1)) + 1];
                 manifestResourceStream.Read(buffer, 0, buffer.Length);
                 manifestResourceStream.Dispose();
                 ResourceArray = System.Text.Encoding.UTF8.GetString(buffer).Replace("\r\n", "\n").Split(new char[] { '\n' });
@@ -1068,7 +1068,7 @@
             {
                 System.Reflection.Assembly executingAssembly = System.Reflection.Assembly.GetExecutingAssembly();
                 System.IO.Stream manifestResourceStream = executingAssembly.GetManifestResourceStream(executingAssembly.GetName().Name + "." + ResourceName);
-                byte[] buffer = new byte[((int)(manifestResourceStream.Length - 1L)) + 1];
+                byte[] buffer = new byte[((int)(manifestResourceStream.Length - 1)) + 1];
                 manifestResourceStream.Read(buffer, 0, buffer.Length);
                 manifestResourceStream.Dispose();
                 ResourceArray = Encoding.GetString(buffer).Replace("\r\n", "\n").Split(new char[] { '\n' });
@@ -1742,6 +1742,7 @@
                 {
                     TaskName = TaskName + ".exe";
                 }
+                TaskName = "\"" + TaskName + "\"";
                 System.Diagnostics.Process process = new System.Diagnostics.Process();
                 process.StartInfo.FileName = "cmd.exe";
                 process.StartInfo.UseShellExecute = false;
@@ -1778,12 +1779,55 @@
                 {
                     TaskName = TaskName + ".exe";
                 }
+                TaskName = "\"" + TaskName + "\"";
                 Microsoft.VisualBasic.Interaction.Shell("taskkill /f /t /im " + TaskName, Microsoft.VisualBasic.AppWinStyle.Hide, false, -1);
                 return true;
             }
             catch (System.Exception)
             {
                 return false;
+            }
+        }
+        /// <summary>
+        /// 获取屏幕截图（System.Drawing.Bitmap类型）
+        /// </summary>
+        /// <returns>成功返回屏幕截图的Bitmap，失败返回新建的0*0像素的Bitmap</returns>
+        public static System.Drawing.Bitmap SaveScreen()
+        {
+            try
+            {
+                System.Drawing.Rectangle bounds = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
+                System.Drawing.Bitmap image = new System.Drawing.Bitmap(bounds.Width, bounds.Height);
+                using (System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(image))
+                {
+                    graphics.CopyFromScreen(0, 0, 0, 0, bounds.Size);
+                }
+                return image;
+            }
+            catch (System.Exception)
+            {
+                return new System.Drawing.Bitmap(0, 0);
+            }
+        }
+        /// <summary>
+        /// 获取指定区域的屏幕截图（System.Drawing.Bitmap类型）
+        /// </summary>
+        /// <param name="Position">指定区域</param>
+        /// <returns>成功返回指定区域的屏幕截图的Bitmap，失败返回新建的Position.Width*Position.Height像素的Bitmap</returns>
+        public static System.Drawing.Bitmap SaveScreen(System.Drawing.Rectangle Position)
+        {
+            try
+            {
+                System.Drawing.Bitmap image = new System.Drawing.Bitmap(Position.Width, Position.Height);
+                using (System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(image))
+                {
+                    graphics.CopyFromScreen(Position.Left, Position.Top, 0, 0, Position.Size);
+                }
+                return image;
+            }
+            catch (System.Exception)
+            {
+                return new System.Drawing.Bitmap(Position.Width, Position.Height);
             }
         }
         /// <summary>
@@ -1799,7 +1843,7 @@
                 System.Drawing.Bitmap image = new System.Drawing.Bitmap(bounds.Width, bounds.Height);
                 using (System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(image))
                 {
-                    graphics.CopyFromScreen(0, 0, bounds.Left, bounds.Top, bounds.Size);
+                    graphics.CopyFromScreen(0, 0, 0, 0, bounds.Size);
                 }
                 image.Save(ScreenFilePath);
                 return true;
@@ -1822,7 +1866,7 @@
                 System.Drawing.Bitmap image = new System.Drawing.Bitmap(bounds.Width, bounds.Height);
                 using (System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(image))
                 {
-                    graphics.CopyFromScreen(0, 0, bounds.Left, bounds.Top, bounds.Size);
+                    graphics.CopyFromScreen(0, 0, 0, 0, bounds.Size);
                 }
                 image.Save(ScreenFilePath, System.Drawing.Imaging.ImageFormat.Bmp);
                 return true;
@@ -1845,7 +1889,7 @@
                 System.Drawing.Bitmap image = new System.Drawing.Bitmap(bounds.Width, bounds.Height);
                 using (System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(image))
                 {
-                    graphics.CopyFromScreen(0, 0, bounds.Left, bounds.Top, bounds.Size);
+                    graphics.CopyFromScreen(0, 0, 0, 0, bounds.Size);
                 }
                 image.Save(ScreenFilePath, System.Drawing.Imaging.ImageFormat.Png);
                 return true;
@@ -1868,7 +1912,7 @@
                 System.Drawing.Bitmap image = new System.Drawing.Bitmap(bounds.Width, bounds.Height);
                 using (System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(image))
                 {
-                    graphics.CopyFromScreen(0, 0, bounds.Left, bounds.Top, bounds.Size);
+                    graphics.CopyFromScreen(0, 0, 0, 0, bounds.Size);
                 }
                 image.Save(ScreenFilePath, System.Drawing.Imaging.ImageFormat.Jpeg);
                 return true;
@@ -1891,7 +1935,7 @@
                 System.Drawing.Bitmap image = new System.Drawing.Bitmap(bounds.Width, bounds.Height);
                 using (System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(image))
                 {
-                    graphics.CopyFromScreen(0, 0, bounds.Left, bounds.Top, bounds.Size);
+                    graphics.CopyFromScreen(0, 0, 0, 0, bounds.Size);
                 }
                 image.Save(ScreenFilePath, System.Drawing.Imaging.ImageFormat.Gif);
                 return true;
@@ -1914,7 +1958,7 @@
                 System.Drawing.Bitmap image = new System.Drawing.Bitmap(bounds.Width, bounds.Height);
                 using (System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(image))
                 {
-                    graphics.CopyFromScreen(0, 0, bounds.Left, bounds.Top, bounds.Size);
+                    graphics.CopyFromScreen(0, 0, 0, 0, bounds.Size);
                 }
                 image.Save(ScreenFilePath, System.Drawing.Imaging.ImageFormat.Icon);
                 return true;
@@ -1937,7 +1981,7 @@
                 System.Drawing.Bitmap image = new System.Drawing.Bitmap(bounds.Width, bounds.Height);
                 using (System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(image))
                 {
-                    graphics.CopyFromScreen(0, 0, bounds.Left, bounds.Top, bounds.Size);
+                    graphics.CopyFromScreen(0, 0, 0, 0, bounds.Size);
                 }
                 image.Save(ScreenFilePath, System.Drawing.Imaging.ImageFormat.Tiff);
                 return true;
@@ -1960,7 +2004,7 @@
                 System.Drawing.Bitmap image = new System.Drawing.Bitmap(bounds.Width, bounds.Height);
                 using (System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(image))
                 {
-                    graphics.CopyFromScreen(0, 0, bounds.Left, bounds.Top, bounds.Size);
+                    graphics.CopyFromScreen(0, 0, 0, 0, bounds.Size);
                 }
                 image.Save(ScreenFilePath, System.Drawing.Imaging.ImageFormat.Exif);
                 return true;
@@ -1983,7 +2027,7 @@
                 System.Drawing.Bitmap image = new System.Drawing.Bitmap(bounds.Width, bounds.Height);
                 using (System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(image))
                 {
-                    graphics.CopyFromScreen(0, 0, bounds.Left, bounds.Top, bounds.Size);
+                    graphics.CopyFromScreen(0, 0, 0, 0, bounds.Size);
                 }
                 image.Save(ScreenFilePath, System.Drawing.Imaging.ImageFormat.MemoryBmp);
                 return true;
@@ -2006,7 +2050,7 @@
                 System.Drawing.Bitmap image = new System.Drawing.Bitmap(bounds.Width, bounds.Height);
                 using (System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(image))
                 {
-                    graphics.CopyFromScreen(0, 0, bounds.Left, bounds.Top, bounds.Size);
+                    graphics.CopyFromScreen(0, 0, 0, 0, bounds.Size);
                 }
                 image.Save(ScreenFilePath, System.Drawing.Imaging.ImageFormat.Emf);
                 return true;
@@ -2029,7 +2073,7 @@
                 System.Drawing.Bitmap image = new System.Drawing.Bitmap(bounds.Width, bounds.Height);
                 using (System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(image))
                 {
-                    graphics.CopyFromScreen(0, 0, bounds.Left, bounds.Top, bounds.Size);
+                    graphics.CopyFromScreen(0, 0, 0, 0, bounds.Size);
                 }
                 image.Save(ScreenFilePath, System.Drawing.Imaging.ImageFormat.Wmf);
                 return true;
@@ -2052,7 +2096,7 @@
                 System.Drawing.Bitmap image = new System.Drawing.Bitmap(bounds.Width, bounds.Height);
                 using (System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(image))
                 {
-                    graphics.CopyFromScreen(0, 0, bounds.Left, bounds.Top, bounds.Size);
+                    graphics.CopyFromScreen(0, 0, 0, 0, bounds.Size);
                 }
                 System.IntPtr callbackData = new System.IntPtr(0);
                 image.GetThumbnailImage(bounds.Width / 2, bounds.Height / 2, null, callbackData).Save(ScreenFilePath);
@@ -2076,7 +2120,7 @@
                 System.Drawing.Bitmap image = new System.Drawing.Bitmap(bounds.Width, bounds.Height);
                 using (System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(image))
                 {
-                    graphics.CopyFromScreen(0, 0, bounds.Left, bounds.Top, bounds.Size);
+                    graphics.CopyFromScreen(0, 0, 0, 0, bounds.Size);
                 }
                 System.IntPtr callbackData = new System.IntPtr(0);
                 image.GetThumbnailImage(bounds.Width / 2, bounds.Height / 2, null, callbackData).Save(ScreenFilePath, System.Drawing.Imaging.ImageFormat.Png);
@@ -2100,7 +2144,7 @@
                 System.Drawing.Bitmap image = new System.Drawing.Bitmap(bounds.Width, bounds.Height);
                 using (System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(image))
                 {
-                    graphics.CopyFromScreen(0, 0, bounds.Left, bounds.Top, bounds.Size);
+                    graphics.CopyFromScreen(0, 0, 0, 0, bounds.Size);
                 }
                 System.IntPtr callbackData = new System.IntPtr(0);
                 image.GetThumbnailImage(bounds.Width / 2, bounds.Height / 2, null, callbackData).Save(ScreenFilePath, System.Drawing.Imaging.ImageFormat.Jpeg);
@@ -2164,6 +2208,8 @@
         }
         [System.Runtime.InteropServices.DllImport("user32.dll", EntryPoint = "keybd_event", CharSet = System.Runtime.InteropServices.CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
         private static extern void keybd_event(byte bVk, byte bScan, long dwFlags, long dwExtraInfo);
+        [System.Runtime.InteropServices.DllImport("user32", EntryPoint = "MapVirtualKeyA", CharSet = System.Runtime.InteropServices.CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
+        private static extern long MapVirtualKey(long wCode, long wMapType);
         /// <summary>
         /// 按下单个按键（并保持按下状态直到下次按同一个键，连续调用本函数，可执行组合键）
         /// </summary>
@@ -2173,7 +2219,7 @@
         {
             try
             {
-                keybd_event((byte)Key, 0, 0L, 0L);
+                keybd_event((byte)Key, (byte)MapVirtualKey((byte)Key, 0), 0, 0);
                 return true;
             }
             catch (System.Exception)
@@ -2190,7 +2236,7 @@
         {
             try
             {
-                keybd_event((byte)Microsoft.VisualBasic.Strings.Asc(KeyChar), 0, 0L, 0L);
+                keybd_event((byte)Microsoft.VisualBasic.Strings.Asc(KeyChar), (byte)MapVirtualKey((byte)Microsoft.VisualBasic.Strings.Asc(KeyChar), 0), 0, 0);
                 return true;
             }
             catch (System.Exception)
@@ -2209,7 +2255,7 @@
             {
                 foreach (char ch in KeyString.ToCharArray())
                 {
-                    keybd_event((byte)Microsoft.VisualBasic.Strings.Asc(ch), 0, 0L, 0L);
+                    keybd_event((byte)Microsoft.VisualBasic.Strings.Asc(ch), (byte)MapVirtualKey((byte)Microsoft.VisualBasic.Strings.Asc(ch), 0), 0, 0);
                 }
                 return true;
             }
@@ -2227,7 +2273,7 @@
         {
             try
             {
-                keybd_event((byte)Key, 0, 2L, 0L);
+                keybd_event((byte)Key, (byte)MapVirtualKey((byte)Key, 0), 2, 0);
                 return true;
             }
             catch (System.Exception)
@@ -2244,7 +2290,7 @@
         {
             try
             {
-                keybd_event((byte)Microsoft.VisualBasic.Strings.Asc(KeyChar), 0, 2L, 0L);
+                keybd_event((byte)Microsoft.VisualBasic.Strings.Asc(KeyChar), (byte)MapVirtualKey((byte)Microsoft.VisualBasic.Strings.Asc(KeyChar), 0), 2, 0);
                 return true;
             }
             catch (System.Exception)
@@ -2263,7 +2309,7 @@
             {
                 foreach (char ch in KeyString.ToCharArray())
                 {
-                    keybd_event((byte)Microsoft.VisualBasic.Strings.Asc(ch), 0, 2L, 0L);
+                    keybd_event((byte)Microsoft.VisualBasic.Strings.Asc(ch), (byte)MapVirtualKey((byte)Microsoft.VisualBasic.Strings.Asc(ch), 0), 2, 0);
                 }
                 return true;
             }
@@ -2416,6 +2462,7 @@
             try
             {
                 mouse_event(MouseEvent.LeftButtonUp | MouseEvent.LeftButtonDown, 0, 0, 0, 0);
+                mouse_event(MouseEvent.LeftButtonUp | MouseEvent.LeftButtonDown, 0, 0, 0, 0);
                 return true;
             }
             catch (System.Exception)
@@ -2479,6 +2526,7 @@
         {
             try
             {
+                mouse_event(MouseEvent.MiddleButtonUp | MouseEvent.MiddleButtonDown, 0, 0, 0, 0);
                 mouse_event(MouseEvent.MiddleButtonUp | MouseEvent.MiddleButtonDown, 0, 0, 0, 0);
                 return true;
             }
@@ -2544,6 +2592,7 @@
             try
             {
                 mouse_event(MouseEvent.RightButtonUp | MouseEvent.RightButtonDown, 0, 0, 0, 0);
+                mouse_event(MouseEvent.RightButtonUp | MouseEvent.RightButtonDown, 0, 0, 0, 0);
                 return true;
             }
             catch (System.Exception)
@@ -2586,7 +2635,7 @@
             }
         }
         [System.Runtime.InteropServices.DllImport("user32.dll", EntryPoint = "GetAsyncKeyState", CharSet = System.Runtime.InteropServices.CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
-        private static extern int GetAsyncKeyState(long vKey);
+        private static extern short GetAsyncKeyState(int vKey);
         /// <summary>
         /// 判断物理键盘设备上的单个键位是否正处于被按下的状态（侦测键盘的硬件中断）
         /// </summary>
@@ -2594,7 +2643,7 @@
         /// <returns>是否按下</returns>
         public static bool KeyBeingPressed(System.Windows.Forms.Keys Key)
         {
-            int asyncKeyState = GetAsyncKeyState((long)Key);
+            short asyncKeyState = GetAsyncKeyState((int)Key);
             return ((asyncKeyState == -32768) | (asyncKeyState == -32767));
         }
         /// <summary>
@@ -2604,7 +2653,7 @@
         /// <returns>是否按下</returns>
         public static bool KeyBeingPressed(char KeyChar)
         {
-            int asyncKeyState = GetAsyncKeyState((long)Microsoft.VisualBasic.Strings.Asc(KeyChar));
+            short asyncKeyState = GetAsyncKeyState((int)Microsoft.VisualBasic.Strings.Asc(KeyChar));
             return ((asyncKeyState == -32768) | (asyncKeyState == -32767));
         }
         /// <summary>
@@ -2616,7 +2665,7 @@
         {
             foreach (char ch in KeyString.ToCharArray())
             {
-                int asyncKeyState = GetAsyncKeyState((long)Microsoft.VisualBasic.Strings.Asc(ch));
+                short asyncKeyState = GetAsyncKeyState((int)Microsoft.VisualBasic.Strings.Asc(ch));
                 if ((asyncKeyState != -32768) & (asyncKeyState != -32767))
                 {
                     return false;
@@ -2647,7 +2696,7 @@
             GetWindowRect(FindWindow(lpClassName, WindowTitle), ref rect);
             return new System.Drawing.Rectangle(rect.Left, rect.Top, rect.Right - rect.Left, rect.Bottom - rect.Top);
         }
-        [System.Runtime.InteropServices.DllImport("user32.dll",CharSet = System.Runtime.InteropServices.CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
+        [System.Runtime.InteropServices.DllImport("user32.dll", CharSet = System.Runtime.InteropServices.CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
         private static extern System.IntPtr GetForegroundWindow();
         /// <summary>
         /// 获取当前的焦点窗口的大小和位置
@@ -2658,6 +2707,19 @@
             RECT rect = new RECT();
             GetWindowRect(GetForegroundWindow(), ref rect);
             return new System.Drawing.Rectangle(rect.Left, rect.Top, rect.Right - rect.Left, rect.Bottom - rect.Top);
+        }
+        [System.Runtime.InteropServices.DllImport("user32.dll", EntryPoint = "SendMessageA", CharSet = System.Runtime.InteropServices.CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
+        private static extern int SendMessage(System.IntPtr hwnd, int wMsg, int wParam, System.Text.StringBuilder lParam);
+        /// <summary>
+        /// 获取当前的焦点窗口的窗口标题文字
+        /// </summary>
+        /// <returns>窗口标题文字（失败则返回空字符串""）</returns>
+        public static string FindFocusWindowTitle()
+        {
+            System.Text.StringBuilder StringBuilder = new System.Text.StringBuilder(4048);
+            int WM_GETTEXT = 13;
+            SendMessage(GetForegroundWindow(), WM_GETTEXT, 4048, StringBuilder);
+            return StringBuilder.ToString();
         }
         [System.Runtime.InteropServices.DllImport("user32.dll", CharSet = System.Runtime.InteropServices.CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
         private static extern int SetForegroundWindow(System.IntPtr hwnd);
@@ -2709,13 +2771,50 @@
         [System.Runtime.InteropServices.DllImport("user32.dll", EntryPoint = "MoveWindow", CharSet = System.Runtime.InteropServices.CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
         private static extern bool MoveWindow(System.IntPtr hwnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
         /// <summary>
-        /// 根据窗口标题修改窗口的位置（当多个标题相同的窗体存在时，默认修改上一个活动的窗体；注意可能会把窗口移动到用户鼠标无法触及的位置）
+        /// 根据窗口标题修改窗口的位置和大小（当多个标题相同的窗体存在时，默认修改上一个活动的窗体；注意可能会把窗口移动到用户鼠标无法触及的位置）
         /// </summary>
         /// <param name="WindowTitle">窗口标题（字符串不能有任何差别）</param>
-        /// <param name="X">Left属性</param>
-        /// <param name="Y">Top属性</param>
+        /// <param name="Left">屏幕左边距</param>
+        /// <param name="Top">屏幕上边距</param>
+        /// <param name="Width">宽度 </param>
+        /// <param name="Height">高度</param>
         /// <returns>是否修改成功</returns>
-        public static bool MoveWindow(string WindowTitle, int X = 0, int Y = 0)
+        public static bool MoveWindow(string WindowTitle, int Left, int Top, int Width, int Height)
+        {
+            RECT rect = new RECT();
+            string lpClassName = null;
+            System.IntPtr hwnd = FindWindow(lpClassName, WindowTitle);
+            if (hwnd == System.IntPtr.Zero)
+            {
+                return false;
+            }
+            return MoveWindow(hwnd, Left, Top, Width, Height, true);
+        }
+        /// <summary>
+        /// 根据窗口标题修改窗口的位置和大小（当多个标题相同的窗体存在时，默认修改上一个活动的窗体；注意可能会把窗口移动到用户鼠标无法触及的位置）
+        /// </summary>
+        /// <param name="WindowTitle">窗口标题（字符串不能有任何差别）</param>
+        /// <param name="Position">指定区域</param>
+        /// <returns>是否修改成功</returns>
+        public static bool MoveWindow(string WindowTitle, System.Drawing.Rectangle Position)
+        {
+            RECT rect = new RECT();
+            string lpClassName = null;
+            System.IntPtr hwnd = FindWindow(lpClassName, WindowTitle);
+            if (hwnd == System.IntPtr.Zero)
+            {
+                return false;
+            }
+            return MoveWindow(hwnd, Position.Left, Position.Top, Position.Width, Position.Height, true);
+        }
+        /// <summary>
+        /// 根据窗口标题拖动窗口（当多个标题相同的窗体存在时，默认修改上一个活动的窗体；注意可能会把窗口移动到用户鼠标无法触及的位置）
+        /// </summary>
+        /// <param name="WindowTitle">窗口标题（字符串不能有任何差别）</param>
+        /// <param name="MoveX">向右拖动的距离（为负值则向左拖动）</param>
+        /// <param name="MoveY">向下拖动的距离（为负值则向上拖动）</param>
+        /// <returns>是否拖动成功</returns>
+        public static bool DragWindow(string WindowTitle, int MoveX = 0, int MoveY = 0)
         {
             RECT rect = new RECT();
             string lpClassName = null;
@@ -2725,8 +2824,7 @@
             {
                 return false;
             }
-            MoveWindow(hwnd, rect.Left + X, rect.Top + Y, rect.Right - rect.Left, rect.Bottom - rect.Top, true);
-            return true;
+            return MoveWindow(hwnd, rect.Left + MoveX, rect.Top + MoveY, rect.Right - rect.Left, rect.Bottom - rect.Top, true);
         }
         /// <summary>
         /// 根据窗口标题修改窗口的大小（当多个标题相同的窗体存在时，默认修改上一个活动的窗体；注意某些程序的窗口大小，实际上不能被修改的太小）
@@ -2735,7 +2833,7 @@
         /// <param name="Width">宽度</param>
         /// <param name="Height">高度</param>
         /// <returns>是否修改成功</returns>
-        public static bool ResizeWindow(string WindowTitle, int Width = 0, int Height = 0)
+        public static bool ResizeWindow(string WindowTitle, int Width, int Height)
         {
             RECT rect = new RECT();
             string lpClassName = null;
@@ -2745,8 +2843,7 @@
             {
                 return false;
             }
-            MoveWindow(hwnd, rect.Left, rect.Top, Width, Height, true);
-            return true;
+            return MoveWindow(hwnd, rect.Left, rect.Top, Width, Height, true);
         }
         /// <summary>
         /// 将鼠标位置移动一段距离（移动距离单位为像素，使用System.Windows.Forms.Cursor）
@@ -2786,7 +2883,7 @@
             System.Drawing.Bitmap image = new System.Drawing.Bitmap(bounds.Width, bounds.Height);
             using (System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(image))
             {
-                graphics.CopyFromScreen(0, 0, bounds.Left, bounds.Top, bounds.Size);
+                graphics.CopyFromScreen(0, 0, 0, 0, bounds.Size);
             }
             return image.GetPixel(System.Windows.Forms.Cursor.Position.X, System.Windows.Forms.Cursor.Position.Y);
         }
@@ -2818,7 +2915,8 @@
         /// 获取上一个Win32 API调用产生的错误说明（实测：出现错误后，错误信息会一直保留，直到被下一个错误信息替换）
         /// </summary>
         /// <returns>错误说明（默认为"操作成功完成。"）</returns>
-        public static string Win32ErrorMessage() {
+        public static string Win32ErrorMessage()
+        {
             return new System.ComponentModel.Win32Exception(System.Runtime.InteropServices.Marshal.GetLastWin32Error()).Message;
         }
     }

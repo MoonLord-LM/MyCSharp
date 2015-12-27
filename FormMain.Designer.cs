@@ -29,14 +29,22 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.PVP监控Timer = new System.Windows.Forms.Timer(this.components);
+            this.LOL监控Timer = new System.Windows.Forms.Timer(this.components);
+            this.退出监控Timer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
-            // timer1
+            // PVP监控Timer
             // 
-            this.timer1.Enabled = true;
-            this.timer1.Interval = 2000;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.PVP监控Timer.Tick += new System.EventHandler(this.PVP监控);
+            // 
+            // LOL监控Timer
+            // 
+            this.LOL监控Timer.Tick += new System.EventHandler(this.LOL监控);
+            // 
+            // 退出监控Timer
+            // 
+            this.退出监控Timer.Tick += new System.EventHandler(this.退出监控);
             // 
             // FormMain
             // 
@@ -52,7 +60,9 @@
 
         #endregion
 
-        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Timer PVP监控Timer;
+        private System.Windows.Forms.Timer LOL监控Timer;
+        private System.Windows.Forms.Timer 退出监控Timer;
     }
 }
 
