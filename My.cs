@@ -1730,6 +1730,44 @@
             }
         }
         /// <summary>
+        /// 打开指定的命令行程序（多次调用本函数会打开程序的多个实例，新打开的程序不会夺取鼠标焦点）
+        /// </summary>
+        /// <param name="TaskName">完整的命令行语句（例如，应当使用"notepad.exe"而不是"notepad"）</param>
+        /// <returns>是否执行成功</returns>
+        public static bool Shell(string TaskName)
+        {
+            try
+            {
+                Microsoft.VisualBasic.Interaction.Shell(TaskName, Microsoft.VisualBasic.AppWinStyle.NormalNoFocus, false, -1);
+                return true;
+            }
+            catch (System.Exception)
+            {
+                return false;
+            }
+        }
+        /// <summary>
+        /// 通过进程的名称，获取进程的文件的完整路径（注意，该程序必须在运行中）
+        /// </summary>
+        /// <param name="ProcessName">程序名称（例如"notepad"或"notepad.exe"）</param>
+        /// <returns>成功返回完整的文件路径，失败返回进程名称（例如"notepad.exe"）</returns>
+        public static string GetProcessFilePath(string ProcessName)
+        {
+            if (!ProcessName.ToLower().EndsWith(".exe"))
+            {
+                ProcessName = ProcessName.Substring(0, ProcessName.Length-4);
+            }
+            System.Diagnostics.Process[] A = System.Diagnostics.Process.GetProcessesByName(ProcessName);
+            if (A.Length > 0)
+            {
+                return A[0].MainModule.FileName;
+            }
+            else
+            {
+                return ProcessName;
+            }
+        }
+        /// <summary>
         /// 关闭指定的程序（程序如果有多个实例，会一并结束，多次调用本函数无特别效果）
         /// </summary>
         /// <param name="TaskName">程序名称（例如"notepad"或"notepad.exe"）</param>
@@ -2208,7 +2246,7 @@
         }
         [System.Runtime.InteropServices.DllImport("user32.dll", EntryPoint = "keybd_event", CharSet = System.Runtime.InteropServices.CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
         private static extern void keybd_event(byte bVk, byte bScan, long dwFlags, long dwExtraInfo);
-        [System.Runtime.InteropServices.DllImport("user32", EntryPoint = "MapVirtualKeyA", CharSet = System.Runtime.InteropServices.CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
+        [System.Runtime.InteropServices.DllImport("user32.dll", EntryPoint = "MapVirtualKeyA", CharSet = System.Runtime.InteropServices.CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
         private static extern long MapVirtualKey(long wCode, long wMapType);
         /// <summary>
         /// 按下单个按键（并保持按下状态直到下次按同一个键，连续调用本函数，可执行组合键）
@@ -2733,6 +2771,30 @@
             string lpClassName = null;
             return SetForegroundWindow(FindWindow(lpClassName, WindowTitle));
         }
+        [System.Runtime.InteropServices.DllImport("user32.dll", EntryPoint = "SendMessageA", CharSet = System.Runtime.InteropServices.CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
+        private static extern int SendMessage(System.IntPtr hwnd, int wMsg, int wParam, int lParam);
+        /// <summary>
+        /// 根据窗口标题获取窗口，并允许窗口重绘
+        /// </summary>
+        /// <param name="WindowTitle">窗口标题（字符串不能有任何差别）</param>
+        /// <returns>设置成功返回非0值，失败返回0</returns>
+        public static int SetWindowCanRedraw(string WindowTitle)
+        {
+            string lpClassName = null;
+            int WM_SETREDRAW = 11;
+            return SendMessage(FindWindow(lpClassName, WindowTitle), WM_SETREDRAW, 1, 0);
+        }
+        /// <summary>
+        /// 根据窗口标题获取窗口，并禁止窗口重绘
+        /// </summary>
+        /// <param name="WindowTitle">窗口标题（字符串不能有任何差别）</param>
+        /// <returns>设置成功返回非0值，失败返回0</returns>
+        public static int SetWindowCanNotRedraw(string WindowTitle)
+        {
+            string lpClassName = null;
+            int WM_SETREDRAW = 11;
+            return SendMessage(FindWindow(lpClassName, WindowTitle), WM_SETREDRAW, 0, 0);
+        }        
         [System.Runtime.InteropServices.DllImport("user32.dll", EntryPoint = "ShowWindow", CharSet = System.Runtime.InteropServices.CharSet.Ansi, SetLastError = true, ExactSpelling = true)]
         private static extern bool ShowWindow(System.IntPtr hWnd, uint nCmdShow);
         /// <summary>
