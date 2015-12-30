@@ -1753,7 +1753,7 @@
         /// <returns>成功返回完整的文件路径，失败返回进程名称（例如"notepad.exe"）</returns>
         public static string GetProcessFilePath(string ProcessName)
         {
-            if (!ProcessName.ToLower().EndsWith(".exe"))
+            if (ProcessName.ToLower().EndsWith(".exe"))
             {
                 ProcessName = ProcessName.Substring(0, ProcessName.Length-4);
             }
