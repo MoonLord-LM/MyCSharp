@@ -7,8 +7,9 @@ namespace My
     /// <summary>
     /// HTTP网络请求相关函数
     /// </summary>
-    public sealed class Http
+    public sealed partial class Http
     {
+
         /// <summary>
         /// 获取字符串
         /// </summary>
