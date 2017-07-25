@@ -21,12 +21,14 @@ namespace MyCSharp
         //2秒
         private void timer1_Tick(object sender, EventArgs e)
         {
-
+            timer1.Enabled = false;
+            timer2.Enabled = true;
         }
         //2秒
         private void timer2_Tick(object sender,EventArgs e)
         {
-
+            timer2.Enabled = false;
+            timer1.Enabled = true;
         }
 
     }
