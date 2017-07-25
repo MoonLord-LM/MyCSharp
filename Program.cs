@@ -24,14 +24,14 @@ namespace MyCSharp
         //注意：Application_ThreadException方法执行完成后，应用程序仍会继续运行
         static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
         {
-            MessageBox.Show(e.Exception.ToString());
+            MessageBox.Show("UI"+e.Exception.ToString());
         }
 
         //在这里处理多线程异常
         //注意：CurrentDomain_UnhandledException方法执行完成后，应用程序就会被终止
         static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            MessageBox.Show(((Exception)e.ExceptionObject).ToString());
+            MessageBox.Show("非UI"+((Exception)e.ExceptionObject).ToString());
         }
 
         //测试抛出异常的效果
