@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // 特性集控制。更改这些特性值可修改
 // 与程序集关联的信息。
 [assembly: AssemblyTitle("MyCSharp")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("https://github.com/MoonLord-LM/MyCSharp")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("MoonLord")]
+[assembly: AssemblyCompany("www.moonlord.cn")]
 [assembly: AssemblyProduct("MyCSharp")]
-[assembly: AssemblyCopyright("Copyright © MoonLord 2015")]
+[assembly: AssemblyCopyright("Copyright © MoonLord 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
