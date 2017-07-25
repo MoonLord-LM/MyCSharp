@@ -9,6 +9,9 @@ namespace My
     using Microsoft.VisualBasic;
     using Microsoft.VisualBasic.CompilerServices;
 
+    /// <summary>
+    /// 磁盘文件读写相关函数
+    /// </summary>
     public sealed partial class IO
     {
 
