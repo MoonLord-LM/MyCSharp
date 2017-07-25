@@ -86,10 +86,24 @@
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
     <Compile Include="My.cs" />
+    <Compile Include="Example.cs" />
+    <Compile Include="MyCSharp\Http.cs" />
+    <Compile Include="MyCSharp\IO.cs" />
+    <Compile Include="MyCSharp\Keyboard.cs" />
+    <Compile Include="MyCSharp\Mouse.cs" />
+    <Compile Include="MyCSharp\Power.cs" />
+    <Compile Include="MyCSharp\Resource.cs" />
+    <Compile Include="MyCSharp\Screen.cs" />
+    <Compile Include="MyCSharp\Security.cs" />
+    <Compile Include="MyCSharp\StringProcessing.cs" />
+    <Compile Include="MyCSharp\Task.cs" />
+    <Compile Include="MyCSharp\Time.cs" />
+    <Compile Include="MyCSharp\Window.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -132,9 +146,7 @@
   <ItemGroup>
     <Content Include="windows.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="MyCSharp\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
