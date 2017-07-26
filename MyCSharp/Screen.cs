@@ -58,7 +58,7 @@ namespace My
         /// <returns>结果图片（失败返回1*1个像素，#00000000透明色的图片）</returns>
         public static Bitmap ImageThumbnail(double Scale)
         {
-            if ((Scale <= 0.0) | (Scale > 1.0))
+            if ((Scale <= 0) | (Scale > 1))
             {
                 return new Bitmap(1, 1);
             }
@@ -86,7 +86,7 @@ namespace My
         /// <returns>结果图片（失败返回1*1个像素，#00000000透明色的图片）</returns>
         public static Bitmap ImageThumbnail(Rectangle Area, double Scale)
         {
-            if ((Scale <= 0.0) | (Scale > 1.0))
+            if ((Scale <= 0) | (Scale > 1))
             {
                 return new Bitmap(1, 1);
             }

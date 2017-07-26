@@ -248,7 +248,7 @@ namespace My
             try
             {
                 char[] KeyArray = KeyString.ToCharArray();
-                for (int i = 0; i <= KeyArray.Length - 1; i++)
+                for (int i = 0; i < KeyArray.Length; i++)
                 {
                     char Key = KeyArray[i];
                     if ((i > 0) & (MillisecondsInterval != 0))
@@ -327,8 +327,7 @@ namespace My
             try
             {
                 string str = "QWERTYUIOPASDFGHJKLZXCVBNM";
-                int num2 = Source.Length - 1;
-                for (int i = 0; i <= num2; i++)
+                for (int i = 0; i < Source.Length; i++)
                 {
                     if ((i > 0) & (MillisecondsInterval != 0))
                     {

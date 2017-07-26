@@ -175,7 +175,7 @@ namespace My
             try
             {
                 StringBuilder builder = new StringBuilder();
-                for (int i = 0; i <= StringArray.Length - 2; i++)
+                for (int i = 0; i < StringArray.Length - 1; i++)
                 {
                     builder.Append(StringArray[i] + "\r\n");
                 }
@@ -205,7 +205,7 @@ namespace My
             try
             {
                 StringBuilder builder = new StringBuilder();
-                for (int i = 0; i <= StringArray.Length - 1; i++)
+                for (int i = 0; i < StringArray.Length; i++)
                 {
                     builder.Append("\r\n" + StringArray[i]);
                 }
