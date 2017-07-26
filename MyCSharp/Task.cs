@@ -350,12 +350,12 @@ namespace My
             {
                 int id = threads[i].Id;
                 IntPtr hThread = OpenThread(0x1f0fff, false, (uint)id);
-                int num2 = ResumeThread(hThread);
-                result &= num2 != -1;
-                while (num2 > 0)
+                int temp = ResumeThread(hThread);
+                result &= temp != -1;
+                while (temp > 0)
                 {
-                    num2 = ResumeThread(hThread);
-                    result &= num2 != -1;
+                    temp = ResumeThread(hThread);
+                    result &= temp != -1;
                 }
             }
             return result;
@@ -412,21 +412,21 @@ namespace My
                     for (int i = 0; i <= threads.Count; i++)
                     {
                         int id = threads[i].Id;
-                        Task.SuspendThread(Task.OpenThread(0x1f0fff, false, (uint)id));
+                        SuspendThread(OpenThread(0x1f0fff, false, (uint)id));
                     }
                     try
                     {
-                        System.Threading.Thread.Sleep((int)this.SleepMillisecond);
+                        Thread.Sleep((int)this.SleepMillisecond);
                     }
                     catch (Exception ex) { }
                     for (int j = 0; j < threads.Count; j++)
                     {
                         int num4 = threads[j].Id;
-                        Task.ResumeThread(Task.OpenThread(0x1f0fff, false, (uint)num4));
+                        ResumeThread(OpenThread(0x1f0fff, false, (uint)num4));
                     }
                     try
                     {
-                        System.Threading.Thread.Sleep((int)this.IntervalMillisecond);
+                        Thread.Sleep((int)this.IntervalMillisecond);
                     }
                     catch (Exception ex) { }
                 }

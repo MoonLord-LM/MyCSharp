@@ -1266,13 +1266,13 @@ namespace My
                     Window.SuspendThread(this.ThreadhWnd);
                     try
                     {
-                        System.Threading.Thread.Sleep((int)this.SleepMillisecond);
+                        Thread.Sleep((int)this.SleepMillisecond);
                     }
                     catch (Exception ex) { }
                     Window.ResumeThread(this.ThreadhWnd);
                     try
                     {
-                        System.Threading.Thread.Sleep((int)this.IntervalMillisecond);
+                        Thread.Sleep((int)this.IntervalMillisecond);
                     }
                     catch (Exception ex) { }
                 }
