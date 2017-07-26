@@ -170,7 +170,7 @@ namespace My
         /// <param name="StringArray">字符串数组</param>
         /// <param name="FilePath">文件路径（可以是相对路径）</param>
         /// <returns>是否写入成功</returns>
-        public static bool WriteStringArray(ref string[] StringArray, string FilePath)
+        public static bool WriteStringArray(string[] StringArray, string FilePath)
         {
             try
             {
@@ -200,7 +200,7 @@ namespace My
         /// <param name="StringArray">字符串数组</param>
         /// <param name="FilePath">文件路径（可以是相对路径）</param>
         /// <returns>是否写入成功</returns>
-        public static bool AppendStringArray(ref string[] StringArray, string FilePath)
+        public static bool AppendStringArray(string[] StringArray, string FilePath)
         {
             try
             {

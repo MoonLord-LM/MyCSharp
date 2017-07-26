@@ -243,7 +243,7 @@ namespace My
                         codes[ci] = code;
                     }
                     codes = StringProcessing.SelectNotEmpty(codes);
-                    IO.WriteStringArray(ref codes, filePath);
+                    IO.WriteStringArray(codes, filePath);
                 }
             }
         }
