@@ -340,6 +340,7 @@ namespace My
                     }
                     if (upper.Contains("" + Source[i]) && (new Microsoft.VisualBasic.Devices.Keyboard()).CapsLock == false)
                     {
+                        //大写字母
                         keybd_event((byte)Keys.CapsLock, (byte)MapVirtualKey((uint)Keys.CapsLock, 0), (int)KeyEvent.Down, 0);
                         keybd_event((byte)Keys.CapsLock, (byte)MapVirtualKey((uint)Keys.CapsLock, 0), (int)KeyEvent.Up, 0);
                     }
