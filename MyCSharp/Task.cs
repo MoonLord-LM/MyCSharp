@@ -191,6 +191,7 @@ namespace My
                 }
                 catch (Exception ex)
                 {
+                    //System.Windows.Forms.MessageBox.Show(process.ProcessName & ex.ToString());
                 }
             }
             return list.ToArray();
@@ -206,11 +207,11 @@ namespace My
         /// <remarks></remarks>
         public static Process FindByName(string TaskName)
         {
-            foreach (Process process2 in Process.GetProcesses())
+            foreach (Process process in Process.GetProcesses())
             {
-                if (process2.ProcessName.ToLower() == TaskName.ToLower())
+                if (process.ProcessName.ToLower() == TaskName.ToLower())
                 {
-                    return process2;
+                    return process;
                 }
             }
             return null;
@@ -228,18 +229,18 @@ namespace My
             {
                 FilePath = Directory.GetCurrentDirectory() + @"\" + FilePath;
             }
-            foreach (Process process2 in processes)
+            foreach (Process process in processes)
             {
                 try
                 {
-                    if (process2.MainModule.FileName.ToLower() == FilePath.ToLower())
+                    if (process.MainModule.FileName.ToLower() == FilePath.ToLower())
                     {
-                        return process2;
+                        return process;
                     }
                 }
                 catch (Exception ex)
                 {
-                    //System.Windows.Forms.MessageBox.Show(P.ProcessName & ex.ToString());
+                    //System.Windows.Forms.MessageBox.Show(process.ProcessName & ex.ToString());
                 }
             }
             return null;
@@ -253,18 +254,18 @@ namespace My
         public static Process SearchByTitle(string Title)
         {
             Process[] processes = Process.GetProcesses();
-            foreach (Process process2 in processes)
+            foreach (Process process in processes)
             {
-                if (process2.MainWindowTitle.ToLower() == Title.ToLower())
+                if (process.MainWindowTitle.ToLower() == Title.ToLower())
                 {
-                    return process2;
+                    return process;
                 }
             }
-            foreach (Process process3 in processes)
+            foreach (Process process in processes)
             {
-                if (process3.MainWindowTitle.ToLower().Contains(Title.ToLower()))
+                if (process.MainWindowTitle.ToLower().Contains(Title.ToLower()))
                 {
-                    return process3;
+                    return process;
                 }
             }
             return null;
@@ -301,8 +302,7 @@ namespace My
             }
             ProcessThreadCollection threads = Process.Threads;
             bool result = true;
-            int num3 = threads.Count - 1;
-            for (int i = 0; i <= num3; i++)
+            for (int i = 0; i < threads.Count; i++)
             {
                 int id = threads[i].Id;
                 IntPtr hThread = OpenThread(0x1f0fff, false, (uint)id);
@@ -324,8 +324,7 @@ namespace My
             }
             ProcessThreadCollection threads = Process.Threads;
             bool result = true;
-            int num3 = threads.Count - 1;
-            for (int i = 0; i <= num3; i++)
+            for (int i = 0; i < threads.Count; i++)
             {
                 int id = threads[i].Id;
                 IntPtr hThread = OpenThread(0x1f0fff, false, (uint)id);
@@ -347,8 +346,7 @@ namespace My
             }
             ProcessThreadCollection threads = Process.Threads;
             bool result = true;
-            int num4 = threads.Count - 1;
-            for (int i = 0; i <= num4; i++)
+            for (int i = 0; i < threads.Count; i++)
             {
                 int id = threads[i].Id;
                 IntPtr hThread = OpenThread(0x1f0fff, false, (uint)id);
@@ -377,11 +375,11 @@ namespace My
             {
                 return false;
             }
-            if (SleepMillisecond <= 0L)
+            if (SleepMillisecond <= 0)
             {
                 SleepMillisecond = 1;
             }
-            if (IntervalMillisecond <= 0L)
+            if (IntervalMillisecond <= 0)
             {
                 IntervalMillisecond = 1;
             }
@@ -411,8 +409,7 @@ namespace My
                         this.Thread.Abort();
                     }
                     ProcessThreadCollection threads = this.Process.Threads;
-                    int num5 = threads.Count - 1;
-                    for (int i = 0; i <= num5; i++)
+                    for (int i = 0; i <= threads.Count; i++)
                     {
                         int id = threads[i].Id;
                         Task.SuspendThread(Task.OpenThread(0x1f0fff, false, (uint)id));
@@ -422,8 +419,7 @@ namespace My
                         System.Threading.Thread.Sleep((int)this.SleepMillisecond);
                     }
                     catch (Exception ex) { }
-                    int num6 = threads.Count - 1;
-                    for (int j = 0; j <= num6; j++)
+                    for (int j = 0; j < threads.Count; j++)
                     {
                         int num4 = threads[j].Id;
                         Task.ResumeThread(Task.OpenThread(0x1f0fff, false, (uint)num4));
