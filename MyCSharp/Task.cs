@@ -371,7 +371,7 @@ namespace My
         /// <param name="IntervalMillisecond">挂起恢复的间隔时间（默认50毫秒，最少1毫秒）</param>
         /// <returns>是否执行成功</returns>
         /// <remarks></remarks>
-        public static bool ThreadLimit(Process Process, [Optional, DefaultParameterValue(50)] uint SleepMillisecond, [Optional, DefaultParameterValue(50)] uint IntervalMillisecond)
+        public static bool ThreadLimit(Process Process, [Optional, DefaultParameterValue((uint)50)] uint SleepMillisecond, [Optional, DefaultParameterValue((uint)50)] uint IntervalMillisecond)
         {
             if ((Process == null) || Process.HasExited)
             {

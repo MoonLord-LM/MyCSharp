@@ -111,7 +111,7 @@ namespace My
         /// <param name="Keys3">键位3（Windows.Forms.Keys）</param>
         /// <param name="Keys4">键位4（Windows.Forms.Keys）</param>
         /// <returns>是否执行成功</returns>
-        public static bool Click(Keys Keys1, Keys Keys2, [Optional, DefaultParameterValue(0)] Keys Keys3, [Optional, DefaultParameterValue(0)] Keys Keys4)
+        public static bool Click(Keys Keys1, Keys Keys2, [Optional, DefaultParameterValue(Keys.None)] Keys Keys3, [Optional, DefaultParameterValue(Keys.None)] Keys Keys4)
         {
             try
             {
