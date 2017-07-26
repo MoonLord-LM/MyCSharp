@@ -12,7 +12,7 @@ namespace My
     /// 进程管理相关函数
     /// </summary>
     /// <remarks></remarks>
-    public sealed class Task
+    public sealed partial class Task
     {
 
         /// <summary>

@@ -7,7 +7,7 @@ namespace My
     /// 时间管理、转换相关函数
     /// </summary>
     /// <remarks></remarks>
-    public sealed class Time
+    public sealed partial class Time
     {
 
         /// <summary>
