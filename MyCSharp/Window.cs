@@ -640,12 +640,11 @@ namespace My
         public static bool SetRectangle(IntPtr hWnd, Rectangle Rectangle)
         {
             bool result;
-            IntPtr ptr = new IntPtr(0);
             if (IsIconic(hWnd))
             {
                 ShowWindow(hWnd, (uint)ShowState.Hide);
                 ShowWindow(hWnd, (uint)ShowState.ShowNormal);
-                result = SetWindowPos(hWnd, ptr, Rectangle.Left, Rectangle.Top, Rectangle.Width, Rectangle.Height, (uint)(uint)SetPos.NoActivate);
+                result = SetWindowPos(hWnd, IntPtr.Zero, Rectangle.Left, Rectangle.Top, Rectangle.Width, Rectangle.Height, (uint)SetPos.NoActivate);
                 ShowWindow(hWnd, (uint)ShowState.ShowMinimized);
                 return result;
             }
@@ -653,11 +652,11 @@ namespace My
             {
                 ShowWindow(hWnd, (uint)ShowState.Hide);
                 ShowWindow(hWnd, (uint)ShowState.ShowNormal);
-                result = SetWindowPos(hWnd, ptr, Rectangle.Left, Rectangle.Top, Rectangle.Width, Rectangle.Height, (uint)(uint)SetPos.NoActivate);
+                result = SetWindowPos(hWnd, IntPtr.Zero, Rectangle.Left, Rectangle.Top, Rectangle.Width, Rectangle.Height, (uint)SetPos.NoActivate);
                 ShowWindow(hWnd, (uint)ShowState.ShowMaximized);
                 return result;
             }
-            return SetWindowPos(hWnd, ptr, Rectangle.Left, Rectangle.Top, Rectangle.Width, Rectangle.Height, (uint)(uint)SetPos.NoActivate);
+            return SetWindowPos(hWnd, IntPtr.Zero, Rectangle.Left, Rectangle.Top, Rectangle.Width, Rectangle.Height, (uint)SetPos.NoActivate);
         }
         /// <summary>
         /// 设置窗口位置（即使窗口处于隐藏、最小化、最大化状态也能设置）
@@ -669,12 +668,11 @@ namespace My
         public static bool SetLocation(IntPtr hWnd, Point Point)
         {
             bool result;
-            IntPtr ptr = new IntPtr(0);
             if (IsIconic(hWnd))
             {
                 ShowWindow(hWnd, (uint)ShowState.Hide);
                 ShowWindow(hWnd, (uint)ShowState.ShowNormal);
-                result = SetWindowPos(hWnd, ptr, Point.X, Point.Y, 0, 0, (uint)(uint)SetPos.NoSize | (uint)(uint)SetPos.NoActivate);
+                result = SetWindowPos(hWnd, IntPtr.Zero, Point.X, Point.Y, 0, 0, (uint)SetPos.NoSize | (uint)SetPos.NoActivate);
                 ShowWindow(hWnd, (uint)ShowState.ShowMinimized);
                 return result;
             }
@@ -682,11 +680,11 @@ namespace My
             {
                 ShowWindow(hWnd, (uint)ShowState.Hide);
                 ShowWindow(hWnd, (uint)ShowState.ShowNormal);
-                result = SetWindowPos(hWnd, ptr, Point.X, Point.Y, 0, 0, (uint)(uint)SetPos.NoSize | (uint)(uint)SetPos.NoActivate);
+                result = SetWindowPos(hWnd, IntPtr.Zero, Point.X, Point.Y, 0, 0, (uint)SetPos.NoSize | (uint)SetPos.NoActivate);
                 ShowWindow(hWnd, (uint)ShowState.ShowMaximized);
                 return result;
             }
-            return SetWindowPos(hWnd, ptr, Point.X, Point.Y, 0, 0, (uint)(uint)SetPos.NoSize | (uint)(uint)SetPos.NoActivate);
+            return SetWindowPos(hWnd, IntPtr.Zero, Point.X, Point.Y, 0, 0, (uint)SetPos.NoSize | (uint)SetPos.NoActivate);
         }
         /// <summary>
         /// 设置窗口居中（即使窗口处于隐藏、最小化、最大化状态也能设置，效果类似于StartPosition = FormStartPosition.CenterScreen）
@@ -698,7 +696,6 @@ namespace My
         {
             bool result;
             Placement placement;
-            IntPtr ptr = new IntPtr(0);
             Rectangle bounds = System.Windows.Forms.Screen.PrimaryScreen.Bounds;
             GetWindowPlacement(hWnd, out placement);
             Rect rcNormalPosition = placement.rcNormalPosition;
@@ -706,7 +703,7 @@ namespace My
             {
                 ShowWindow(hWnd, (uint)ShowState.Hide);
                 ShowWindow(hWnd, (uint)ShowState.ShowNormal);
-                result = SetWindowPos(hWnd, ptr, (int)Math.Round((double)(((double)(bounds.Width - (rcNormalPosition.Right - rcNormalPosition.Left))) / 2.0)), (int)Math.Round((double)(((double)(bounds.Height - (rcNormalPosition.Bottom - rcNormalPosition.Top))) / 2.0)), 0, 0, (uint)(uint)SetPos.NoSize | (uint)(uint)SetPos.NoActivate);
+                result = SetWindowPos(hWnd, IntPtr.Zero, bounds.Width - (rcNormalPosition.Right - rcNormalPosition.Left) / 2, bounds.Height - (rcNormalPosition.Bottom - rcNormalPosition.Top) / 2, 0, 0, (uint)SetPos.NoSize | (uint)SetPos.NoActivate);
                 ShowWindow(hWnd, (uint)ShowState.ShowMinimized);
                 return result;
             }
@@ -714,11 +711,11 @@ namespace My
             {
                 ShowWindow(hWnd, (uint)ShowState.Hide);
                 ShowWindow(hWnd, (uint)ShowState.ShowNormal);
-                result = SetWindowPos(hWnd, ptr, bounds.Width - (rcNormalPosition.Right - rcNormalPosition.Left) / 2, bounds.Height - (rcNormalPosition.Bottom - rcNormalPosition.Top) / 2, 0, 0, (uint)(uint)SetPos.NoSize | (uint)(uint)SetPos.NoActivate);
+                result = SetWindowPos(hWnd, IntPtr.Zero, bounds.Width - (rcNormalPosition.Right - rcNormalPosition.Left) / 2, bounds.Height - (rcNormalPosition.Bottom - rcNormalPosition.Top) / 2, 0, 0, (uint)SetPos.NoSize | (uint)SetPos.NoActivate);
                 ShowWindow(hWnd, (uint)ShowState.ShowMaximized);
                 return result;
             }
-            return SetWindowPos(hWnd, ptr, bounds.Width - (rcNormalPosition.Right - rcNormalPosition.Left) / 2, bounds.Height - (rcNormalPosition.Bottom - rcNormalPosition.Top) / 2, 0, 0, (uint)(uint)SetPos.NoSize | (uint)(uint)SetPos.NoActivate);
+            return SetWindowPos(hWnd, IntPtr.Zero, bounds.Width - (rcNormalPosition.Right - rcNormalPosition.Left) / 2, bounds.Height - (rcNormalPosition.Bottom - rcNormalPosition.Top) / 2, 0, 0, (uint)SetPos.NoSize | (uint)SetPos.NoActivate);
         }
         /// <summary>
         /// 设置窗口大小（即使窗口处于隐藏、最小化、最大化状态也能设置）
@@ -730,12 +727,11 @@ namespace My
         public static bool SetSize(IntPtr hWnd, Size Size)
         {
             bool result;
-            IntPtr ptr = new IntPtr(0);
             if (IsIconic(hWnd))
             {
                 ShowWindow(hWnd, (uint)ShowState.Hide);
                 ShowWindow(hWnd, (uint)ShowState.ShowNormal);
-                result = SetWindowPos(hWnd, ptr, 0, 0, Size.Width, Size.Height, (uint)(uint)SetPos.NoMove | (uint)(uint)SetPos.NoActivate);
+                result = SetWindowPos(hWnd, IntPtr.Zero, 0, 0, Size.Width, Size.Height, (uint)SetPos.NoMove | (uint)SetPos.NoActivate);
                 ShowWindow(hWnd, (uint)ShowState.ShowMinimized);
                 return result;
             }
@@ -743,11 +739,11 @@ namespace My
             {
                 ShowWindow(hWnd, (uint)ShowState.Hide);
                 ShowWindow(hWnd, (uint)ShowState.ShowNormal);
-                result = SetWindowPos(hWnd, ptr, 0, 0, Size.Width, Size.Height, (uint)(uint)SetPos.NoMove | (uint)(uint)SetPos.NoActivate);
+                result = SetWindowPos(hWnd, IntPtr.Zero, 0, 0, Size.Width, Size.Height, (uint)SetPos.NoMove | (uint)SetPos.NoActivate);
                 ShowWindow(hWnd, (uint)ShowState.ShowMaximized);
                 return result;
             }
-            return SetWindowPos(hWnd, ptr, 0, 0, Size.Width, Size.Height, (uint)(uint)SetPos.NoMove | (uint)(uint)SetPos.NoActivate);
+            return SetWindowPos(hWnd, IntPtr.Zero, 0, 0, Size.Width, Size.Height, (uint)SetPos.NoMove | (uint)SetPos.NoActivate);
         }
         /// <summary>
         /// 显示窗口（不获得系统焦点）
@@ -757,8 +753,7 @@ namespace My
         /// <remarks></remarks>
         public static bool Show(IntPtr hWnd)
         {
-            IntPtr ptr = new IntPtr(0);
-            return SetWindowPos(hWnd, ptr, 0, 0, 0, 0, (uint)SetPos.ShowWindow | (uint)SetPos.NoMove | (uint)SetPos.NoSize | (uint)SetPos.NoActivate);
+            return SetWindowPos(hWnd, IntPtr.Zero, 0, 0, 0, 0, (uint)SetPos.ShowWindow | (uint)SetPos.NoMove | (uint)SetPos.NoSize | (uint)SetPos.NoActivate);
         }
         /// <summary>
         /// 隐藏窗口（不获得系统焦点）
@@ -768,8 +763,7 @@ namespace My
         /// <remarks></remarks>
         public static bool Hide(IntPtr hWnd)
         {
-            IntPtr ptr = new IntPtr(0);
-            return SetWindowPos(hWnd, ptr, 0, 0, 0, 0, (uint)SetPos.HideWindow | (uint)SetPos.NoMove | (uint)SetPos.NoSize | (uint)SetPos.NoActivate);
+            return SetWindowPos(hWnd, IntPtr.Zero, 0, 0, 0, 0, (uint)SetPos.HideWindow | (uint)SetPos.NoMove | (uint)SetPos.NoSize | (uint)SetPos.NoActivate);
         }
         /// <summary>
         /// 设置窗口是否置顶（置顶窗口，显示在其它所有非置顶窗口之上）
@@ -866,8 +860,7 @@ namespace My
         public static bool Refresh(IntPtr hWnd)
         {
             Rect rect = new Rect();
-            IntPtr ptr = new IntPtr(0);
-            return RedrawWindow(hWnd, rect, ptr, (uint)Redraw.Invalidate | (uint)Redraw.DoErase | (uint)Redraw.UpdateNow);
+            return RedrawWindow(hWnd, rect, IntPtr.Zero, (uint)Redraw.Invalidate | (uint)Redraw.DoErase | (uint)Redraw.UpdateNow);
         }
         /// <summary>
         /// 使窗口获得系统焦点（隐藏的窗口会显示出来，最小化/最大化的窗口会还原，禁止重绘的窗口会允许重绘）
@@ -946,7 +939,7 @@ namespace My
         /// <remarks></remarks>
         public static bool Flash(IntPtr hWnd, [Optional, DefaultParameterValue((uint)1)] uint Times, [Optional, DefaultParameterValue((uint)1000)] uint IntervalMillisecond)
         {
-            if (IntervalMillisecond <= 0L)
+            if (IntervalMillisecond <= 0)
             {
                 Times = 1;
             }
@@ -954,8 +947,7 @@ namespace My
             {
                 return false;
             }
-            long num2 = Times - 1L;
-            for (long i = 0L; i <= num2; i += 1L)
+            for (uint i = 0; i < Times; i++)
             {
                 FlashWindow(hWnd, true);
                 FlashWindow(hWnd, false);
@@ -981,11 +973,11 @@ namespace My
             {
                 return false;
             }
-            if (IntervalMillisecond <= 0L)
+            if (IntervalMillisecond <= 0)
             {
                 Times = 1;
             }
-            if (Times <= 0L)
+            if (Times <= 0)
             {
                 return false;
             }
@@ -1035,18 +1027,15 @@ namespace My
         /// <remarks></remarks>
         public static bool ToggleDesktop()
         {
-            bool result;
             try
             {
                 NewLateBinding.LateCall(Interaction.CreateObject("Shell.Application", ""), null, "ToggleDesktop", new object[0], null, null, null, true);
-                result = true;
+                return true;
             }
             catch (Exception ex)
             {
-                result = false;
-                return result;
+                return false;
             }
-            return result;
         }
         /// <summary>
         /// 显示或隐藏窗口的3D切换效果（需要Windows Vista及更高版本的系统）
@@ -1055,18 +1044,15 @@ namespace My
         /// <remarks></remarks>
         public static bool Toggle3DSwitcher()
         {
-            bool result;
             try
             {
                 NewLateBinding.LateCall(Interaction.CreateObject("Shell.Application", ""), null, "WindowSwitcher", new object[0], null, null, null, true);
-                result = true;
+                return true;
             }
             catch (Exception ex)
             {
-                result = false;
-                return result;
+                return false;
             }
-            return result;
         }
         /// <summary>
         /// 显示关闭计算机界面
@@ -1075,18 +1061,15 @@ namespace My
         /// <remarks></remarks>
         public static bool ShowShutDown()
         {
-            bool result;
             try
             {
                 NewLateBinding.LateCall(Interaction.CreateObject("Shell.Application", ""), null, "ShutdownWindows", new object[0], null, null, null, true);
-                result = true;
+                return true;
             }
             catch (Exception ex)
             {
-                result = false;
-                return result;
+                return false;
             }
-            return result;
         }
         /// <summary>
         /// 显示文件搜索界面
@@ -1095,18 +1078,15 @@ namespace My
         /// <remarks></remarks>
         public static bool ShowSearchFile()
         {
-            bool result;
             try
             {
                 NewLateBinding.LateCall(Interaction.CreateObject("Shell.Application", ""), null, "FindFiles", new object[0], null, null, null, true);
-                result = true;
+                return true;
             }
             catch (Exception ex)
             {
-                result = false;
-                return result;
+                return false;
             }
-            return result;
         }
         /// <summary>
         /// 显示时间与日期界面
@@ -1115,18 +1095,15 @@ namespace My
         /// <remarks></remarks>
         public static bool ShowSetTime()
         {
-            bool result;
             try
             {
                 NewLateBinding.LateCall(Interaction.CreateObject("Shell.Application", ""), null, "SetTime", new object[0], null, null, null, true);
-                result = true;
+                return true;
             }
             catch (Exception ex)
             {
-                result = false;
-                return result;
+                return false;
             }
-            return result;
         }
         /// <summary>
         /// 显示任务栏属性界面
@@ -1135,18 +1112,15 @@ namespace My
         /// <remarks></remarks>
         public static bool ShowTrayProperties()
         {
-            bool result;
             try
             {
                 NewLateBinding.LateCall(Interaction.CreateObject("Shell.Application", ""), null, "TrayProperties", new object[0], null, null, null, true);
-                result = true;
+                return true;
             }
             catch (Exception ex)
             {
-                result = false;
-                return result;
+                return false;
             }
-            return result;
         }
         /// <summary>
         /// 显示运行界面
@@ -1155,18 +1129,15 @@ namespace My
         /// <remarks></remarks>
         public static bool ShowFileRun()
         {
-            bool result;
             try
             {
                 NewLateBinding.LateCall(Interaction.CreateObject("Shell.Application", ""), null, "FileRun", new object[0], null, null, null, true);
-                result = true;
+                return true;
             }
             catch (Exception ex)
             {
-                result = false;
-                return result;
+                return false;
             }
-            return result;
         }
 
 
@@ -1199,7 +1170,7 @@ namespace My
             }
             int lpdwProcessId;
             int windowThreadProcessId = GetWindowThreadProcessId(hWnd, out lpdwProcessId);
-            return (SuspendThread(OpenThread(0x1f0fff, false, (uint)windowThreadProcessId)) != -1);
+            return (SuspendThread(OpenThread((uint)ThreadAccess.All, false, (uint)windowThreadProcessId)) != -1);
         }
         /// <summary>
         /// 恢复窗口线程（Suspend Count减1）
@@ -1215,7 +1186,7 @@ namespace My
             }
             int lpdwProcessId;
             int windowThreadProcessId = GetWindowThreadProcessId(hWnd, out lpdwProcessId);
-            return (ResumeThread(OpenThread(0x1f0fff, false, (uint)windowThreadProcessId)) != -1);
+            return (ResumeThread(OpenThread((uint)ThreadAccess.All, false, (uint)windowThreadProcessId)) != -1);
         }
         /// <summary>
         /// 强制恢复窗口线程（Suspend Count减到0）
@@ -1231,13 +1202,13 @@ namespace My
             }
             int lpdwProcessId;
             int windowThreadProcessId = GetWindowThreadProcessId(hWnd, out lpdwProcessId);
-            IntPtr hThread = OpenThread(0x1f0fff, false, (uint)windowThreadProcessId);
-            int num = ResumeThread(hThread);
-            bool result = num != -1;
-            while (num > 0)
+            IntPtr hThread = OpenThread((uint)ThreadAccess.All, false, (uint)windowThreadProcessId);
+            int temp = ResumeThread(hThread);
+            bool result = temp != -1;
+            while (temp > 0)
             {
-                num = ResumeThread(hThread);
-                result &= num != -1;
+                temp = ResumeThread(hThread);
+                result &= temp != -1;
             }
             return result;
         }
@@ -1256,11 +1227,11 @@ namespace My
             {
                 return false;
             }
-            if (SleepMillisecond <= 0L)
+            if (SleepMillisecond <= 0)
             {
                 SleepMillisecond = 1;
             }
-            if (IntervalMillisecond <= 0L)
+            if (IntervalMillisecond <= 0)
             {
                 IntervalMillisecond = 1;
             }
@@ -1282,7 +1253,7 @@ namespace My
                 this.IntervalMillisecond = TaskIntervalMillisecond;
                 int lpdwProcessId = 0;
                 int windowThreadProcessId = Window.GetWindowThreadProcessId(this.WindowhWnd, out lpdwProcessId);
-                this.ThreadhWnd = Window.OpenThread(0x1f0fff, false, (uint)windowThreadProcessId);
+                this.ThreadhWnd = Window.OpenThread((uint)ThreadAccess.All, false, (uint)windowThreadProcessId);
                 this.Thread.Start();
             }
             private void Run()
@@ -1298,19 +1269,13 @@ namespace My
                     {
                         System.Threading.Thread.Sleep((int)this.SleepMillisecond);
                     }
-                    catch (Exception ex)
-                    {
-                    }
+                    catch (Exception ex) { }
                     Window.ResumeThread(this.ThreadhWnd);
                     try
                     {
                         System.Threading.Thread.Sleep((int)this.IntervalMillisecond);
                     }
-                    catch (Exception exception3)
-                    {
-                        ProjectData.SetProjectError(exception3);
-                        Exception exception2 = exception3;
-                    }
+                    catch (Exception ex) { }
                 }
             }
         }
@@ -1348,9 +1313,9 @@ namespace My
                 lParam |= 0x1000000;
             }
             bool result = true;
-            result &= PostMessage(hWnd, 0x100, wCode, lParam);
+            result &= PostMessage(hWnd, (uint)WindowsMessage.KeyDown, wCode, lParam);
             lParam |= 0xc0000000;
-            return (result & PostMessage(hWnd, 0x101, wCode, lParam));
+            return (result & PostMessage(hWnd, (uint)WindowsMessage.KeyUp, wCode, lParam));
         }
         /// <summary>
         /// 向窗口发送按键消息（Alt组合键，实测：可发送Alt+F4组合键）
@@ -1374,11 +1339,11 @@ namespace My
             }
             bool result = true;
             lParam |= 0x20000000;
-            result &= PostMessage(hWnd, 260, wCode, (uint)(num2 | 0x20000000));
-            result &= PostMessage(hWnd, 260, num4, lParam);
+            result &= PostMessage(hWnd, (uint)WindowsMessage.SystemKeyDown, wCode, (uint)(num2 | 0x20000000));
+            result &= PostMessage(hWnd, (uint)WindowsMessage.SystemKeyDown, num4, lParam);
             lParam |= 0xc0000000;
-            result &= PostMessage(hWnd, 0x105, num4, lParam);
-            return (result & PostMessage(hWnd, 0x101, wCode, (uint)(num2 | 0xc0000000)));
+            result &= PostMessage(hWnd, (uint)WindowsMessage.SystemKeyUp, num4, lParam);
+            return (result & PostMessage(hWnd, (uint)WindowsMessage.KeyUp, wCode, (uint)(num2 | 0xc0000000)));
         }
         /// <summary>
         /// 向窗口发送按键消息（Ctrl组合键，实测：可发送Ctrl+S组合键，需要阻塞20毫秒，此过程中Ctrl键被按下）
@@ -1398,27 +1363,21 @@ namespace My
                 lParam |= 0x1000000;
             }
             bool result = true;
-            keybd_event(0x11, (byte)MapVirtualKey(0x11, 0), 0, 0);
+            keybd_event(0x11, (byte)MapVirtualKey((uint)Keys.ControlKey, 0), (int)KeyEvent.Down, 0);
             try
             {
                 Thread.Sleep(10);
             }
-            catch (Exception ex)
-            {
-            }
-            result &= PostMessage(hWnd, 0x100, wCode, lParam);
+            catch (Exception ex) { }
+            result &= PostMessage(hWnd, (uint)WindowsMessage.KeyDown, wCode, lParam);
             lParam |= 0xc0000000;
-            result &= PostMessage(hWnd, 0x105, wCode, lParam);
+            result &= PostMessage(hWnd, (uint)WindowsMessage.SystemKeyUp, wCode, lParam);
             try
             {
                 Thread.Sleep(10);
             }
-            catch (Exception exception3)
-            {
-                ProjectData.SetProjectError(exception3);
-                Exception exception2 = exception3;
-            }
-            keybd_event(0x11, (byte)MapVirtualKey(0x11, 0), 2, 0);
+            catch (Exception ex) { }
+            keybd_event(0x11, (byte)MapVirtualKey((uint)Keys.ControlKey, 0), (int)KeyEvent.Up, 0);
             return result;
         }
         /// <summary>
@@ -1439,27 +1398,21 @@ namespace My
                 lParam |= 0x1000000;
             }
             bool result = true;
-            keybd_event(0x10, (byte)MapVirtualKey(0x10, 0), 0, 0);
+            keybd_event(0x10, (byte)MapVirtualKey((uint)Keys.ShiftKey, 0), (int)KeyEvent.Down, 0);
             try
             {
                 Thread.Sleep(10);
             }
-            catch (Exception ex)
-            {
-            }
-            result &= PostMessage(hWnd, 0x100, wCode, lParam);
+            catch (Exception ex){}
+            result &= PostMessage(hWnd, (uint)WindowsMessage.KeyDown, wCode, lParam);
             lParam |= 0xc0000000;
-            result &= PostMessage(hWnd, 0x105, wCode, lParam);
+            result &= PostMessage(hWnd, (uint)WindowsMessage.SystemKeyUp, wCode, lParam);
             try
             {
                 Thread.Sleep(10);
             }
-            catch (Exception exception3)
-            {
-                ProjectData.SetProjectError(exception3);
-                Exception exception2 = exception3;
-            }
-            keybd_event(0x10, (byte)MapVirtualKey(0x10, 0), 2, 0);
+            catch (Exception ex) { }
+            keybd_event(0x10, (byte)MapVirtualKey((uint)Keys.ShiftKey, 0), (int)KeyEvent.Up, 0);
             return result;
         }
 
@@ -1493,10 +1446,10 @@ namespace My
             bool result = true;
             int x = Position.X;
             int y = Position.Y;
-            int lParam = Position.X | (Position.Y << 0x10);
-            result &= SendMessage(hWnd, 0x210, 0x201, lParam);
-            result &= PostMessage(hWnd, 0x201, 1, lParam);
-            return (result & PostMessage(hWnd, 0x202, 0, lParam));
+            int lParam = Position.X | (Position.Y << 16);
+            result &= SendMessage(hWnd, (uint)WindowsMessage.ParentNotify, (uint)WindowsMessage.LeftButtonDown, lParam);
+            result &= PostMessage(hWnd, (uint)WindowsMessage.LeftButtonDown, (uint)MouseKey.LeftButton, lParam);
+            return (result & PostMessage(hWnd, (uint)WindowsMessage.LeftButtonUp, (uint)MouseKey.Up, lParam));
         }
         /// <summary>
         /// 向窗口发送鼠标消息（左键双击，点击可能不被正常处理）
@@ -1509,13 +1462,13 @@ namespace My
             bool result = true;
             int x = Position.X;
             int y = Position.Y;
-            int lParam = Position.X | (Position.Y << 0x10);
-            result &= SendMessage(hWnd, 0x210, 0x201, lParam);
-            result &= PostMessage(hWnd, 0x201, 1, lParam);
-            result &= PostMessage(hWnd, 0x202, 0, lParam);
-            result &= SendMessage(hWnd, 0x210, 0x201, lParam);
-            result &= PostMessage(hWnd, 0x203, 1, lParam);
-            return (result & PostMessage(hWnd, 0x202, 0, lParam));
+            int lParam = Position.X | (Position.Y << 16);
+            result &= SendMessage(hWnd, (uint)WindowsMessage.ParentNotify, (uint)WindowsMessage.LeftButtonDown, lParam);
+            result &= PostMessage(hWnd, (uint)WindowsMessage.LeftButtonDown, (uint)MouseKey.LeftButton, lParam);
+            result &= PostMessage(hWnd, (uint)WindowsMessage.LeftButtonUp, (uint)MouseKey.Up, lParam);
+            result &= SendMessage(hWnd, (uint)WindowsMessage.ParentNotify, (uint)WindowsMessage.LeftButtonDown, lParam);
+            result &= PostMessage(hWnd, (uint)WindowsMessage.LeftButtonDoubleClick, (uint)MouseKey.LeftButton, lParam);
+            return (result & PostMessage(hWnd, (uint)WindowsMessage.LeftButtonUp, (uint)MouseKey.Up, lParam));
         }
 
     }
