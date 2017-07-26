@@ -943,7 +943,7 @@ namespace My
             {
                 Times = 1;
             }
-            if (Times <= 0L)
+            if (Times <= 0)
             {
                 return false;
             }
@@ -1000,8 +1000,7 @@ namespace My
             }
             private void Run()
             {
-                long num2 = this.Times - 1L;
-                for (long i = 0L; i <= num2; i += 1L)
+                for (uint i = 0; i < this.Times; i++)
                 {
                     if (!Window.IsWindow(this.hWnd))
                     {
@@ -1305,8 +1304,8 @@ namespace My
         public static bool SendKey(IntPtr hWnd, Keys Key)
         {
             uint wCode = (uint)Key;
-            uint num3 = MapVirtualKey(wCode, 0);
-            uint lParam = ((uint)1L) | (num3 << 0x10);
+            uint mvk = MapVirtualKey(wCode, 0);
+            uint lParam = (uint)1 | (mvk << 0x10);
             List<Keys> list = new List<Keys>(new Keys[] { Keys.RShiftKey, Keys.RControlKey, Keys.RMenu });
             if (list.Contains(Key))
             {
@@ -1327,11 +1326,10 @@ namespace My
         public static bool SendAltKey(IntPtr hWnd, Keys Key)
         {
             uint wCode = 0x12;
-            uint num3 = MapVirtualKey(wCode, 0);
-            uint num2 = ((uint)1L) | (num3 << 0x10);
-            uint num4 = (uint)Key;
-            uint num6 = MapVirtualKey(num4, 0);
-            uint lParam = ((uint)1L) | (num6 << 0x10);
+            uint mvk = MapVirtualKey(wCode, 0);
+            uint temp1 = (uint)1 | (mvk << 0x10);
+            uint temp2 = MapVirtualKey((uint)Key, 0);
+            uint lParam = (uint)1 | (temp2 << 0x10);
             List<Keys> list = new List<Keys>(new Keys[] { Keys.RShiftKey, Keys.RControlKey, Keys.RMenu });
             if (list.Contains(Key))
             {
@@ -1339,11 +1337,11 @@ namespace My
             }
             bool result = true;
             lParam |= 0x20000000;
-            result &= PostMessage(hWnd, (uint)WindowsMessage.SystemKeyDown, wCode, (uint)(num2 | 0x20000000));
-            result &= PostMessage(hWnd, (uint)WindowsMessage.SystemKeyDown, num4, lParam);
+            result &= PostMessage(hWnd, (uint)WindowsMessage.SystemKeyDown, wCode, (uint)(temp1 | 0x20000000));
+            result &= PostMessage(hWnd, (uint)WindowsMessage.SystemKeyDown, (uint)Key, lParam);
             lParam |= 0xc0000000;
-            result &= PostMessage(hWnd, (uint)WindowsMessage.SystemKeyUp, num4, lParam);
-            return (result & PostMessage(hWnd, (uint)WindowsMessage.KeyUp, wCode, (uint)(num2 | 0xc0000000)));
+            result &= PostMessage(hWnd, (uint)WindowsMessage.SystemKeyUp, (uint)Key, lParam);
+            return (result & PostMessage(hWnd, (uint)WindowsMessage.KeyUp, wCode, (uint)(temp1 | 0xc0000000)));
         }
         /// <summary>
         /// 向窗口发送按键消息（Ctrl组合键，实测：可发送Ctrl+S组合键，需要阻塞20毫秒，此过程中Ctrl键被按下）
@@ -1355,8 +1353,8 @@ namespace My
         public static bool SendCtrlKey(IntPtr hWnd, Keys Key)
         {
             uint wCode = (uint)Key;
-            uint num3 = MapVirtualKey(wCode, 0);
-            uint lParam = ((uint)1L) | (num3 << 0x10);
+            uint mvk = MapVirtualKey(wCode, 0);
+            uint lParam = (uint)1 | (mvk << 0x10);
             List<Keys> list = new List<Keys>(new Keys[] { Keys.RShiftKey, Keys.RControlKey, Keys.RMenu });
             if (list.Contains(Key))
             {
@@ -1390,8 +1388,8 @@ namespace My
         public static bool SendShiftKey(IntPtr hWnd, Keys Key)
         {
             uint wCode = (uint)Key;
-            uint num3 = MapVirtualKey(wCode, 0);
-            uint lParam = ((uint)1L) | (num3 << 0x10);
+            uint mvk = MapVirtualKey(wCode, 0);
+            uint lParam = (uint)1 | (mvk << 0x10);
             List<Keys> list = new List<Keys>(new Keys[] { Keys.RShiftKey, Keys.RControlKey, Keys.RMenu });
             if (list.Contains(Key))
             {
