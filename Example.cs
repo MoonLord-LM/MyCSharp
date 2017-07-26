@@ -44,7 +44,7 @@ namespace My
                     GC.Collect();
                     throw ex;
                 }
-                for (int i = 0; i <= testing.Length; i++)
+                for (int i = 0; i < testing.Length; i++)
                 {
                     if (testing[i] != 0)
                     {
@@ -104,6 +104,10 @@ namespace My
         }
         private class CaptureForm : Form
         {
+            public CaptureForm()
+            {
+                InitializeComponent();
+            }
             protected override void Dispose(bool disposing)
             {
                 try
