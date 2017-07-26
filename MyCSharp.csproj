@@ -85,7 +85,6 @@
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="My.cs" />
     <Compile Include="Example.cs" />
     <Compile Include="MyCSharp\Http.cs" />
     <Compile Include="MyCSharp\IO.cs" />
