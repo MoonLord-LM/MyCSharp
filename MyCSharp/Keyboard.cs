@@ -7,7 +7,6 @@ namespace My
     using System.Collections.Generic;
     using System.Runtime.InteropServices;
     using Microsoft.VisualBasic;
-    using Microsoft.VisualBasic.CompilerServices;
 
     /// <summary>
     /// 模拟键盘操作相关函数
@@ -259,7 +258,7 @@ namespace My
                         }
                         catch (Exception ex) { }
                     }
-                    if (AscString.Contains(Conversions.ToString(Key)))
+                    if (AscString.Contains("" + Key))
                     {
                         //大写字母、数字、空格（虚拟键码VK值，与字符ASCII值相同）
                         if ((new Microsoft.VisualBasic.Devices.Keyboard()).CapsLock == false)
@@ -270,7 +269,7 @@ namespace My
                         keybd_event((byte)Strings.Asc(Key), (byte)MapVirtualKey((uint)Strings.Asc(Key), 0), (int)KeyEvent.Down, 0);
                         keybd_event((byte)Strings.Asc(Key), (byte)MapVirtualKey((uint)Strings.Asc(Key), 0), (int)KeyEvent.Up, 0);
                     }
-                    else if (LowerString.Contains(Conversions.ToString(Key)))
+                    else if (LowerString.Contains("" + Key))
                     {
                         //小写字母
                         if ((new Microsoft.VisualBasic.Devices.Keyboard()).CapsLock)
@@ -278,18 +277,18 @@ namespace My
                             keybd_event((byte)Keys.CapsLock, (byte)MapVirtualKey((uint)Keys.CapsLock, 0), (int)KeyEvent.Down, 0);
                             keybd_event((byte)Keys.CapsLock, (byte)MapVirtualKey((uint)Keys.CapsLock, 0), (int)KeyEvent.Up, 0);
                         }
-                        Key = Conversions.ToChar(Key.ToString().ToUpper());
+                        Key = Key.ToString().ToUpper()[0];
                         keybd_event((byte)Strings.Asc(Key), (byte)MapVirtualKey((uint)Strings.Asc(Key), 0), (int)KeyEvent.Down, 0);
                         keybd_event((byte)Strings.Asc(Key), (byte)MapVirtualKey((uint)Strings.Asc(Key), 0), (int)KeyEvent.Up, 0);
                     }
-                    else if (OemString.Contains(Conversions.ToString(Key)))
+                    else if (OemString.Contains("" + Key))
                     {
                         //OEM键特殊符号
                         int index = OemString.IndexOf(Key);
                         keybd_event((byte)OemKeys[index], (byte)MapVirtualKey((uint)OemKeys[index], 0), (int)KeyEvent.Down, 0);
                         keybd_event((byte)OemKeys[index], (byte)MapVirtualKey((uint)OemKeys[index], 0), (int)KeyEvent.Up, 0);
                     }
-                    else if (ShiftOemString.Contains(Conversions.ToString(Key)))
+                    else if (ShiftOemString.Contains("" + Key))
                     {
                         //Shift+OEM键特殊符号
                         int index = ShiftOemString.IndexOf(Key);
@@ -298,7 +297,7 @@ namespace My
                         keybd_event((byte)OemKeys[index], (byte)MapVirtualKey((uint)OemKeys[index], 0), (int)KeyEvent.Up, 0);
                         keybd_event((byte)Keys.ShiftKey, (byte)MapVirtualKey((uint)Keys.ShiftKey, 0), (int)KeyEvent.Up, 0);
                     }
-                    else if (ShiftNumString.Contains(Conversions.ToString(Key)))
+                    else if (ShiftNumString.Contains("" + Key))
                     {
                         //Shift+数字键特殊符号
                         int index = ShiftNumString.IndexOf(Key);
@@ -326,7 +325,7 @@ namespace My
         {
             try
             {
-                string str = "QWERTYUIOPASDFGHJKLZXCVBNM";
+                string upper = "QWERTYUIOPASDFGHJKLZXCVBNM";
                 for (int i = 0; i < Source.Length; i++)
                 {
                     if ((i > 0) & (MillisecondsInterval != 0))
@@ -339,12 +338,12 @@ namespace My
                         {
                         }
                     }
-                    if (str.Contains(Conversions.ToString(Source[i])) && (new Microsoft.VisualBasic.Devices.Keyboard()).CapsLock == false)
+                    if (upper.Contains("" + Source[i]) && (new Microsoft.VisualBasic.Devices.Keyboard()).CapsLock == false)
                     {
                         keybd_event((byte)Keys.CapsLock, (byte)MapVirtualKey((uint)Keys.CapsLock, 0), (int)KeyEvent.Down, 0);
                         keybd_event((byte)Keys.CapsLock, (byte)MapVirtualKey((uint)Keys.CapsLock, 0), (int)KeyEvent.Up, 0);
                     }
-                    Clipboard.SetText(Conversions.ToString(Source[i]));
+                    Clipboard.SetText("" + Source[i]);
                     keybd_event((byte)Keys.ControlKey, (byte)MapVirtualKey((uint)Keys.ControlKey, 0), (int)KeyEvent.Down, 0);
                     keybd_event((byte)Keys.V, (byte)MapVirtualKey((uint)Keys.V, 0), (int)KeyEvent.Down, 0);
                     keybd_event((byte)Keys.V, (byte)MapVirtualKey((uint)Keys.V, 0), (int)KeyEvent.Up, 0);

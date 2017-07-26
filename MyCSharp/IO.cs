@@ -68,7 +68,7 @@ namespace My
             try
             {
                 FileStream stream = new FileStream(FilePath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
-                stream.Write(Source, (int) stream.Length, Source.Length);
+                stream.Write(Source, (int)stream.Length, Source.Length);
                 stream.Dispose();
                 return true;
             }
@@ -77,7 +77,7 @@ namespace My
                 return false;
             }
         }
-        
+
 
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace My
             }
             catch (Exception ex)
             {
-                return  "";
+                return "";
             }
         }
 
@@ -321,7 +321,7 @@ namespace My
             {
                 object[] arguments = new object[] { LinkFilePath };
                 bool[] copyBack = new bool[] { true };
-                return Conversions.ToString(NewLateBinding.LateGet(RuntimeHelpers.GetObjectValue(NewLateBinding.LateGet(Interaction.CreateObject("WScript.Shell", ""), null, "CreateShortcut", arguments, null, null, copyBack)), null, "TargetPath", new object[0], null, null, null));
+                return "" + NewLateBinding.LateGet(RuntimeHelpers.GetObjectValue(NewLateBinding.LateGet(Interaction.CreateObject("WScript.Shell", ""), null, "CreateShortcut", arguments, null, null, copyBack)), null, "TargetPath", new object[0], null, null, null);
             }
             catch (Exception ex)
             {

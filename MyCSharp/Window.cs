@@ -1401,7 +1401,7 @@ namespace My
             {
                 Thread.Sleep(10);
             }
-            catch (Exception ex){}
+            catch (Exception ex) { }
             result &= PostMessage(hWnd, (uint)WindowsMessage.KeyDown, wCode, lParam);
             lParam |= 0xc0000000;
             result &= PostMessage(hWnd, (uint)WindowsMessage.SystemKeyUp, wCode, lParam);

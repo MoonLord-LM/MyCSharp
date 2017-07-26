@@ -14,7 +14,7 @@ namespace My
         [DllImport("user32.dll", EntryPoint = "mouse_event", SetLastError = true)]
         private static extern void mouse_event(int dwFlags, int dX, int dY, int dwData, uint dwExtraInfo);
         [Flags]
-        private enum MouseEvent:int
+        private enum MouseEvent : int
         {
             Move = 1,
             LeftButtonDown = 2,
@@ -186,7 +186,7 @@ namespace My
         {
             try
             {
-                mouse_event((int)MouseEvent.LeftButtonDown |(int)MouseEvent.LeftButtonUp, 0, 0, 0, 0);
+                mouse_event((int)MouseEvent.LeftButtonDown | (int)MouseEvent.LeftButtonUp, 0, 0, 0, 0);
                 return true;
             }
             catch (Exception ex)
@@ -202,8 +202,8 @@ namespace My
         {
             try
             {
-                mouse_event((int)MouseEvent.LeftButtonDown |(int)MouseEvent.LeftButtonUp, 0, 0, 0, 0);
-                mouse_event((int)MouseEvent.LeftButtonDown |(int)MouseEvent.LeftButtonUp, 0, 0, 0, 0);
+                mouse_event((int)MouseEvent.LeftButtonDown | (int)MouseEvent.LeftButtonUp, 0, 0, 0, 0);
+                mouse_event((int)MouseEvent.LeftButtonDown | (int)MouseEvent.LeftButtonUp, 0, 0, 0, 0);
                 return true;
             }
             catch (Exception ex)
@@ -251,7 +251,7 @@ namespace My
         {
             try
             {
-                mouse_event((int)MouseEvent.MiddleButtonDown |(int)MouseEvent.MiddleButtonUp, 0, 0, 0, 0);
+                mouse_event((int)MouseEvent.MiddleButtonDown | (int)MouseEvent.MiddleButtonUp, 0, 0, 0, 0);
                 return true;
             }
             catch (Exception ex)
@@ -267,8 +267,8 @@ namespace My
         {
             try
             {
-                mouse_event((int)MouseEvent.MiddleButtonDown |(int)MouseEvent.MiddleButtonUp, 0, 0, 0, 0);
-                mouse_event((int)MouseEvent.MiddleButtonDown |(int)MouseEvent.MiddleButtonUp, 0, 0, 0, 0);
+                mouse_event((int)MouseEvent.MiddleButtonDown | (int)MouseEvent.MiddleButtonUp, 0, 0, 0, 0);
+                mouse_event((int)MouseEvent.MiddleButtonDown | (int)MouseEvent.MiddleButtonUp, 0, 0, 0, 0);
                 return true;
             }
             catch (Exception ex)
@@ -316,7 +316,7 @@ namespace My
         {
             try
             {
-                mouse_event((int)MouseEvent.RightButtonDown |(int)MouseEvent.RightButtonUp, 0, 0, 0, 0);
+                mouse_event((int)MouseEvent.RightButtonDown | (int)MouseEvent.RightButtonUp, 0, 0, 0, 0);
                 return true;
             }
             catch (Exception ex)
@@ -332,8 +332,8 @@ namespace My
         {
             try
             {
-                mouse_event((int)MouseEvent.RightButtonDown |(int)MouseEvent.RightButtonUp, 0, 0, 0, 0);
-                mouse_event((int)MouseEvent.RightButtonDown |(int)MouseEvent.RightButtonUp, 0, 0, 0, 0);
+                mouse_event((int)MouseEvent.RightButtonDown | (int)MouseEvent.RightButtonUp, 0, 0, 0, 0);
+                mouse_event((int)MouseEvent.RightButtonDown | (int)MouseEvent.RightButtonUp, 0, 0, 0, 0);
                 return true;
             }
             catch (Exception ex)

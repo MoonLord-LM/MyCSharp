@@ -23,7 +23,7 @@ namespace My
             {
                 Assembly executingAssembly = Assembly.GetExecutingAssembly();
                 Stream manifestResourceStream = executingAssembly.GetManifestResourceStream(executingAssembly.GetName().Name + "." + ResourceName);
-                byte[] buffer2 = new byte[((int) (manifestResourceStream.Length - 1L)) + 1];
+                byte[] buffer2 = new byte[manifestResourceStream.Length];
                 manifestResourceStream.Read(buffer2, 0, buffer2.Length);
                 manifestResourceStream.Dispose();
                 return buffer2;
@@ -63,7 +63,7 @@ namespace My
             {
                 Assembly executingAssembly = Assembly.GetExecutingAssembly();
                 Stream manifestResourceStream = executingAssembly.GetManifestResourceStream(executingAssembly.GetName().Name + "." + ResourceName);
-                byte[] temp = new byte[((int) (manifestResourceStream.Length - 1L)) + 1];
+                byte[] temp = new byte[manifestResourceStream.Length];
                 manifestResourceStream.Read(temp, 0, temp.Length);
                 manifestResourceStream.Dispose();
                 return Encoding.UTF8.GetString(temp);
@@ -85,7 +85,7 @@ namespace My
             {
                 Assembly executingAssembly = Assembly.GetExecutingAssembly();
                 Stream manifestResourceStream = executingAssembly.GetManifestResourceStream(executingAssembly.GetName().Name + "." + ResourceName);
-                byte[] temp = new byte[((int)(manifestResourceStream.Length - 1L)) + 1];
+                byte[] temp = new byte[manifestResourceStream.Length];
                 manifestResourceStream.Read(temp, 0, temp.Length);
                 manifestResourceStream.Dispose();
                 return Encoding.UTF8.GetString(temp);
@@ -107,7 +107,7 @@ namespace My
             {
                 Assembly executingAssembly = Assembly.GetExecutingAssembly();
                 Stream manifestResourceStream = executingAssembly.GetManifestResourceStream(executingAssembly.GetName().Name + "." + ResourceName);
-                byte[] temp = new byte[((int)(manifestResourceStream.Length - 1L)) + 1];
+                byte[] temp = new byte[manifestResourceStream.Length];
                 manifestResourceStream.Read(temp, 0, temp.Length);
                 manifestResourceStream.Dispose();
                 return Encoding.UTF8.GetString(temp).Replace("\r\n", "\n").Split(new char[] { '\n' });
@@ -129,7 +129,7 @@ namespace My
             {
                 Assembly executingAssembly = Assembly.GetExecutingAssembly();
                 Stream manifestResourceStream = executingAssembly.GetManifestResourceStream(executingAssembly.GetName().Name + "." + ResourceName);
-                byte[] temp = new byte[((int)(manifestResourceStream.Length - 1L)) + 1];
+                byte[] temp = new byte[manifestResourceStream.Length];
                 manifestResourceStream.Read(temp, 0, temp.Length);
                 manifestResourceStream.Dispose();
                 return Encoding.GetString(temp).Replace("\r\n", "\n").Split(new char[] { '\n' });

@@ -210,6 +210,11 @@ namespace My
                     for (int ci = 0; ci < codes.Length; ci++)
                     {
                         string code = codes[ci];
+                        if (code == "")
+                        {
+                            codes[ci] = " ";
+                            continue;
+                        }
                         if (code.Contains("ProjectData.SetProjectError(exception1);"))
                         {
                             codes[ci] = "";
