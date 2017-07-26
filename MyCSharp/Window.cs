@@ -714,11 +714,11 @@ namespace My
             {
                 ShowWindow(hWnd, (uint)ShowState.Hide);
                 ShowWindow(hWnd, (uint)ShowState.ShowNormal);
-                result = SetWindowPos(hWnd, ptr, (int)Math.Round((double)(((double)(bounds.Width - (rcNormalPosition.Right - rcNormalPosition.Left))) / 2.0)), (int)Math.Round((double)(((double)(bounds.Height - (rcNormalPosition.Bottom - rcNormalPosition.Top))) / 2.0)), 0, 0, (uint)(uint)SetPos.NoSize | (uint)(uint)SetPos.NoActivate);
+                result = SetWindowPos(hWnd, ptr, bounds.Width - (rcNormalPosition.Right - rcNormalPosition.Left) / 2, bounds.Height - (rcNormalPosition.Bottom - rcNormalPosition.Top) / 2, 0, 0, (uint)(uint)SetPos.NoSize | (uint)(uint)SetPos.NoActivate);
                 ShowWindow(hWnd, (uint)ShowState.ShowMaximized);
                 return result;
             }
-            return SetWindowPos(hWnd, ptr, (int)Math.Round((double)(((double)(bounds.Width - (rcNormalPosition.Right - rcNormalPosition.Left))) / 2.0)), (int)Math.Round((double)(((double)(bounds.Height - (rcNormalPosition.Bottom - rcNormalPosition.Top))) / 2.0)), 0, 0, (uint)(uint)SetPos.NoSize | (uint)(uint)SetPos.NoActivate);
+            return SetWindowPos(hWnd, ptr, bounds.Width - (rcNormalPosition.Right - rcNormalPosition.Left) / 2, bounds.Height - (rcNormalPosition.Bottom - rcNormalPosition.Top) / 2, 0, 0, (uint)(uint)SetPos.NoSize | (uint)(uint)SetPos.NoActivate);
         }
         /// <summary>
         /// 设置窗口大小（即使窗口处于隐藏、最小化、最大化状态也能设置）
@@ -782,9 +782,9 @@ namespace My
         {
             if (TopMost)
             {
-                return SetWindowPos(hWnd, new IntPtr((int)WindowPos.TopMost), 0, 0, 0, 0, (uint)SetPos.NoMove | (uint)SetPos.NoSize | (uint)SetPos.NoActivate);
+                return SetWindowPos(hWnd, (IntPtr)(WindowPos.TopMost), 0, 0, 0, 0, (uint)SetPos.NoMove | (uint)SetPos.NoSize | (uint)SetPos.NoActivate);
             }
-            return SetWindowPos(hWnd, new IntPtr((int)WindowPos.NoTopMost), 0, 0, 0, 0, (uint)SetPos.NoMove | (uint)SetPos.NoSize | (uint)SetPos.NoActivate);
+            return SetWindowPos(hWnd, (IntPtr)(WindowPos.NoTopMost), 0, 0, 0, 0, (uint)SetPos.NoMove | (uint)SetPos.NoSize | (uint)SetPos.NoActivate);
         }
         /// <summary>
         /// 设置窗口标题
@@ -795,8 +795,8 @@ namespace My
         /// <remarks></remarks>
         public static bool SetTitle(IntPtr hWnd, string Title)
         {
-            StringBuilder lParam = new StringBuilder(Title);
-            return (SendMessage(hWnd, 12, lParam.Length + 1, lParam) > 0);
+            StringBuilder temp = new StringBuilder(Title);
+            return (SendMessage(hWnd, (uint)WindowsMessage.SetText, temp.Length + 1, temp) > 0);
         }
         /// <summary>
         /// 还原显示窗口（效果类似于WindowState = FormWindowState.Normal，隐藏的窗口会显示出来，不获得系统焦点）
@@ -806,8 +806,8 @@ namespace My
         /// <remarks></remarks>
         public static bool ShowNormal(IntPtr hWnd)
         {
-            ShowWindow(hWnd, 0);
-            return ShowWindow(hWnd, 1);
+            ShowWindow(hWnd, (uint)ShowState.Hide);
+            return ShowWindow(hWnd, (uint)ShowState.ShowNormal);
         }
         /// <summary>
         /// 最小化显示窗口（效果类似于WindowState = FormWindowState.Minimized，隐藏的窗口会显示出来，不获得系统焦点）
@@ -817,8 +817,8 @@ namespace My
         /// <remarks></remarks>
         public static bool ShowMinimized(IntPtr hWnd)
         {
-            ShowWindow(hWnd, 0);
-            return ShowWindow(hWnd, 2);
+            ShowWindow(hWnd, (uint)ShowState.Hide);
+            return ShowWindow(hWnd, (uint)ShowState.ShowMinimized);
         }
         /// <summary>
         /// 最大化显示窗口（效果类似于WindowState = FormWindowState.Maximized，隐藏的窗口会显示出来，不获得系统焦点）
@@ -828,8 +828,8 @@ namespace My
         /// <remarks></remarks>
         public static bool ShowMaximized(IntPtr hWnd)
         {
-            ShowWindow(hWnd, 0);
-            return ShowWindow(hWnd, 3);
+            ShowWindow(hWnd, (uint)ShowState.Hide);
+            return ShowWindow(hWnd, (uint)ShowState.ShowMaximized);
         }
         /// <summary>
         /// 设置窗口是否允许接受键鼠输入（禁止接收用户输入时，用鼠标点击窗口区域，不会点击到后面的窗口，但会有鼠标无法正常点击的警告声）
@@ -853,9 +853,9 @@ namespace My
         {
             if (CanRedraw)
             {
-                return (SendMessage(hWnd, 11, true, null) == 0);
+                return (SendMessage(hWnd, (uint)WindowsMessage.SetRedraw, true, null) == 0);
             }
-            return (SendMessage(hWnd, 11, false, null) == 0);
+            return (SendMessage(hWnd, (uint)WindowsMessage.SetRedraw, false, null) == 0);
         }
         /// <summary>
         /// 刷新窗口（更新一帧画面，禁止重绘的窗口仍然禁止重绘）
@@ -867,7 +867,7 @@ namespace My
         {
             Rect rect = new Rect();
             IntPtr ptr = new IntPtr(0);
-            return RedrawWindow(hWnd, rect, ptr, 0x105);
+            return RedrawWindow(hWnd, rect, ptr, (uint)Redraw.Invalidate | (uint)Redraw.DoErase | (uint)Redraw.UpdateNow);
         }
         /// <summary>
         /// 使窗口获得系统焦点（隐藏的窗口会显示出来，最小化/最大化的窗口会还原，禁止重绘的窗口会允许重绘）
@@ -882,9 +882,9 @@ namespace My
             lpdwProcessId = 0;
             int idAttach = GetWindowThreadProcessId(hWnd, out lpdwProcessId);
             AttachThreadInput(idAttach, windowThreadProcessId, true);
-            ShowWindow(hWnd, 1);
-            SetWindowPos(hWnd, (IntPtr)(-1), 0, 0, 0, 0, 3);
-            SetWindowPos(hWnd, (IntPtr)(-2), 0, 0, 0, 0, 3);
+            ShowWindow(hWnd, (uint)ShowState.ShowNormal);
+            SetWindowPos(hWnd, (IntPtr)(WindowPos.TopMost), 0, 0, 0, 0, (uint)SetPos.NoMove | (uint)SetPos.NoSize);
+            SetWindowPos(hWnd, (IntPtr)(WindowPos.NoTopMost), 0, 0, 0, 0, (uint)SetPos.NoMove | (uint)SetPos.NoSize);
             bool result = SetForegroundWindow(hWnd);
             AttachThreadInput(idAttach, windowThreadProcessId, false);
             return result;
@@ -898,17 +898,17 @@ namespace My
         /// <remarks>是否执行成功</remarks>
         public static bool SetOpacity(IntPtr hWnd, [Optional, DefaultParameterValue(1.0)] double Opacity)
         {
-            if (Opacity < 0.0)
+            if (Opacity < 0)
             {
-                Opacity = 0.0;
+                Opacity = 0;
             }
-            if (Opacity > 1.0)
+            if (Opacity > 1)
             {
-                Opacity = 1.0;
+                Opacity = 1;
             }
-            int dwNewLong = GetWindowLong(hWnd, -20) | 0x80000;
-            SetWindowLong(hWnd, -20, dwNewLong);
-            return SetLayeredWindowAttributes(hWnd, IntPtr.Zero, (byte)Math.Round((double)(Opacity * 255.0)), 2);
+            int dwNewLong = GetWindowLong(hWnd, (int)WindowLong.ExStyle) | (int)WindowStyleEx.Layered;
+            SetWindowLong(hWnd, (int)WindowLong.ExStyle, dwNewLong);
+            return SetLayeredWindowAttributes(hWnd, IntPtr.Zero, (byte)(Opacity * 255), (int)LayeredWindowAttribute.Alpha);
         }
         /// <summary>
         /// 关闭窗口（同步阻塞，等待程序处理和用户确认，例如弹出确认关闭的对话框）
@@ -918,7 +918,7 @@ namespace My
         /// <remarks></remarks>
         public static bool Close(IntPtr hWnd)
         {
-            return ((SendMessage(hWnd, 0x10, null, null) == 0) & (Marshal.GetLastWin32Error() != 0x578));
+            return ((SendMessage(hWnd, (uint)WindowsMessage.Close, null, null) == 0) & (Marshal.GetLastWin32Error() != 1400));
         }
         /// <summary>
         /// 关闭窗口（异步执行，等待程序处理和用户确认，例如弹出确认关闭的对话框）
@@ -928,7 +928,7 @@ namespace My
         /// <remarks></remarks>
         public static bool CloseAsync(IntPtr hWnd)
         {
-            return (PostMessage(hWnd, 0x10, null, null) & (Marshal.GetLastWin32Error() != 0x578));
+            return (PostMessage(hWnd, (uint)WindowsMessage.Close, null, null) & (Marshal.GetLastWin32Error() != 1400));
         }
 
 
