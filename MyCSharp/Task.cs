@@ -305,7 +305,7 @@ namespace My
             for (int i = 0; i < threads.Count; i++)
             {
                 int id = threads[i].Id;
-                IntPtr hThread = OpenThread(0x1f0fff, false, (uint)id);
+                IntPtr hThread = OpenThread((uint)ThreadAccess.All, false, (uint)id);
                 result &= SuspendThread(hThread) != -1;
             }
             return result;
@@ -327,7 +327,7 @@ namespace My
             for (int i = 0; i < threads.Count; i++)
             {
                 int id = threads[i].Id;
-                IntPtr hThread = OpenThread(0x1f0fff, false, (uint)id);
+                IntPtr hThread = OpenThread((uint)ThreadAccess.All, false, (uint)id);
                 result &= ResumeThread(hThread) != -1;
             }
             return result;
@@ -349,7 +349,7 @@ namespace My
             for (int i = 0; i < threads.Count; i++)
             {
                 int id = threads[i].Id;
-                IntPtr hThread = OpenThread(0x1f0fff, false, (uint)id);
+                IntPtr hThread = OpenThread((uint)ThreadAccess.All, false, (uint)id);
                 int temp = ResumeThread(hThread);
                 result &= temp != -1;
                 while (temp > 0)
@@ -412,7 +412,7 @@ namespace My
                     for (int i = 0; i <= threads.Count; i++)
                     {
                         int id = threads[i].Id;
-                        SuspendThread(OpenThread(0x1f0fff, false, (uint)id));
+                        SuspendThread(OpenThread((uint)ThreadAccess.All, false, (uint)id));
                     }
                     try
                     {
@@ -422,7 +422,7 @@ namespace My
                     for (int j = 0; j < threads.Count; j++)
                     {
                         int num4 = threads[j].Id;
-                        ResumeThread(OpenThread(0x1f0fff, false, (uint)num4));
+                        ResumeThread(OpenThread((uint)ThreadAccess.All, false, (uint)num4));
                     }
                     try
                     {
