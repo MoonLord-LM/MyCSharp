@@ -12,7 +12,6 @@ namespace My
     using System.Runtime.InteropServices;
     using Microsoft.VisualBasic;
     using Microsoft.VisualBasic.Devices;
-    using Microsoft.VisualBasic.CompilerServices;
 
     /// <summary>
     /// 范例代码（暂未整理到 MyCSharp 库中的可参考代码）
@@ -103,10 +102,8 @@ namespace My
         {
             new CaptureForm().Show();
         }
-        [DesignerGenerated]
         private class CaptureForm : Form
         {
-            [DebuggerNonUserCode]
             protected override void Dispose(bool disposing)
             {
                 try
@@ -121,38 +118,40 @@ namespace My
                     base.Dispose(disposing);
                 }
             }
-            private IContainer components;
-            [DebuggerStepThrough]
+            private IContainer components = null;
             private void InitializeComponent()
             {
                 this.components = new System.ComponentModel.Container();
-                this.Timer1 = new Timer(this.components);
+                this.timer1 = new Timer(this.components);
                 this.SuspendLayout();
-                this.Timer1.Enabled = true;
-                this.Timer1.Interval = 16;
+                this.timer1.Enabled = true;
+                this.timer1.Interval = 16;
+                this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
                 this.AutoScaleMode = AutoScaleMode.None;
+                this.Load += new System.EventHandler(this.FormMain_Load);
                 this.ResumeLayout(false);
             }
-            private Timer Timer1;
+            private Timer timer1;
             private void FormMain_Load(object sender, EventArgs e)
             {
                 this.TopMost = true;
                 this.FormBorderStyle = FormBorderStyle.None;
                 this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
                 this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+                this.Opacity = 0;
             }
-            private void Timer1_Tick(object sender, EventArgs e)
+            private void timer1_Tick(object sender, EventArgs e)
             {
-                this.Timer1.Enabled = false;
+                this.timer1.Enabled = false;
                 if (this.BackgroundImage != null)
                 {
                     this.BackgroundImage.Dispose();
                 }
                 this.BackgroundImage = My.Screen.ImageThumbnail(0.5);
                 this.Size = this.BackgroundImage.Size;
-                Point point2 = new Point(10, 10);
-                this.Location = Mouse.Position() + ((Size)point2);
-                this.Timer1.Enabled = true;
+                this.Location = Mouse.Position() + new Size(10, 10);
+                this.Opacity = 1;
+                this.timer1.Enabled = true;
             }
         }
 
@@ -167,7 +166,7 @@ namespace My
             Window.SetFocus(hWnd);
             string path = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
             string title = Window.GetTitle(hWnd);
-            path = path + @"\" + title + Conversions.ToString(Time.Stamp());
+            path = path + @"\" + title + Time.Stamp();
             Directory.CreateDirectory(path);
             IO.WriteString("", path + @"\Name_ClassName_Left_Top_Width_Height_Child_Father.txt");
             List<IntPtr> list = new List<IntPtr>(Window.ListChildren(hWnd));
@@ -181,7 +180,7 @@ namespace My
                     string className = Window.GetClassName(ptr);
                     IntPtr ptr2 = Window.FindParent(ptr);
                     Image image = My.Screen.Image(area);
-                    image.Save(path + @"\" + str4 + "_" + className + "_" + Conversions.ToString(area.Left) + "_" + Conversions.ToString(area.Top) + "_" + Conversions.ToString(area.Width) + "_" + Conversions.ToString(area.Height) + "_" + ptr.ToString() + "_" + ptr2.ToString() + ".png");
+                    image.Save(path + @"\" + str4 + "_" + className + "_" + area.Left + "_" + area.Top + "_" + area.Width + "_" + area.Height + "_" + ptr.ToString() + "_" + ptr2.ToString() + ".png");
                     image.Dispose();
                 }
             }
