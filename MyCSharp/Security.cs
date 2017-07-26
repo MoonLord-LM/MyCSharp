@@ -463,22 +463,22 @@ namespace My
         /// <returns>编码后的结果字符串</returns>
         public static string Binary_Encode(byte[] Source, [Optional, DefaultParameterValue(true)] bool ContainSpace)
         {
-            string str2 = "";
+            string result = "";
             if (ContainSpace)
             {
-                foreach (byte num in Source)
+                foreach (byte sourceByte in Source)
                 {
-                    str2 = str2 + Convert.ToString(num, 2).PadLeft(8, '0') + " ";
+                    result = result + Convert.ToString(sourceByte, 2).PadLeft(8, '0') + " ";
                 }
             }
             else
             {
-                foreach (byte num2 in Source)
+                foreach (byte sourceByte in Source)
                 {
-                    str2 = str2 + Convert.ToString(num2, 2).PadLeft(8, '0');
+                    result = result + Convert.ToString(sourceByte, 2).PadLeft(8, '0');
                 }
             }
-            return str2.Trim();
+            return result.Trim();
         }
         /// <summary>
         /// 二进制形式化（只由0和1组成的，8的整数倍位数的2进制字符串）
@@ -488,22 +488,22 @@ namespace My
         /// <returns>编码后的结果字符串</returns>
         public static string Binary_Encode(string Source, [Optional, DefaultParameterValue(true)] bool ContainSpace)
         {
-            string str2 = "";
+            string result = "";
             if (ContainSpace)
             {
-                foreach (byte num in Encoding.UTF8.GetBytes(Source))
+                foreach (byte sourceByte in Encoding.UTF8.GetBytes(Source))
                 {
-                    str2 = str2 + Convert.ToString(num, 2).PadLeft(8, '0') + " ";
+                    result = result + Convert.ToString(sourceByte, 2).PadLeft(8, '0') + " ";
                 }
             }
             else
             {
-                foreach (byte num2 in Encoding.UTF8.GetBytes(Source))
+                foreach (byte sourceByte in Encoding.UTF8.GetBytes(Source))
                 {
-                    str2 = str2 + Convert.ToString(num2, 2).PadLeft(8, '0');
+                    result = result + Convert.ToString(sourceByte, 2).PadLeft(8, '0');
                 }
             }
-            return str2.Trim();
+            return result.Trim();
         }
         /// <summary>
         /// 二进制形式化（只由0和1组成的，8的整数倍位数的2进制字符串）
@@ -514,22 +514,22 @@ namespace My
         /// <returns>编码后的结果字符串</returns>
         public static string Binary_Encode(string Source, Encoding Encoding, [Optional, DefaultParameterValue(true)] bool ContainSpace)
         {
-            string str2 = "";
+            string result = "";
             if (ContainSpace)
             {
-                foreach (byte num in Encoding.GetBytes(Source))
+                foreach (byte sourceByte in Encoding.GetBytes(Source))
                 {
-                    str2 = str2 + Convert.ToString(num, 2).PadLeft(8, '0') + " ";
+                    result = result + Convert.ToString(sourceByte, 2).PadLeft(8, '0') + " ";
                 }
             }
             else
             {
-                foreach (byte num2 in Encoding.GetBytes(Source))
+                foreach (byte sourceByte in Encoding.GetBytes(Source))
                 {
-                    str2 = str2 + Convert.ToString(num2, 2).PadLeft(8, '0');
+                    result = result + Convert.ToString(sourceByte, 2).PadLeft(8, '0');
                 }
             }
-            return str2.Trim();
+            return result.Trim();
         }
 
         /// <summary>
