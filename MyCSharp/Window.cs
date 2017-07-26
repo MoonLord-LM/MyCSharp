@@ -988,7 +988,7 @@ namespace My
         {
             private IntPtr hWnd;
             private uint IntervalMillisecond;
-            private System.Threading.Thread Thread;
+            private Thread Thread;
             private uint Times;
             public FlashAsyncTask(IntPtr TaskhWnd, [Optional, DefaultParameterValue((uint)1)] uint TaskTimes, [Optional, DefaultParameterValue((uint)1000)] uint TaskIntervalMillisecond)
             {
@@ -1241,7 +1241,7 @@ namespace My
         {
             private uint IntervalMillisecond;
             private uint SleepMillisecond;
-            private System.Threading.Thread Thread;
+            private Thread Thread;
             private IntPtr ThreadhWnd;
             private IntPtr WindowhWnd;
             public ThreadLimitTask(IntPtr TaskhWnd, uint TaskSleepMillisecond, uint TaskIntervalMillisecond)

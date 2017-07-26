@@ -391,7 +391,7 @@ namespace My
             private uint IntervalMillisecond;
             private System.Diagnostics.Process Process;
             private uint SleepMillisecond;
-            private System.Threading.Thread Thread;
+            private Thread Thread;
             public ThreadLimitTask(System.Diagnostics.Process TaskProcess, uint TaskSleepMillisecond, uint TaskIntervalMillisecond)
             {
                 this.Thread = new System.Threading.Thread(new ThreadStart(this.Run));
