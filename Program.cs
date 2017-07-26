@@ -24,10 +24,10 @@ namespace MyCSharp
 
             Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(Program.Application_ThreadException);
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(Program.CurrentDomain_UnhandledException);
-            
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            
+
             //设置启动窗体
             Application.Run(new FormMain());
         }
@@ -47,7 +47,7 @@ namespace MyCSharp
         {
             MessageBox.Show("子线程发生异常，" + DateTime.Now.ToString() + "：\r\n" + e.ExceptionObject.ToString());
         }
-        
+
 
 
         /// <summary>

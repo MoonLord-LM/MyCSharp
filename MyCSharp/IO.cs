@@ -242,7 +242,7 @@ namespace My
                     Directory.Add(str2);
                 }
                 int Index = 0;
-                while (Directory.Count > Index)
+                while (Index < Directory.Count)
                 {
                     SearchDirectory = Directory[Index];
                     Index++;

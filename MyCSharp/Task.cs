@@ -409,7 +409,7 @@ namespace My
                         this.Thread.Abort();
                     }
                     ProcessThreadCollection threads = this.Process.Threads;
-                    for (int i = 0; i <= threads.Count; i++)
+                    for (int i = 0; i < threads.Count; i++)
                     {
                         int id = threads[i].Id;
                         SuspendThread(OpenThread((uint)ThreadAccess.All, false, (uint)id));
@@ -419,9 +419,9 @@ namespace My
                         Thread.Sleep((int)this.SleepMillisecond);
                     }
                     catch (Exception ex) { }
-                    for (int j = 0; j < threads.Count; j++)
+                    for (int i = 0; i < threads.Count; i++)
                     {
-                        int num4 = threads[j].Id;
+                        int num4 = threads[i].Id;
                         ResumeThread(OpenThread((uint)ThreadAccess.All, false, (uint)num4));
                     }
                     try
