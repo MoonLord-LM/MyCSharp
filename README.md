@@ -162,13 +162,13 @@ Windows应用程序开发函数库，创建类似于 VB.NET 中的 "My" 命名�
 03. C#中，数组元素个数的声明与 VB.NET 不同，以下代码会输出2：  
     string[] array = new string[2];  
     System.Windows.Forms.MessageBox.Show(array.Length.ToString());  
-04. C#中，双引号使用反斜杠加双引号来转义替代，如 \" 表示1个双引号的字符串，字符串用 + 符号来连接  
+04. C#中，双引号使用反斜杠加双引号来转义替代，如 "\\"" 表示1个双引号的字符串，字符串用 + 符号来连接  
 05. C#中，没有 VB.NET 中的“启用应用程序框架”，“启动对象”为自定义的Main函数（参考本函数库中的 Program.cs 文件）  
 06. 从 .NET Framework 2.0 版开始，将无法通过 try-catch 块捕获 StackOverflowException 对象，并且默认情况下将立即终止相应的进程，而 OutOfMemoryException 则可以捕获并处理  
 07. System.Drawing.Imaging.ImageFormat的图片保存质量及文件大小降序排列，实测结果：  
     Bmp（最大）> Tiff > Exif/Icon/MemoryBmp > Png/Emf/Wmf（默认） > Gif > Jpeg（最小）  
 08. C#中，SendKeys函数不能模拟发送PrintScreen键（全屏截图），必须使用底层的keybd_event函数实现才可以：  
-    System.Windows.Forms.SendKeys.Send(Keys.PrintScreen); //内置函数，无效  
+    System.Windows.Forms.SendKeys.Send(Keys.PrintScreen.ToString()); //内置函数，无效  
     My.Keyboard.Click(Keys.PrintScreen); //本函数库，有效  
 09. 在Windows中，底层的keybd_event函数，也不能发送某些（跳转到当前用户的界面之外的）特殊组合键：  
     My.Keyboard.Click(Keys.LWin, Keys.D); //Win+D 显示桌面，有效  
@@ -182,8 +182,8 @@ Windows应用程序开发函数库，创建类似于 VB.NET 中的 "My" 命名�
 13. C#中，频繁修改窗体内容（如修改背景图片），会导致内存泄露和卡顿闪烁的问题，解决方案：  
     if (BackgroundImage != null) { BackgroundImage.Dispose(); } //在修改背景图片之前，销毁旧的背景图片  
     System.GC.Collect(); //在适当的时机和代码位置，强制进行即时垃圾回收（会增加 CPU 负荷）  
-    SetStyle(ControlStyles.OptimizedDoubleBuffer, True); //先在缓冲区中绘制，然后再绘制到屏幕上，以减少闪烁  
-    SetStyle(ControlStyles.AllPaintingInWmPaint, True); //忽略擦除背景的窗口消息，不擦除之前的背景，以减少闪烁  
+    SetStyle(ControlStyles.OptimizedDoubleBuffer, true); //先在缓冲区中绘制，然后再绘制到屏幕上，以减少闪烁  
+    SetStyle(ControlStyles.AllPaintingInWmPaint, true); //忽略擦除背景的窗口消息，不擦除之前的背景，以减少闪烁  
 14. C#中，同步锁“synchronized(this)”代码块，类似于 VB.NET 中的“SyncLock Me”和“End SyncLock”  
 15. C#中，“IntPtr.Zero”、“New IntPtr(0)”，不完全等同于“null”空指针（判断相等为false）  
 16. C#中，使用“0xffffffff”的形式，来表示16进制的32位无符号整数，即UInt32.MaxValue  
