@@ -176,15 +176,15 @@ namespace My
             List<IntPtr> list = new List<IntPtr>(Window.ListChildren(hWnd));
             for (int i = 0; i < list.Count; i++)
             {
-                IntPtr ptr = list[i];
-                Rectangle area = Window.GetRectangle(ptr);
+                IntPtr child = list[i];
+                Rectangle area = Window.GetRectangle(child);
                 if (area.Width > 0 & area.Height > 0)
                 {
-                    string str4 = Window.GetTitle(ptr);
-                    string className = Window.GetClassName(ptr);
-                    IntPtr ptr2 = Window.FindParent(ptr);
+                    string name = Window.GetTitle(child);
+                    string className = Window.GetClassName(child);
+                    IntPtr father = Window.FindParent(child);
                     Image image = My.Screen.Image(area);
-                    image.Save(path + @"\" + str4 + "_" + className + "_" + area.Left + "_" + area.Top + "_" + area.Width + "_" + area.Height + "_" + ptr.ToString() + "_" + ptr2.ToString() + ".png");
+                    image.Save(path + @"\" + name + "_" + className + "_" + area.Left + "_" + area.Top + "_" + area.Width + "_" + area.Height + "_" + child.ToString() + "_" + father.ToString() + ".png");
                     image.Dispose();
                 }
             }

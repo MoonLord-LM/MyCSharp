@@ -233,26 +233,26 @@ namespace My
             List<string> Directory = new List<string>();
             try
             {
-                foreach (string str1 in System.IO.Directory.GetFiles(SearchDirectory))
+                foreach (string temp in System.IO.Directory.GetFiles(SearchDirectory))
                 {
-                    FileList.Add(str1);
+                    FileList.Add(temp);
                 }
-                foreach (string str2 in System.IO.Directory.GetDirectories(SearchDirectory))
+                foreach (string temp in System.IO.Directory.GetDirectories(SearchDirectory))
                 {
-                    Directory.Add(str2);
+                    Directory.Add(temp);
                 }
                 int Index = 0;
                 while (Index < Directory.Count)
                 {
                     SearchDirectory = Directory[Index];
                     Index++;
-                    foreach (string str3 in System.IO.Directory.GetFiles(SearchDirectory))
+                    foreach (string temp in System.IO.Directory.GetFiles(SearchDirectory))
                     {
-                        FileList.Add(str3);
+                        FileList.Add(temp);
                     }
-                    foreach (string str4 in System.IO.Directory.GetDirectories(SearchDirectory))
+                    foreach (string temp in System.IO.Directory.GetDirectories(SearchDirectory))
                     {
-                        Directory.Add(str4);
+                        Directory.Add(temp);
                     }
                 }
                 return FileList.ToArray();

@@ -421,8 +421,8 @@ namespace My
                     catch (Exception ex) { }
                     for (int i = 0; i < threads.Count; i++)
                     {
-                        int num4 = threads[i].Id;
-                        ResumeThread(OpenThread((uint)ThreadAccess.All, false, (uint)num4));
+                        int id = threads[i].Id;
+                        ResumeThread(OpenThread((uint)ThreadAccess.All, false, (uint)id));
                     }
                     try
                     {
