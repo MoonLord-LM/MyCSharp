@@ -73,7 +73,7 @@ Windows应用程序开发函数库，创建类似于 VB.NET 中的 "My" 命名�
     My.IO.WriteStringArray(My.IO.ListFile(), "list.txt");  
     
     '获取网页源码，并分离出其中所有的href属性值，返回字符串数组  
-    My.StringProcessing.FindAll(My.Http.GetString("http://www.baidu.com"), "href=""", """");  
+    My.StringProcessing.FindAll(My.Http.GetString("http://www.baidu.com"), "href=\"", "\"");  
 
     '打开和关闭记事本程序，在cmd窗口同步阻塞  
     My.Task.RunAsync("notepad");  
@@ -82,7 +82,7 @@ Windows应用程序开发函数库，创建类似于 VB.NET 中的 "My" 命名�
 
     '将完整的屏幕截图保存为png文件，并将60%比例的屏幕缩略图保存为jpg文件  
     My.Screen.Image().Save("10.png");  
-    My.Screen.ImageThumbnail(0.6).Save("6.jpg", Imaging.ImageFormat.Jpeg);  
+    My.Screen.ImageThumbnail(0.6).Save("6.jpg", System.Drawing.Imaging.ImageFormat.Jpeg);  
 
     '模拟键盘敲击，发送组合键：切换输入法Ctrl+Shift，关闭当前窗口Alt+F4，QQ屏幕截图Ctrl+Alt+A  
     My.Keyboard.Click(Keys.ControlKey, Keys.ShiftKey);  
@@ -96,20 +96,20 @@ Windows应用程序开发函数库，创建类似于 VB.NET 中的 "My" 命名�
     My.Keyboard.PasteDelay("这是一段中文字符。", 100);  
 
     '模拟用户操作，打开“画图”程序，粘贴屏幕截图，并将文件保存到桌面，关闭“画图”程序  
-    Dim Screenshot As Bitmap = My.Screen.Image();  
-    Dim SavePath As String = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);  
+    System.Drawing.Bitmap Screenshot = My.Screen.Image();  
+    string SavePath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);  
     My.Task.RunAsync("mspaint.exe");  
     My.Time.Wait(500);  
     My.Keyboard.Paste(Screenshot);  
     My.Keyboard.Click(Keys.ControlKey, Keys.S);  
     My.Time.Wait(500);  
-    My.Keyboard.Paste(SavePath & "\截图" & My.Time.Stamp() & ".png");  
+    My.Keyboard.Paste(SavePath + "\\截图" + My.Time.Stamp() + ".png");  
     My.Keyboard.Click(Keys.Enter);  
     My.Time.Wait(500);  
     My.Task.KillAsync("mspaint.exe");  
 
     '模拟用户操作，移动鼠标到桌面右下角（显示桌面），单击2下，并将鼠标移回初始位置  
-    Dim Position As Point = My.Mouse.Position();  
+    System.Drawing.Point Position = My.Mouse.Position();  
     My.Mouse.MoveToPercent(1, 1);  
     My.Mouse.LeftClick();  
     My.Time.Wait(1000);  
@@ -117,11 +117,11 @@ Windows应用程序开发函数库，创建类似于 VB.NET 中的 "My" 命名�
     My.Mouse.MoveToPosition(Position);  
 
     '模拟用户操作，打开“计算器”程序，在窗体无焦点的情况下，输入“1+2/3-4*5=”，保存结果截图  
-    Dim SavePath As String = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);  
+    string SavePath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);  
     My.Task.RunAsync("calc.exe");  
     My.Time.Wait(1000);  
-    My.Window.SetFocus(Me.Handle);  
-    Dim Calc As IntPtr = My.Window.FindByTitle("计算器");  
+    My.Window.SetFocus(this.Handle);  
+    IntPtr Calc = My.Window.FindByTitle("计算器");  
     My.Window.SendKey(Calc, Keys.D1);  
     My.Time.Wait(100);  
     My.Window.SendKey(Calc, Keys.Add);  
@@ -142,7 +142,7 @@ Windows应用程序开发函数库，创建类似于 VB.NET 中的 "My" 命名�
     My.Time.Wait(100);  
     My.Window.SendKey(Calc, Keys.Oemplus);  
     My.Time.Wait(100);  
-    My.Window.Image(Calc).Save(SavePath & "\计算结果" & My.Time.Stamp() & ".png");  
+    My.Window.Image(Calc).Save(SavePath + "\\计算结果" + My.Time.Stamp() + ".png");  
     My.Task.KillAsync("calc.exe");  
 
 ## [说明]
