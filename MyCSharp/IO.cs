@@ -145,18 +145,39 @@ namespace My
 
 
         /// <summary>
-        /// 读取文件中的字符串数组（UTF-8）
+        /// 读取文件中的一维字符串数组（UTF-8，注意文件的字符串内容为空时，返回空String数组）
         /// </summary>
         /// <param name="FilePath">文件路径（可以是相对路径）</param>
         /// <returns>结果字符串数组（失败返回空String数组）</returns>
         public static string[] ReadStringArray(string FilePath)
         {
+            if (File.Exists(FilePath) == false)
+            {
+                return new string[0];
+            }
+            FileInfo info = new FileInfo(FilePath);
+            if (info.Length == 0)
+            {
+                return new string[0];
+            }
             try
             {
                 StreamReader reader = new StreamReader(FilePath, Encoding.UTF8);
                 string temp = reader.ReadToEnd();
                 reader.Dispose();
-                return temp.Replace("\r\n", "\n").Split(new char[] { '\n' });
+                if (temp.Length == 0)
+                {
+                    return new string[0];
+                }
+                string[] result = temp.Replace("\r\n", "\n").Split(new char[] { '\n' });
+                for (int i = 0; i < result.Length; i++)
+                {
+                    result[i] = result[i].Replace(@"\\", @"\@");
+                    result[i] = result[i].Replace(@"\r", "\r");
+                    result[i] = result[i].Replace(@"\n", "\n");
+                    result[i] = result[i].Replace(@"\@", @"\");
+                }
+                return result;
             }
             catch (Exception ex)
             {
@@ -165,23 +186,34 @@ namespace My
         }
 
         /// <summary>
-        /// 将字符串数组写入文件（覆盖，不包含UTF8的BOM头）
+        /// 将一维字符串数组写入文件（覆盖，不包含UTF8的BOM头，注意数组的字符串内容为空时，不会实际创建或写入文件）
         /// </summary>
         /// <param name="StringArray">字符串数组</param>
         /// <param name="FilePath">文件路径（可以是相对路径）</param>
         /// <returns>是否写入成功</returns>
         public static bool WriteStringArray(string[] StringArray, string FilePath)
         {
+            if (StringArray.Length == 0)
+            {
+                return false;
+            }
+            for (int i = 0; i < StringArray.Length; i++)
+            {
+                StringArray[i] = StringArray[i].Replace(@"\", @"\\");
+                StringArray[i] = StringArray[i].Replace("\r", @"\r");
+                StringArray[i] = StringArray[i].Replace("\n", @"\n");
+            }
             try
             {
                 StringBuilder builder = new StringBuilder();
-                for (int i = 0; i < StringArray.Length - 1; i++)
+                builder.Append(StringArray[0]);
+                for (int j = 1; j < StringArray.Length; j++)
                 {
-                    builder.Append(StringArray[i] + "\r\n");
+                    builder.Append("\r\n" + StringArray[j]);
                 }
-                if (StringArray.Length > 0)
+                if (builder.Length == 0)
                 {
-                    builder.Append(StringArray[StringArray.Length - 1]);
+                    return false;
                 }
                 StreamWriter writer = new StreamWriter(FilePath, false, new UTF8Encoding(false));
                 writer.Write(builder);
@@ -195,19 +227,42 @@ namespace My
         }
 
         /// <summary>
-        /// 将字符串数组写入文件（追加，不包含UTF8的BOM头）
+        /// 将一维字符串数组写入文件（追加，不包含UTF8的BOM头，注意数组的字符串内容为空时，不会实际创建或写入文件）
         /// </summary>
         /// <param name="StringArray">字符串数组</param>
         /// <param name="FilePath">文件路径（可以是相对路径）</param>
         /// <returns>是否写入成功</returns>
         public static bool AppendStringArray(string[] StringArray, string FilePath)
         {
+            if (StringArray.Length == 0)
+            {
+                return false;
+            }
+            for (int i = 0; i < StringArray.Length; i++)
+            {
+                StringArray[i] = StringArray[i].Replace(@"\", @"\\");
+                StringArray[i] = StringArray[i].Replace("\r", @"\r");
+                StringArray[i] = StringArray[i].Replace("\n", @"\n");
+            }
             try
             {
                 StringBuilder builder = new StringBuilder();
-                for (int i = 0; i < StringArray.Length; i++)
+                if (File.Exists(FilePath))
                 {
-                    builder.Append("\r\n" + StringArray[i]);
+                    FileInfo info = new FileInfo(FilePath);
+                    if (info.Length > 0)
+                    {
+                        builder.Append("\r\n");
+                    }
+                }
+                builder.Append(StringArray[0]);
+                for (int j = 1; j < StringArray.Length; j++)
+                {
+                    builder.Append("\r\n" + StringArray[j]);
+                }
+                if (builder.Length == 0)
+                {
+                    return false;
                 }
                 StreamWriter writer = new StreamWriter(FilePath, true, new UTF8Encoding(false));
                 writer.Write(builder);
