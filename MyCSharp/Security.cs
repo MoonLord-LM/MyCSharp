@@ -18,36 +18,26 @@ namespace My
         /// URL编码
         /// </summary>
         /// <param name="Source">要编码的字符串</param>
-        /// <param name="ToUpper">是否将结果转换为大写字母形式</param>
         /// <returns>编码后的结果字符串</returns>
-        public static string URL_Encode(string Source, [Optional, DefaultParameterValue(false)] bool ToUpper)
+        public static string URL_Encode(string Source)
         {
-            if (ToUpper)
-            {
-                return HttpUtility.UrlEncode(Source, Encoding.UTF8).ToUpper();
-            }
-            return HttpUtility.UrlEncode(Source, Encoding.UTF8).ToLower();
+            return HttpUtility.UrlEncode(Source, Encoding.UTF8);
         }
         /// <summary>
         /// URL编码
         /// </summary>
         /// <param name="Source"></param>
         /// <param name="Encoding">使用特定的字符编码（默认UTF-8）</param>
-        /// <param name="ToUpper">是否将结果转换为大写字母形式</param>
         /// <returns>编码后的结果字符串</returns>
-        public static string URL_Encode(string Source, Encoding Encoding, [Optional, DefaultParameterValue(false)] bool ToUpper)
+        public static string URL_Encode(string Source, Encoding Encoding)
         {
-            if (ToUpper)
-            {
-                return HttpUtility.UrlEncode(Source, Encoding).ToUpper();
-            }
-            return HttpUtility.UrlEncode(Source, Encoding).ToLower();
+            return HttpUtility.UrlEncode(Source, Encoding);
         }
 
         /// <summary>
         /// URL解码
         /// </summary>
-        /// <param name="Source">要解码的字符串（不区分大小写字母形式）</param>
+        /// <param name="Source">要解码的字符串</param>
         /// <returns>解码后的结果字符串</returns>
         public static string URL_Decode(string Source)
         {
@@ -56,7 +46,7 @@ namespace My
         /// <summary>
         /// URL解码
         /// </summary>
-        /// <param name="Source">要解码的字符串（不区分大小写字母形式）</param>
+        /// <param name="Source">要解码的字符串</param>
         /// <param name="Encoding">使用特定的字符编码（默认UTF-8）</param>
         /// <returns>解码后的结果字符串</returns>
         public static string URL_Decode(string Source, Encoding Encoding)
