@@ -615,6 +615,20 @@ namespace My
         /// <summary>
         /// 十六进制编码（由0-F组成的，2的整数倍位数的16进制字符串）
         /// </summary>
+        /// <param name="Source">要编码的Int32值</param>
+        /// <param name="ToUpper">是否将结果转换为大写字母形式</param>
+        /// <returns>编码后的结果字符串</returns>
+        public static string Hex_Encode(Int32 Source, bool ToUpper = true)
+        {
+            if (ToUpper)
+            {
+                return Source.ToString("X8");
+            }
+            return Source.ToString("x8");
+        }
+        /// <summary>
+        /// 十六进制编码（由0-F组成的，2的整数倍位数的16进制字符串）
+        /// </summary>
         /// <param name="Source">要编码的字符串</param>
         /// <param name="ToUpper">是否将结果转换为大写字母形式</param>
         /// <returns>编码后的结果字符串</returns>
@@ -656,6 +670,15 @@ namespace My
                 result[i] = Convert.ToByte(sourceByte, 16);
             }
             return result;
+        }
+        /// <summary>
+        /// 十六进制解码（将由0-F组成的，2的整数倍位数的16进制字符串，转换为原始意义的Int32值）
+        /// </summary>
+        /// <param name="Source">要解码的字符串</param>
+        /// <returns>解码后的结果Int32值</returns>
+        public static Int32 Hex_Decode_Int32(string Source)
+        {
+            return Int32.Parse(Source, System.Globalization.NumberStyles.HexNumber);
         }
         /// <summary>
         /// 十六进制解码（将由0-F组成的，2的整数倍位数的16进制字符串，转换为原始意义的字符串）
