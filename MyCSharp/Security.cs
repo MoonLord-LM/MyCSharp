@@ -596,5 +596,98 @@ namespace My
             return result;
         }
 
+
+
+        /// <summary>
+        /// 十六进制编码（由0-F组成的，2的整数倍位数的16进制字符串）
+        /// </summary>
+        /// <param name="Source">要编码的Byte数组</param>
+        /// <param name="ToUpper">是否将结果转换为大写字母形式</param>
+        /// <returns>编码后的结果字符串</returns>
+        public static string Hex_Encode(byte[] Source, bool ToUpper = true)
+        {
+            if (ToUpper)
+            {
+                return BitConverter.ToString(Source).Replace("-", "").ToUpper();
+            }
+            return BitConverter.ToString(Source).Replace("-", "").ToLower();
+        }
+        /// <summary>
+        /// 十六进制编码（由0-F组成的，2的整数倍位数的16进制字符串）
+        /// </summary>
+        /// <param name="Source">要编码的字符串</param>
+        /// <param name="ToUpper">是否将结果转换为大写字母形式</param>
+        /// <returns>编码后的结果字符串</returns>
+        public static string Hex_Encode(string Source, bool ToUpper = true)
+        {
+            if (ToUpper)
+            {
+                return BitConverter.ToString(Encoding.UTF8.GetBytes(Source)).Replace("-", "").ToUpper();
+            }
+            return BitConverter.ToString(Encoding.UTF8.GetBytes(Source)).Replace("-", "").ToLower();
+        }
+        /// <summary>
+        /// 十六进制编码（由0-F组成的，2的整数倍位数的16进制字符串）
+        /// </summary>
+        /// <param name="Source">要编码的字符串</param>
+        /// <param name="Encoding">使用特定的字符编码（默认UTF-8）</param>
+        /// <param name="ToUpper">是否将结果转换为大写字母形式</param>
+        /// <returns></returns>
+        public static string Hex_Encode(string Source, Encoding Encoding, bool ToUpper = true)
+        {
+            if (ToUpper)
+            {
+                return BitConverter.ToString(Encoding.GetBytes(Source)).Replace("-", "").ToUpper();
+            }
+            return BitConverter.ToString(Encoding.GetBytes(Source)).Replace("-", "").ToLower();
+        }
+        
+        /// <summary>
+        /// 十六进制解码（将由0-F组成的，2的整数倍位数的16进制字符串，转换为原始意义的Byte数组）
+        /// </summary>
+        /// <param name="Source">要解码的字符串</param>
+        /// <returns>解码后的结果Byte数组</returns>
+        public static byte[] Hex_Decode(string Source)
+        {
+            byte[] result = new byte[Source.Length / 2];
+            for (int i = 0; i < Source.Length / 2; i++)
+            {
+                string sourceByte = Source.Substring(i * 2, 2);
+                result[i] = Convert.ToByte(sourceByte, 16);
+            }
+            return result;
+        }
+        /// <summary>
+        /// 十六进制解码（将由0-F组成的，2的整数倍位数的16进制字符串，转换为原始意义的字符串）
+        /// </summary>
+        /// <param name="Source">要解码的字符串</param>
+        /// <returns>解码后的结果字符串</returns>
+        public static string Hex_Decode_String(string Source)
+        {
+            byte[] result = new byte[Source.Length / 2];
+            for (int i = 0; i < Source.Length / 2; i++)
+            {
+                string sourceByte = Source.Substring(i * 2, 2);
+                result[i] = Convert.ToByte(sourceByte, 16);
+            }
+            return Encoding.UTF8.GetString(result);
+        }
+        /// <summary>
+        /// 十六进制解码（将由0-F组成的，2的整数倍位数的16进制字符串，转换为原始意义的字符串）
+        /// </summary>
+        /// <param name="Source">要解码的字符串</param>
+        /// <param name="Encoding">使用特定的字符编码（默认UTF-8）</param>
+        /// <returns>解码后的结果字符串</returns>
+        public static string Hex_Decode_String(string Source, Encoding Encoding)
+        {
+            byte[] result = new byte[Source.Length / 2];
+            for (int i = 0; i < Source.Length / 2; i++)
+            {
+                string sourceByte = Source.Substring(i * 2, 2);
+                result[i] = Convert.ToByte(sourceByte, 16);
+            }
+            return Encoding.UTF8.GetString(result);
+        }
+
     }
 }
