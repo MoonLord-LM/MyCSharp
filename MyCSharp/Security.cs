@@ -5,6 +5,7 @@ namespace My
     using System.Web;
     using System.Text;
     using System.Web.Security;
+    using System.Collections.Generic;
     using System.Security.Cryptography;
     using System.Runtime.InteropServices;
 
@@ -887,6 +888,119 @@ namespace My
                 return BitConverter.ToString(MD4.DigestResult()).Replace("-", "").ToUpper();
             }
             return BitConverter.ToString(MD4.DigestResult()).Replace("-", "").ToLower();
+        }
+
+
+
+        /// <summary>
+        /// MD4混合加密（用于ED2K链接中的文件哈希值的计算，摘要结果为32位16进制字符串）
+        /// </summary>
+        /// <param name="Source">要加密的Byte数组</param>
+        /// <param name="ToUpper">是否将结果转换为大写字母形式</param>
+        /// <returns>加密后的结果字符串</returns>
+        public static string MD4_ED2K_Encode(byte[] Source, bool ToUpper = true)
+        {
+            int chunkSize = 9728000;
+            int chunkCount = (int)Math.Ceiling((double)(Source.Length / chunkSize));
+            byte[] chunkBuffer = new byte[chunkSize];
+            List<byte> chunkHash = new List<byte>();
+            for (int i = 0; i < chunkCount; i++)
+            {
+                if ((Source.Length - (chunkSize * i)) > chunkSize)
+                {
+                    Array.Copy(Source, chunkSize * i, chunkBuffer, 0, chunkSize);
+                    chunkHash.AddRange(new MD4_Hash_Algorithm(chunkBuffer).DigestResult());
+                    for (int j = 0; j < chunkBuffer.Length; j++)
+                    {
+                        chunkBuffer[j] = 0;
+                    }
+                }
+                else
+                {
+                    chunkBuffer = new byte[Source.Length - (chunkSize * i)];
+                    Array.Copy(Source, chunkSize * i, chunkBuffer, 0, chunkBuffer.Length);
+                    chunkHash.AddRange(new MD4_Hash_Algorithm(chunkBuffer).DigestResult());
+                }
+            }
+            if (chunkCount == 1)
+            {
+                if (ToUpper)
+                {
+                    return BitConverter.ToString(chunkHash.ToArray()).Replace("-", "").ToUpper();
+                }
+                return BitConverter.ToString(chunkHash.ToArray()).Replace("-", "").ToLower();
+            }
+            else
+            {
+                if (ToUpper)
+                {
+                    return BitConverter.ToString(new MD4_Hash_Algorithm(chunkHash.ToArray()).DigestResult()).Replace("-", "").ToUpper();
+                }
+                return BitConverter.ToString(new MD4_Hash_Algorithm(chunkHash.ToArray()).DigestResult()).Replace("-", "").ToLower();
+            }
+        }
+
+        /// <summary>
+        /// 根据文件的名称、大小、哈希值，生成文件的ED2K下载链接
+        /// </summary>
+        /// <param name="FileName">文件名称（不能为空字符串）</param>
+        /// <param name="FileLength">文件大小（必须大于0）</param>
+        /// <param name="FileHash">文件哈希值（用于ED2K链接中的MD4混合哈希值）</param>
+        /// <returns>生成的ED2K链接结果字符串（失败返回空字符串）</returns>
+        public static string Generate_ED2K_Link(string FileName, int FileLength, string FileHash)
+        {
+            if (FileName == "" || FileHash.Length != 32 || FileLength <= 0)
+            {
+                return "";
+            }
+            FileName = HttpUtility.UrlEncode(FileName, Encoding.UTF8);
+            return ("ed2k://|file|" + FileName + "|" + FileLength + "|" + FileHash + "|/");
+        }
+        /// <summary>
+        /// 根据文件的名称和字节内容，生成文件的ED2K下载链接
+        /// </summary>
+        /// <param name="FileName">文件名称（不能为空字符串）</param>
+        /// <param name="Source">文件内容（不能为空Byte数组）</param>
+        /// <returns>生成的ED2K链接结果字符串（失败返回空字符串）</returns>
+        public static string Generate_ED2K_Link(string FileName, byte[] Source)
+        {
+            if ((FileName == "") || (Source.Length == 0))
+            {
+                return "";
+            }
+            FileName = HttpUtility.UrlEncode(FileName, Encoding.UTF8);
+            int chunkSize = 9728000;
+            int chunkCount = (int)Math.Ceiling((double)(Source.Length / chunkSize));
+            byte[] chunkBuffer = new byte[chunkSize];
+            List<byte> chunkHash = new List<byte>();
+            for (int i = 0; i < chunkCount; i++)
+            {
+                if ((Source.Length - (chunkSize * i)) > chunkSize)
+                {
+                    Array.Copy(Source, chunkSize * i, chunkBuffer, 0, chunkSize);
+                    chunkHash.AddRange(new MD4_Hash_Algorithm(chunkBuffer).DigestResult());
+                    for (int j = 0; j < chunkBuffer.Length; j++)
+                    {
+                        chunkBuffer[j] = 0;
+                    }
+                }
+                else
+                {
+                    chunkBuffer = new byte[Source.Length - (chunkSize * i)];
+                    Array.Copy(Source, chunkSize * i, chunkBuffer, 0, chunkBuffer.Length);
+                    chunkHash.AddRange(new MD4_Hash_Algorithm(chunkBuffer).DigestResult());
+                }
+            }
+            string fileHash;
+            if (chunkCount == 1)
+            {
+                fileHash = BitConverter.ToString(chunkHash.ToArray()).Replace("-", "");
+            }
+            else
+            {
+                fileHash = BitConverter.ToString(new MD4_Hash_Algorithm(chunkHash.ToArray()).DigestResult()).Replace("-", "");
+            }
+            return ("ed2k://|file|" + FileName + "|" + Source.Length + "|" + fileHash + "|/");
         }
 
     }
