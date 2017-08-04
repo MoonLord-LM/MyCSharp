@@ -2,6 +2,7 @@ namespace My
 {
     using System;
     using System.IO;
+    using System.Text;
     using System.Drawing;
     using System.Collections;
     using System.Diagnostics;
@@ -252,6 +253,87 @@ namespace My
                     }
                     codes = StringProcessing.SelectNotEmpty(codes);
                     IO.WriteStringArray(codes, filePath);
+                }
+            }
+        }
+
+
+
+        /// <summary>
+        /// 文件列表式备份（保存文件的绝对路径、名称、后缀、大小、哈希值、ED2K链接等）
+        /// </summary>
+        /// <param name="CalculateHash">是否读取文件内容，计算哈希值（较慢）</param>
+        public static void FileListBackup(bool CalculateHash = false)
+        {
+            FolderBrowserDialog dialog1 = new FolderBrowserDialog();
+            dialog1.Description = "请选择要备份的文件夹路径";
+            if (dialog1.ShowDialog() == DialogResult.OK)
+            {
+                DirectoryInfo dirInfo = new DirectoryInfo(dialog1.SelectedPath);
+                string savePath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+                savePath = savePath + @"\【" + dirInfo.Name + "】" + Time.Stamp() + ".log";
+                IO.WriteString("【备份时间：" + DateAndTime.Now + "】\r\n", savePath);
+                IO.AppendString("【备份路径：" + dirInfo.FullName + "】\r\n", savePath);
+                IO.AppendString("【本地时区：" + TimeZone.CurrentTimeZone.StandardName + " " + TimeZone.CurrentTimeZone.GetUtcOffset(DateAndTime.Now).ToString() + "】\r\n", savePath);
+                string[] files = IO.ListFile(dialog1.SelectedPath);
+                IO.AppendString("【文件数目：" + files.Length + "】\r\n", savePath);
+                if (CalculateHash == false)
+                {
+                    IO.AppendString("【属性说明：完整路径、文件名、文件后缀<快捷方式指向位置>、文件大小、创建时间、修改时间、访问时间】\r\n", savePath);
+                }
+                else
+                {
+                    IO.AppendString("【属性说明：完整路径、文件名、文件后缀<快捷方式指向位置>、文件大小、创建时间、修改时间、访问时间、ED2K下载链接、MD5值、SHA1值、SHA256值、SHA384值、SHA512值】\r\n", savePath);
+                }
+                for (int i = 0; i < files.Length; i++)
+                {
+                    string file = files[i];
+                    FileInfo fileInfo = new FileInfo(file);
+                    StringBuilder buffer = new StringBuilder();
+                    buffer.Append("\r\n");
+                    buffer.Append("\"" + (i + 1) + "\"");
+                    buffer.Append(" ");
+                    buffer.Append("\"" + fileInfo.FullName + "\"");
+                    buffer.Append(" ");
+                    buffer.Append("\"" + fileInfo.Name + "\"");
+                    buffer.Append(" ");
+                    if (fileInfo.Extension.ToLower() != ".lnk")
+                    {
+                        buffer.Append("\"" + fileInfo.Extension + "\"");
+                        buffer.Append(" ");
+                    }
+                    else
+                    {
+                        string link = IO.ReadLinkFile(file);
+                        buffer.Append("\"" + fileInfo.Extension + "<" + link + ">\"");
+                        buffer.Append(" ");
+                        file = link;
+                    }
+                    buffer.Append("\"" + fileInfo.Length + "\"");
+                    buffer.Append(" ");
+                    buffer.Append("\"" + fileInfo.CreationTime + "\"");
+                    buffer.Append(" ");
+                    buffer.Append("\"" + fileInfo.LastWriteTime + "\"");
+                    buffer.Append(" ");
+                    buffer.Append("\"" + fileInfo.LastAccessTime + "\"");
+                    buffer.Append(" ");
+                    if (CalculateHash)
+                    {
+                        byte[] source = IO.ReadByte(file);
+                        buffer.Append("\"" + Security.Generate_ED2K_Link(fileInfo.Name, source) + "\"");
+                        buffer.Append(" ");
+                        buffer.Append("\"" + Security.MD5_Encode(source, true) + "\"");
+                        buffer.Append(" ");
+                        buffer.Append("\"" + Security.SHA1_Encode(source, true) + "\"");
+                        buffer.Append(" ");
+                        buffer.Append("\"" + Security.SHA256_Encode(source, true) + "\"");
+                        buffer.Append(" ");
+                        buffer.Append("\"" + Security.SHA384_Encode(source, true) + "\"");
+                        buffer.Append(" ");
+                        buffer.Append("\"" + Security.SHA512_Encode(source, true) + "\"");
+                        buffer.Append(" ");
+                    }
+                    IO.AppendString(buffer.ToString(), savePath);
                 }
             }
         }
