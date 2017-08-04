@@ -655,7 +655,7 @@ namespace My
             }
             return BitConverter.ToString(Encoding.GetBytes(Source)).Replace("-", "").ToLower();
         }
-        
+
         /// <summary>
         /// 十六进制解码（将由0-F组成的，2的整数倍位数的16进制字符串，转换为原始意义的Byte数组）
         /// </summary>
@@ -710,6 +710,183 @@ namespace My
                 result[i] = Convert.ToByte(sourceByte, 16);
             }
             return Encoding.UTF8.GetString(result);
+        }
+
+
+
+        public class MD4_Hash_Algorithm
+        {
+            private const int BlockSize = 512 / 8;
+            private uint[] Context = new uint[] { 0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476 };
+            private byte[] InputBuffer = new byte[BlockSize];
+            private int ProcessedCount = 0;
+            private uint[] WorkBuffer = new uint[BlockSize / 4];
+            public MD4_Hash_Algorithm(byte[] InputBytes)
+            {
+                Update(InputBytes);
+            }
+            private void Update(byte[] InputBytes)
+            {
+                int unhashedBufferLength = ProcessedCount % 0x40;
+                int partLength = BlockSize - unhashedBufferLength;
+                int index = 0;
+                if (InputBytes.Length >= partLength)
+                {
+                    Array.Copy(InputBytes, index, InputBuffer, unhashedBufferLength, partLength);
+                    Transform(ref InputBuffer, 0);
+                    index = partLength;
+                    while (index + BlockSize - 1 < InputBytes.Length)
+                    {
+                        Transform(ref InputBytes, index);
+                        index += BlockSize;
+                    }
+                    unhashedBufferLength = 0;
+                }
+                if (index < InputBytes.Length)
+                {
+                    Array.Copy(InputBytes, index, InputBuffer, unhashedBufferLength, InputBytes.Length - index);
+                }
+                ProcessedCount += InputBytes.Length;
+            }
+            private void Transform(ref byte[] Block, int Offset)
+            {
+                for (int i = 0; i < 16; i++)
+                {
+                    if (Offset >= Block.Length)
+                    {
+                        break;
+                    }
+                    WorkBuffer[i] = (uint)(Block[Offset + 0] & Byte.MaxValue);
+                    WorkBuffer[i] |= (uint)((Block[Offset + 1] & Byte.MaxValue) << 8);
+                    WorkBuffer[i] |= (uint)((Block[Offset + 2] & Byte.MaxValue) << 16);
+                    WorkBuffer[i] |= (uint)((Block[Offset + 3] & Byte.MaxValue) << 24);
+                    Offset += 4;
+                }
+                uint A = Context[0];
+                uint B = Context[1];
+                uint C = Context[2];
+                uint D = Context[3];
+                A = Round1(A, B, C, D, WorkBuffer[0], 3);
+                D = Round1(D, A, B, C, WorkBuffer[1], 7);
+                C = Round1(C, D, A, B, WorkBuffer[2], 11);
+                B = Round1(B, C, D, A, WorkBuffer[3], 0x13);
+                A = Round1(A, B, C, D, WorkBuffer[4], 3);
+                D = Round1(D, A, B, C, WorkBuffer[5], 7);
+                C = Round1(C, D, A, B, WorkBuffer[6], 11);
+                B = Round1(B, C, D, A, WorkBuffer[7], 0x13);
+                A = Round1(A, B, C, D, WorkBuffer[8], 3);
+                D = Round1(D, A, B, C, WorkBuffer[9], 7);
+                C = Round1(C, D, A, B, WorkBuffer[10], 11);
+                B = Round1(B, C, D, A, WorkBuffer[11], 0x13);
+                A = Round1(A, B, C, D, WorkBuffer[12], 3);
+                D = Round1(D, A, B, C, WorkBuffer[13], 7);
+                C = Round1(C, D, A, B, WorkBuffer[14], 11);
+                B = Round1(B, C, D, A, WorkBuffer[15], 0x13);
+                A = Round2(A, B, C, D, WorkBuffer[0], 3);
+                D = Round2(D, A, B, C, WorkBuffer[4], 5);
+                C = Round2(C, D, A, B, WorkBuffer[8], 9);
+                B = Round2(B, C, D, A, WorkBuffer[12], 13);
+                A = Round2(A, B, C, D, WorkBuffer[1], 3);
+                D = Round2(D, A, B, C, WorkBuffer[5], 5);
+                C = Round2(C, D, A, B, WorkBuffer[9], 9);
+                B = Round2(B, C, D, A, WorkBuffer[13], 13);
+                A = Round2(A, B, C, D, WorkBuffer[2], 3);
+                D = Round2(D, A, B, C, WorkBuffer[6], 5);
+                C = Round2(C, D, A, B, WorkBuffer[10], 9);
+                B = Round2(B, C, D, A, WorkBuffer[14], 13);
+                A = Round2(A, B, C, D, WorkBuffer[3], 3);
+                D = Round2(D, A, B, C, WorkBuffer[7], 5);
+                C = Round2(C, D, A, B, WorkBuffer[11], 9);
+                B = Round2(B, C, D, A, WorkBuffer[15], 13);
+                A = Round3(A, B, C, D, WorkBuffer[0], 3);
+                D = Round3(D, A, B, C, WorkBuffer[8], 9);
+                C = Round3(C, D, A, B, WorkBuffer[4], 11);
+                B = Round3(B, C, D, A, WorkBuffer[12], 15);
+                A = Round3(A, B, C, D, WorkBuffer[2], 3);
+                D = Round3(D, A, B, C, WorkBuffer[10], 9);
+                C = Round3(C, D, A, B, WorkBuffer[6], 11);
+                B = Round3(B, C, D, A, WorkBuffer[14], 15);
+                A = Round3(A, B, C, D, WorkBuffer[1], 3);
+                D = Round3(D, A, B, C, WorkBuffer[9], 9);
+                C = Round3(C, D, A, B, WorkBuffer[5], 11);
+                B = Round3(B, C, D, A, WorkBuffer[13], 15);
+                A = Round3(A, B, C, D, WorkBuffer[3], 3);
+                D = Round3(D, A, B, C, WorkBuffer[11], 9);
+                C = Round3(C, D, A, B, WorkBuffer[7], 11);
+                B = Round3(B, C, D, A, WorkBuffer[15], 15);
+                Context[0] = (uint)(0xffffffffL & (Context[0] + Convert.ToInt64(A)));
+                Context[1] = (uint)(0xffffffffL & (Context[1] + Convert.ToInt64(B)));
+                Context[2] = (uint)(0xffffffffL & (Context[2] + Convert.ToInt64(C)));
+                Context[3] = (uint)(0xffffffffL & (Context[3] + Convert.ToInt64(D)));
+            }
+            private uint Round1(uint P1, uint P2, uint P3, uint P4, uint X, int S)
+            {
+                uint T = (uint)(0xffffffffL & (0xffffffffL & (Convert.ToInt64(P1) + ((P2 & P3) | (~P2 & P4))) + Convert.ToInt64(X)));
+                return T << S | T >> (32 - S);
+            }
+            private uint Round2(uint P1, uint P2, uint P3, uint P4, uint X, int S)
+            {
+                uint T = (uint)(0xffffffffL & (0xffffffffL & (Convert.ToInt64(P1) + ((P2 & (P3 | P4)) | (P3 & P4))) + Convert.ToInt64(X) + 0x5a827999L));
+                return T << S | T >> (32 - S);
+            }
+            private uint Round3(uint P1, uint P2, uint P3, uint P4, uint X, int S)
+            {
+                uint T = (uint)(0xffffffffL & (0xffffffffL & (Convert.ToInt64(P1) + (P2 ^ P3 ^ P4)) + Convert.ToInt64(X) + 0x6ed9eba1L));
+                return T << S | T >> (32 - S);
+            }
+            public byte[] DigestResult()
+            {
+                int unhashedBufferLength = ProcessedCount % BlockSize;
+                int paddingLength;
+                if (unhashedBufferLength < 56)
+                {
+                    paddingLength = 56 - unhashedBufferLength;
+                }
+                else
+                {
+                    paddingLength = 120 - unhashedBufferLength;
+                }
+                byte[] tail = new byte[paddingLength + 8];
+                tail[0] = 128;
+                BitConverter.GetBytes((int)(ProcessedCount * 8)).CopyTo(tail, paddingLength);
+                Update(tail);
+                byte[] result = new byte[16];
+                for (int i = 0; i < 4; i++)
+                {
+                    BitConverter.GetBytes(Context[i]).CopyTo(result, i * 4);
+                }
+                return result;
+            }
+        }
+        /// <summary>
+        /// MD4加密（摘要结果为32位16进制字符串）
+        /// </summary>
+        /// <param name="Source">要加密的Byte数组</param>
+        /// <param name="ToUpper">是否将结果转换为大写字母形式</param>
+        /// <returns>加密后的结果字符串</returns>
+        public static string MD4_Encode(byte[] Source, bool ToUpper = true)
+        {
+            MD4_Hash_Algorithm MD4 = new MD4_Hash_Algorithm(Source);
+            if (ToUpper)
+            {
+                return BitConverter.ToString(MD4.DigestResult()).Replace("-", "").ToUpper();
+            }
+            return BitConverter.ToString(MD4.DigestResult()).Replace("-", "").ToLower();
+        }
+        /// <summary>
+        /// MD4加密（摘要结果为32位16进制字符串）
+        /// </summary>
+        /// <param name="Source">要加密的字符串</param>
+        /// <param name="ToUpper">是否将结果转换为大写字母形式</param>
+        /// <returns>加密后的结果字符串</returns>
+        public static string MD4_Encode(string Source, bool ToUpper = true)
+        {
+            MD4_Hash_Algorithm MD4 = new MD4_Hash_Algorithm(Encoding.UTF8.GetBytes(Source));
+            if (ToUpper)
+            {
+                return BitConverter.ToString(MD4.DigestResult()).Replace("-", "").ToUpper();
+            }
+            return BitConverter.ToString(MD4.DigestResult()).Replace("-", "").ToLower();
         }
 
     }
