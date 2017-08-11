@@ -1,5 +1,5 @@
 # MyCSharp
-MyCSharp, a function library for Windows application development, creates the "My" namespace, like VB.NET does.  
+MyCSharp is a function library for Windows application development, it creates the "My" namespace, like VB.NET does.  
   
 ## [简介]
 Windows应用程序开发函数库，创建类似于 VB.NET 中的 "My" 命名空间  
